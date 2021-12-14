@@ -34,7 +34,7 @@ export default function About() {
         <Container>
             <View style={styles.BoxTab}>
                 {cities.map((item, index) => (
-                    <TouchableNativeFeedback onPress={() => setTabIndex(index)}>
+                    <TouchableNativeFeedback key={item.name} onPress={() => setTabIndex(index)}>
                         <View style={index === tabIndex ? styles.contentActive : styles.content}>
                             <Text style={styles.tab}>{item.name}</Text>
                         </View>
@@ -44,7 +44,7 @@ export default function About() {
 
             <View style={styles.cityInfoContent}>
                 {cities.map((item, index) => (
-                    <View style={styles.BoxCity}>
+                    <View key={item.name} style={styles.BoxCity}>
                         {index === tabIndex &&
                             <>
                                 <View>
