@@ -1,18 +1,21 @@
-import React, { useRef } from "react"
+import React, { useEffect } from "react"
 import { Animated } from "react-native"
 import { Icon } from "react-native-elements"
 
 export default function TabButton({ typeIcon, icon, focused, ...props }) {
-    const value = useRef(new Animated.Value(0)).current
-
-    const startAnimate = () => {
-        Animated.timing(value, { toValue: 1.3 }).start()
+    const AnimationState = {
+        fromScale: new Animated.Value(1),
+        tocale: new Animated.Value(2)
     }
 
+    useEffect(() => {
+        Animated.timing(AnimationState.fromScale, { toValue: 1.4, duration: 343, useNativeDriver: true }).start()
+        Animated.timing(AnimationState.tocale, { toValue: 1, duration: 438, useNativeDriver: true }).start()
+    })
+
     return (
-        <Animated.View>
+        <Animated.View style={focused ? { transform: [{ scale: AnimationState.fromScale }] } : { transform: [{ scale: 1 }] }}>
             <Icon
-                style={focused ? { transform: [{ scale: 1.3 }] } : { transform: [{ scale: 1 }] }}
                 name={icon}
                 type={typeIcon}
                 {...props}
