@@ -1,8 +1,8 @@
 import React from "react";
-import { TouchableWithoutFeedback, Image } from "react-native";
+import { TouchableWithoutFeedback, Image, Text } from "react-native";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import { Emergency, Rent, Loyalty, About, Navigators } from '../screens';
+import { Emergency, Rent, Reserv, Loyalty, About, Navigators } from '../screens';
 import { DrawerActions, useNavigation } from "@react-navigation/native";
 
 const Stack = createNativeStackNavigator();
@@ -18,6 +18,7 @@ const screenOptionStyle = {
 
 function LogoTitle() {
     const navigation = useNavigation();
+
     return (
         <TouchableWithoutFeedback onPress={() => navigation.dispatch(DrawerActions.openDrawer())}>
             <Image
@@ -50,6 +51,7 @@ const RentStackNavigator = () => {
     return (
         <Stack.Navigator screenOptions={screenOptionStyle}>
             <Stack.Screen name="Rent" component={Rent} options={{ headerLeft: () => <LogoTitle /> }} />
+            <Stack.Screen name="Reserv" component={Reserv} options={({ route }) => ({ title: route.params.data.name })} />
         </Stack.Navigator>
     );
 }

@@ -1,10 +1,42 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, Text } from "react-native";
+import { FlatList, ScrollView, TouchableNativeFeedback } from "react-native-gesture-handler";
+import { CarCard } from '../components'
 
-export default function Rent() {
+const cars = [
+    {
+        id: 1,
+        name: "Volkswagen Polo or similar",
+        price: 28,
+        photos: [
+            { image: require("../images/vols.webp") },
+            { image: require("../images/vols2.jpg") },
+            { image: require("../images/vols3.jpg") },
+        ],
+        desc: `Volkswagen Polo Sedan - one of the leaders in the segment of so-called "budget sedans" since th cars which will perfectly cope both with mountain passes and with cozy travels to the Ukrainian cities.`
+    },
+    {
+        id: 2,
+        name: "Ford Focus HatchBack or similar",
+        price: 43,
+        photos: [
+            { image: require("../images/fordfocus.jpg") },
+            { image: require("../images/fordfocus2.jpg") },
+            { image: require("../images/fordfocus3.png") },
+        ],
+        desc: `Ford Focus HatchBack - one of the leaders in the segment of so-called "budget sedans" since th cars which will perfectly cope both with mountain passes and with cozy travels to the Ukrainian cities.`
+    }
+]
+
+export default function Rent({ navigation }) {
+
     return (
-        <View>
-            <Text>Rent Page!</Text>
-        </View>
+        <FlatList style={{ marginBottom: 120, }} data={cars} keyExtractor={({ id }) => id} renderItem={({ item }) => (
+            <ScrollView>
+                <TouchableNativeFeedback onPress={() => navigation.navigate("Reserv", { data: item })}>
+                    <CarCard {...item} />
+                </TouchableNativeFeedback>
+            </ScrollView>
+        )} />
     );
 }
