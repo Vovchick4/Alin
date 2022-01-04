@@ -51,7 +51,7 @@ const RentStackNavigator = () => {
     return (
         <Stack.Navigator screenOptions={screenOptionStyle}>
             <Stack.Screen name="Rent" component={Rent} options={{ headerLeft: () => <LogoTitle /> }} />
-            <Stack.Screen name="Reserv" component={Reserv} options={({ route }) => ({ title: route.params.data.name })} />
+            <Stack.Screen name="Reserv" component={Reserv} options={({ route }) => ({ title: '' })} />
         </Stack.Navigator>
     );
 }

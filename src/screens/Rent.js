@@ -8,6 +8,11 @@ const cars = [
         id: 1,
         name: "Volkswagen Polo or similar",
         price: 28,
+        brand: "Volkswagen",
+        countPeople: "5",
+        conditioner: true,
+        transmission: "Автомат",
+        fuel: "Газ",
         photos: [
             { image: require("../images/vols.webp") },
             { image: require("../images/vols2.jpg") },
@@ -19,6 +24,11 @@ const cars = [
         id: 2,
         name: "Ford Focus HatchBack or similar",
         price: 43,
+        brand: "Ford",
+        countPeople: "5",
+        conditioner: true,
+        transmission: "Автомат",
+        fuel: "Диззель",
         photos: [
             { image: require("../images/fordfocus.jpg") },
             { image: require("../images/fordfocus2.jpg") },

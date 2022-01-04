@@ -9,8 +9,8 @@ import { colors } from "../constants/constantColor"
 
 const tabStyles = {
     content: {
-        inActive: { backgroundColor: colors.color.primery },
-        active: { backgroundColor: colors.color.danger }
+        active: { backgroundColor: colors.danger },
+        inActive: { backgroundColor: colors.dark }
     }
 }
 
