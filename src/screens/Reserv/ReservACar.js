@@ -58,6 +58,10 @@ const styles = StyleSheet.create({
     title: {
         textAlign: 'center',
         color: Colors.white,
+        // textShadowColor: 'white',
+        // textShadowOffset: { width: 2, height: 2 },
+        // textShadowRadius: 40,
+        // textShadowColor: 'white',
         fontSize: 20,
         fontWeight: '700'
     },
