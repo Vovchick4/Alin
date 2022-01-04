@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import { View, Text, StyleSheet, TextInput, Picker, Button } from "react-native"
 import * as Yup from "yup";
 import { useFormik } from "formik"
-// import DatePicker from 'react-native-date-picker'
+import DatePicker from "react-native-datepicker"
 
 import { Input, Select, FormRow } from "../../components"
 import { Colors } from "react-native/Libraries/NewAppScreen"
@@ -24,8 +24,10 @@ export default function ReservACar() {
     // const [date, setDate] = useState(new Date())
     const formik = useFormik({
         initialValues: {
-            // fromDate: new Date(),
-            // toDate: new Date(),
+            fromDate: new Date(),
+            toDate: new Date(Date.now() + (3600 * 1000 * 24)),// today 1 Day add
+            fromTime: new Date(),
+            toTime: new Date(),
             city: 'Lviv',
             name: '',
             email: '',
@@ -38,12 +40,89 @@ export default function ReservACar() {
         },
     });
 
+    useEffect(() => {
+        if (formik.values.toDate <= formik.values.fromDate) {
+            formik.values.toDate = new Date(Date.now() + (3600 * 1000 * 24))
+            formik.values.fromDate = new Date()
+            alert("Reservation can't be retroactive");
+        }
+    }, [formik])
+
     return (
         <View style={styles.contentForm}>
             <Text style={styles.title}>Налаштування бронювання</Text>
-
             <View style={styles.form}>
-                {/* <DatePicker date={date} onDateChange={setDate} /> */}
+                <View style={styles.flexRow}>
+                    <View>
+                        <Text style={styles.label}>Date of filing</Text>
+                        <DatePicker
+                            style={styles.datePickerTextInput}
+                            customStyles={{
+                                dateText: {
+                                    color: Colors.white
+                                },
+                                dateInput: {
+                                    borderWidth: 0,
+                                }
+                            }}
+                            minDate={new Date()}
+                            date={formik.values.fromDate}
+                            onDateChange={formik.handleChange('fromDate')} />
+                    </View>
+                    <View>
+                        <Text style={styles.label}>Date of return</Text>
+                        <DatePicker
+                            style={styles.datePickerTextInput}
+                            customStyles={{
+                                dateText: {
+                                    color: Colors.white
+                                },
+                                dateInput: {
+                                    borderWidth: 0,
+                                }
+                            }}
+                            minDate={new Date(Date.now() + (3600 * 1000 * 24))}
+                            date={formik.values.toDate}
+                            onDateChange={formik.handleChange('toDate')} />
+                    </View>
+                </View>
+
+                <View style={styles.flexRow}>
+                    <View>
+                        <Text style={styles.label}>Time of filing</Text>
+                        <DatePicker
+                            style={styles.datePickerTextInput}
+                            customStyles={{
+                                dateText: {
+                                    color: Colors.white
+                                },
+                                dateInput: {
+                                    borderWidth: 0,
+                                }
+                            }}
+                            mode="time"
+                            format="HH:mm"
+                            date={formik.values.fromTime}
+                            onDateChange={formik.handleChange('fromTime')} />
+                    </View>
+                    <View>
+                        <Text style={styles.label}>Time of return</Text>
+                        <DatePicker
+                            style={styles.datePickerTextInput}
+                            customStyles={{
+                                dateText: {
+                                    color: Colors.white
+                                },
+                                dateInput: {
+                                    borderWidth: 0,
+                                }
+                            }}
+                            mode="time"
+                            format="HH:mm"
+                            date={formik.values.toTime}
+                            onDateChange={formik.handleChange('toTime')} />
+                    </View>
+                </View>
 
                 <View style={styles.flexRow}>
                     <Select
@@ -104,9 +183,20 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: '700'
     },
+    label: {
+        color: Colors.white,
+        fontSize: 16,
+        marginVertical: 8,
+    },
     flexRow: {
         flexDirection: "row",
         justifyContent: "space-between"
+    },
+    datePickerTextInput: {
+        width: 150,
+        color: Colors.white,
+        backgroundColor: colors.dark,
+        borderWidth: 0
     },
     buttonSubmit: {
         marginTop: 8,
