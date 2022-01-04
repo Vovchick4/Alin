@@ -49,6 +49,7 @@ const BottomTabNavigator = () => {
                     bottom: 40,
                     marginHorizontal: 20,
                     height: 60,
+                    borderWidth: 0,
                     borderRadius: 10,
                     shadowColor: '#ffff',
                     shadowOpacity: 0.83,

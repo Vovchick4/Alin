@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     },
     carPrice: {
         fontWeight: "700",
-        color: colors.color.danger,
+        color: colors.danger,
         fontSize: 17
     },
     desc: {
