@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react"
-import { View, Text, StyleSheet, Button } from "react-native"
+import { View, Text, StyleSheet, Button, TextInput } from "react-native"
+import { RadioButton } from "react-native-paper";
 import { ScrollView } from "react-native-gesture-handler";
 import * as Yup from "yup";
 import { useFormik } from "formik"
 import moment from "moment";
-import BouncyCheckbox from "react-native-bouncy-checkbox";
 
 import { useInputDatePicker } from '../../hooks'
 import { Input, Select, MyDatePicker, CustomBouncyesCheckboxes, FormRow } from "../../components"
@@ -22,22 +22,14 @@ const validationSchema = Yup.object().shape({
     phone: Yup.string().required('Phone is required'),
 });
 
-const services = [
-    { id: '2', name: 'Additional driver / 10€', price: '10', max_price: '10', sort_order: '1' },
-    { id: '3', name: 'GPS Navigator / 5€ day', price: '5', max_price: '40', sort_order: '2' },
-    { id: '4', name: 'Baby seat / 5€ day', price: '5', max_price: '40', sort_order: '3' },
-    { id: '5', name: 'Electric Scooter / 10€ day', price: '10', max_price: '200', sort_order: '4' },
-    { id: '6', name: 'Wi-Fi in the car / 3€ day', price: '3', max_price: '39', sort_order: '5' }
-]
-
 export default function ReservACar() {
     const fDate = useInputDatePicker()
     const tDate = useInputDatePicker(true)
     const fTime = useInputDatePicker()
     const tTime = useInputDatePicker()
 
-    const [isCheckedBounces, setIsCheckedBounces] = useState([])
-    console.log(isCheckedBounces);
+    const [isCheckedBounces, setIsCheckedBounces] = useState([]) // Selected Services
+    const [isDeoposit, setisDeoposit] = useState('With Deposit')
 
     const formik = useFormik({
         initialValues: {
@@ -59,6 +51,8 @@ export default function ReservACar() {
                 toDate: moment(tDate.date).format('YYYY-MM-DD'),
                 fromTime: moment(fTime.date).format('HH:mm'),
                 toTime: moment(tTime.date).format('HH:mm'),
+                deposit: isDeoposit,
+                services: isCheckedBounces,
                 ...values
             }
 
@@ -161,13 +155,29 @@ export default function ReservACar() {
                         enabled={false} />
                 </View>
 
+                <View style={styles.flexRowAraund}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                        <RadioButton
+                            testID="Without Deposit"
+                            value="Without Deposit"
+                            status={isDeoposit === 'Without Deposit' ? 'checked' : 'unchecked'}
+                            onPress={() => setisDeoposit('Without Deposit')} />
+                        <Text onPress={() => setisDeoposit('Without Deposit')} style={styles.label}>Without Deposit</Text>
+                    </View>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                        <RadioButton
+                            testID="With Deposit"
+                            value="With Deposit"
+                            status={isDeoposit === 'With Deposit' ? 'checked' : 'unchecked'}
+                            onPress={() => setisDeoposit('With Deposit')} />
+                        <Text onPress={() => setisDeoposit('With Deposit')} style={styles.label}>With Deposit</Text>
+                    </View>
+                </View>
+
                 <View style={styles.BouncyCheckboxContent}>
-                    {services.map((item) => (
-                        <CustomBouncyesCheckboxes
-                            key={item.id}
-                            text={item.name}
-                        />
-                    ))}
+                    <CustomBouncyesCheckboxes
+                        setIsService={setIsCheckedBounces}
+                    />
                 </View>
 
                 <FormRow>
@@ -194,11 +204,19 @@ export default function ReservACar() {
                         error={formik.errors.phone}
                         keyboardType="number-pad"
                         placeholder="Your Phone" />
-
-                    <View style={styles.buttonSubmit}>
-                        <Button onPress={formik.handleSubmit} title="Submit" />
-                    </View>
                 </FormRow>
+
+                <Input
+                    multiline
+                    value={formik.values.comment}
+                    onChangeText={formik.handleChange('comment')}
+                    onBlur={formik.handleBlur('comment')}
+                    keyboardType="default"
+                    placeholder="Comment" />
+
+                <View style={styles.buttonSubmit}>
+                    <Button onPress={formik.handleSubmit} title="Submit" />
+                </View>
             </View>
         </ScrollView>
     )
@@ -225,6 +243,11 @@ const styles = StyleSheet.create({
     flexRow: {
         flexDirection: "row",
         justifyContent: "space-between"
+    },
+    flexRowAraund: {
+        flexDirection: "row",
+        justifyContent: "space-around",
+        marginTop: 8
     },
     BouncyCheckboxContent: {
         flexWrap: 'wrap',
