@@ -22,14 +22,16 @@ const validationSchema = Yup.object().shape({
     phone: Yup.string().required('Phone is required'),
 });
 
-export default function ReservACar() {
+export default function ReservACar({ carName, startPrice, prices, carPhoto, deposit, fuelDeposit }) {
     const fDate = useInputDatePicker()
     const tDate = useInputDatePicker(true)
     const fTime = useInputDatePicker()
     const tTime = useInputDatePicker()
 
     const [isCheckedBounces, setIsCheckedBounces] = useState([]) // Selected Services
-    const [isDeoposit, setisDeoposit] = useState('With Deposit')
+    const [isDeposit, setisDeposit] = useState('With Deposit')
+    const [countDays, setCountDays] = useState(1)
+    const [totalPrice, setTotalPrice] = useState(startPrice)
 
     const formik = useFormik({
         initialValues: {
@@ -47,11 +49,16 @@ export default function ReservACar() {
             }
 
             const data = {
+                carName,
+                carPhoto,
                 fromDate: moment(fDate.date).format('YYYY-MM-DD'),
                 toDate: moment(tDate.date).format('YYYY-MM-DD'),
                 fromTime: moment(fTime.date).format('HH:mm'),
                 toTime: moment(tTime.date).format('HH:mm'),
-                deposit: isDeoposit,
+                totalPrice,
+                countDays,
+                deposit_price: deposit,
+                fuel_deposite: fuelDeposit,
                 services: isCheckedBounces,
                 ...values
             }
@@ -67,7 +74,47 @@ export default function ReservACar() {
             alert("Reservation can't be retroactive");
         }
 
-    }, [fDate, tDate])
+        setCountDays(moment(tDate.date).diff(fDate.date, 'days')) // Total Count Days
+        priceDepositDays()
+        setTotalPrice((prev) => countDays * prev + totalPriceServices)
+    }, [fDate, tDate, isDeposit, setTotalPrice, setCountDays])
+
+    const totalPriceServices = isCheckedBounces.reduce(
+        (prev, serviceItem) => {
+            let max_price = Number(serviceItem.price) * countDays
+            if (max_price >= Number(serviceItem.max_price)) {
+                max_price = Number(serviceItem.max_price)
+            }
+            return prev + max_price
+        }, 0) // Total Price Services 
+
+    function priceDepositDays() { // завдаток взалежності від кількості днів  
+        if (countDays <= 2) {
+            if (isDeposit === 'With Deposit') {
+                setTotalPrice(prices[4].money)
+            } else {
+                setTotalPrice(prices[4].money + Number(prices[4].money_deposit))
+            }
+        } else if (countDays >= 3 && countDays <= 7) {
+            if (isDeposit === 'With Deposit') {
+                setTotalPrice(prices[3].money)
+            } else {
+                setTotalPrice(prices[3].money + Number(prices[3].money_deposit))
+            }
+        } else if (countDays >= 8 && countDays <= 29) {
+            if (isDeposit === 'With Deposit') {
+                setTotalPrice(prices[2].money)
+            } else {
+                setTotalPrice(prices[2].money + Number(prices[2].money_deposit))
+            }
+        } else {
+            if (isDeposit === 'With Deposit') {
+                setTotalPrice(prices[1].money)
+            } else {
+                setTotalPrice(prices[1].money + Number(prices[1].money_deposit))
+            }
+        }
+    }
 
     // function handleBounceCheckBoxes(event, value) {
     //     console.log(event);
@@ -160,17 +207,25 @@ export default function ReservACar() {
                         <RadioButton
                             testID="Without Deposit"
                             value="Without Deposit"
-                            status={isDeoposit === 'Without Deposit' ? 'checked' : 'unchecked'}
-                            onPress={() => setisDeoposit('Without Deposit')} />
-                        <Text onPress={() => setisDeoposit('Without Deposit')} style={styles.label}>Without Deposit</Text>
+                            status={isDeposit === 'Without Deposit' ? 'checked' : 'unchecked'}
+                            disabled={countDays <= 2}
+                            onPress={() => setisDeposit('Without Deposit')} />
+                        <Text onPress={() => {
+                            if (countDays >= 3) {
+                                setisDeposit('Without Deposit')
+                            }
+                        }}
+                            style={styles.label}>
+                            Without Deposit
+                        </Text>
                     </View>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
                         <RadioButton
                             testID="With Deposit"
                             value="With Deposit"
-                            status={isDeoposit === 'With Deposit' ? 'checked' : 'unchecked'}
-                            onPress={() => setisDeoposit('With Deposit')} />
-                        <Text onPress={() => setisDeoposit('With Deposit')} style={styles.label}>With Deposit</Text>
+                            status={isDeposit === 'With Deposit' ? 'checked' : 'unchecked'}
+                            onPress={() => setisDeposit('With Deposit')} />
+                        <Text onPress={() => setisDeposit('With Deposit')} style={styles.label}>With Deposit</Text>
                     </View>
                 </View>
 
@@ -215,7 +270,10 @@ export default function ReservACar() {
                     placeholder="Comment" />
 
                 <View style={styles.buttonSubmit}>
-                    <Button onPress={formik.handleSubmit} title="Submit" />
+                    <Text style={styles.title}>Total Price - {totalPrice}Є</Text>
+                    <View style={{ width: 120 }}>
+                        <Button testID="submit" onPress={formik.handleSubmit} title="Submit" />
+                    </View>
                 </View>
             </View>
         </ScrollView>
@@ -264,7 +322,11 @@ const styles = StyleSheet.create({
         borderRadius: 8,
     },
     buttonSubmit: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
         marginVertical: 20,
-        width: 100,
+        paddingBottom: 8,
+        width: '100%',
     }
 })

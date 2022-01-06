@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { View, Text, StyleSheet, Image, Button, Modal } from 'react-native'
 import { ScrollView, TouchableHighlight } from 'react-native-gesture-handler'
 import { Colors } from 'react-native/Libraries/NewAppScreen'
+import Carousel from 'react-native-snap-carousel';
 
 import { Container, BottomModal } from '../../components'
 import ReservACar from './ReservACar'
@@ -30,16 +31,42 @@ export default function Reserv({ navigation, route }) {
         }
     }
 
+    const renderItem = ({ item }) => {
+        return (
+            <View style={{}}>
+                <Image source={item.image} style={{ width: 300, height: 200 }} resizeMode='contain' />
+            </View>
+        );
+    }
+
     return (
         <ScrollView style={{ marginBottom: 120 }} onScroll={onScrollHeaderTitle}>
             <BottomModal visible={activeModal === reservModal.rentCar} onClose={closeModals}>
-                <ReservACar />
+                <ReservACar
+                    carName={route.params.data.name}
+                    startPrice={route.params.data.price}
+                    prices={route.params.data.prices}
+                    carPhoto={route.params.data.photos[0].image}
+                    deposit={route.params.data.deposit}
+                    fuelDeposit={route.params.data.fuel_deposit}
+                />
             </BottomModal>
 
             <Container>
                 <Text style={styles.title}>{route.params.data.name}</Text>
                 <Text style={styles.titlePrice}>{route.params.data.price}Є</Text>
-                {route.params.data.photos.map((car, index) => (
+
+                <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center' }}>
+                    <Carousel
+                        // ref={(c) => { this._carousel = c; }}
+                        data={route.params.data.photos}
+                        renderItem={renderItem}
+                        sliderWidth={300}
+                        itemWidth={300}
+                    />
+                </View>
+
+                {/* {route.params.data.photos.map((car, index) => (
                     <View key={car.image} style={{ marginTop: 15 }}>
                         {tabIndex === index && <Image source={car.image} style={styles.imagePreview} resizeMode='cover' />}
                     </View>
@@ -51,7 +78,7 @@ export default function Reserv({ navigation, route }) {
                             <Image source={car.image} style={index !== 0 ? styles.imageTabs : styles.imageTabsOne} resizeMode='cover' />
                         </TouchableHighlight>
                     ))}
-                </ScrollView>
+                </ScrollView> */}
 
                 <Text style={styles.brand}>Марка: {route.params.data.brand}</Text>
 

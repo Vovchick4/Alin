@@ -4,8 +4,6 @@ import { View } from "react-native";
 
 export default function Navigators() {
     return (
-        <View>
-
-        </View>
+        <View></View>
     )
 }
