@@ -46,7 +46,7 @@ const BottomTabNavigator = () => {
                 // tabBarLabelPosition: 'beside-icon',
                 tabBarStyle: {
                     position: 'absolute',
-                    bottom: 40,
+                    bottom: 15,
                     marginHorizontal: 20,
                     height: 60,
                     borderWidth: 0,
@@ -104,7 +104,7 @@ const BottomTabNavigator = () => {
                 height: 2,
                 backgroundColor: 'white',
                 position: 'absolute',
-                bottom: 100,
+                bottom: 75,
                 // Horizontal Padding = 20...
                 left: 50,
                 borderRadius: 20,

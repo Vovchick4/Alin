@@ -1,16 +1,19 @@
 import React from "react";
-import { TouchableWithoutFeedback, Image, Text } from "react-native";
+import { Image, Text } from "react-native";
+import { TouchableNativeFeedback } from "react-native-gesture-handler";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import { Emergency, Rent, Reserv, Loyalty, About, Navigators } from '../screens';
 import { DrawerActions, useNavigation } from "@react-navigation/native";
+
+import { colors } from "../constants/constantColor";
 
 const Stack = createNativeStackNavigator();
 
 const screenOptionStyle = {
     headerTitleAlign: 'center',
     headerStyle: {
-        backgroundColor: "rgb(220, 38, 38)",
+        backgroundColor: colors.danger,
     },
     headerTintColor: "white",
     headerBackTitle: "Back",
@@ -20,12 +23,12 @@ function LogoTitle() {
     const navigation = useNavigation();
 
     return (
-        <TouchableWithoutFeedback onPress={() => navigation.dispatch(DrawerActions.openDrawer())}>
+        <TouchableNativeFeedback background={TouchableNativeFeedback.Ripple(colors.dark)} onPress={() => navigation.dispatch(DrawerActions.openDrawer())}>
             <Image
-                style={{ width: 25, height: 25, marginRight: 15 }}
+                style={{ width: 25, height: 25, tintColor: 'white' }}
                 source={require('../images/hamb.png')}
             />
-        </TouchableWithoutFeedback>
+        </TouchableNativeFeedback>
     );
 }
 

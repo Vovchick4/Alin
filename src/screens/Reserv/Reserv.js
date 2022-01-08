@@ -2,9 +2,9 @@ import React, { useState } from 'react'
 import { View, Text, StyleSheet, Image, Button, Modal } from 'react-native'
 import { ScrollView, TouchableHighlight } from 'react-native-gesture-handler'
 import { Colors } from 'react-native/Libraries/NewAppScreen'
-import Carousel from 'react-native-snap-carousel';
+// import Carousel from 'react-native-snap-carousel';
 
-import { Container, BottomModal } from '../../components'
+import { Container, BottomModal, MyPaginCarousel } from '../../components'
 import ReservACar from './ReservACar'
 import { colors } from '../../constants/constantColor'
 
@@ -40,7 +40,7 @@ export default function Reserv({ navigation, route }) {
     }
 
     return (
-        <ScrollView style={{ marginBottom: 120 }} onScroll={onScrollHeaderTitle}>
+        <ScrollView style={{ marginBottom: 100 }} onScroll={onScrollHeaderTitle}>
             <BottomModal visible={activeModal === reservModal.rentCar} onClose={closeModals}>
                 <ReservACar
                     carName={route.params.data.name}
@@ -57,13 +57,14 @@ export default function Reserv({ navigation, route }) {
                 <Text style={styles.titlePrice}>{route.params.data.price}Є</Text>
 
                 <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center' }}>
-                    <Carousel
-                        // ref={(c) => { this._carousel = c; }}
+                    <MyPaginCarousel entries={route.params.data.photos} activeSlide={0} />
+                    {/* <Carousel
+                        ref={(c) => { this._carousel = c; }}
                         data={route.params.data.photos}
                         renderItem={renderItem}
                         sliderWidth={300}
                         itemWidth={300}
-                    />
+                    /> */}
                 </View>
 
                 {/* {route.params.data.photos.map((car, index) => (
@@ -126,7 +127,6 @@ const styles = StyleSheet.create({
     brand: {
         color: Colors.white,
         fontSize: 20,
-        marginTop: 43,
     },
     text: {
         color: Colors.white,

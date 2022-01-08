@@ -5,7 +5,7 @@ import { DefaultTheme, NavigationContainer, useNavigation } from "@react-navigat
 import DrawerNavigator from "./src/navigation/DrawerNavigator";
 
 const navTheme = DefaultTheme;
-navTheme.colors.background = '#000814';
+navTheme.colors.background = '#000000';
 
 const App = () => {
 

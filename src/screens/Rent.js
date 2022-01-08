@@ -1,7 +1,10 @@
 import React, { useEffect } from "react";
 import { View, Text } from "react-native";
 import { FlatList, ScrollView, TouchableNativeFeedback } from "react-native-gesture-handler";
-import { CarCard } from '../components'
+
+import { CarCard, Container } from '../components'
+import { colors } from "../constants/constantColor";
+import { isCloseToBottom } from '../utils'
 
 const cars = [
     {
@@ -59,11 +62,13 @@ const cars = [
 export default function Rent({ navigation }) {
 
     return (
-        <FlatList style={{ marginBottom: 120, }} data={cars} keyExtractor={({ id }) => id} renderItem={({ item }) => (
+        <FlatList style={{ marginBottom: 100, }} data={cars} keyExtractor={({ id }) => id} renderItem={({ item }) => (
             <ScrollView>
-                <TouchableNativeFeedback onPress={() => navigation.navigate("Reserv", { data: item })}>
-                    <CarCard {...item} />
-                </TouchableNativeFeedback>
+                <Container isOnlyVeticalPadding={true}>
+                    <TouchableNativeFeedback background={TouchableNativeFeedback.Ripple(colors.danger)} onPress={() => navigation.navigate("Reserv", { data: item })}>
+                        <CarCard {...item} />
+                    </TouchableNativeFeedback>
+                </Container>
             </ScrollView>
         )} />
     );

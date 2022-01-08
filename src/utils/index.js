@@ -1,0 +1,1 @@
+export { isCloseToBottom } from './isCloseBottom'

@@ -9,29 +9,27 @@ import { colors } from '../constants/constantColor'
 export default function CarCard({ name, price, desc, photos }) {
 
     return (
-        <Container>
-            <View style={styles.CarBox}>
-                <Container>
-                    <Text style={styles.title}>{name}</Text>
-                    <Text style={styles.textPrice}>Per Day <Text style={styles.carPrice}>{price}</Text> Є</Text>
-                </Container>
+        <View style={styles.CarBox}>
+            <Container>
+                <Text style={styles.title}>{name}</Text>
+                <Text style={styles.textPrice}>Per Day <Text style={styles.carPrice}>{price}</Text> Є</Text>
+            </Container>
 
-                <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-                    {photos.map((photo, index) => (
-                        <Image key={photo.image}
-                            style={index !== 0 ? { width: 340, height: 200, marginLeft: 20 } :
-                                { width: 340, height: 200, marginLeft: 0 }}
-                            width={340} height={200} source={photo.image} resizeMode='cover' />
-                    ))}
-                </ScrollView>
+            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+                {photos.map((photo, index) => (
+                    <Image key={photo.image}
+                        style={index !== 0 ? { width: 340, height: 200, marginLeft: 20 } :
+                            { width: 340, height: 200, marginLeft: 0 }}
+                        width={340} height={200} source={photo.image} resizeMode='cover' />
+                ))}
+            </ScrollView>
 
-                <Container>
-                    <Text style={styles.desc} numberOfLines={2}>
-                        {desc}
-                    </Text>
-                </Container>
-            </View>
-        </Container>
+            <Container>
+                <Text style={styles.desc} numberOfLines={2}>
+                    {desc}
+                </Text>
+            </Container>
+        </View>
     )
 }
 
@@ -39,7 +37,7 @@ const styles = StyleSheet.create({
     CarBox: {
         paddingVertical: 15,
         color: Colors.white,
-        backgroundColor: Colors.darker
+        backgroundColor: colors.gray
     },
     title: {
         marginBottom: 5,
