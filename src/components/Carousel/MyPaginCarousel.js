@@ -30,6 +30,7 @@ export default class MyPaginCarousel extends Component {
                     marginHorizontal: 8,
                     backgroundColor: 'rgba(255, 255, 255, 0.92)'
                 }}
+                animatedTension={10}
                 inactiveDotStyle={{
                     // Define styles for inactive dots here
                 }}

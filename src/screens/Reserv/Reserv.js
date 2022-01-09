@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { View, Text, StyleSheet, Image, Button, Modal } from 'react-native'
-import { ScrollView, TouchableHighlight } from 'react-native-gesture-handler'
+import { View, Text, StyleSheet, Image, Button } from 'react-native'
+import { ScrollView } from 'react-native-gesture-handler'
 import { Colors } from 'react-native/Libraries/NewAppScreen'
 // import Carousel from 'react-native-snap-carousel';
 

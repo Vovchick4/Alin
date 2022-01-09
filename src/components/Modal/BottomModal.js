@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { StyleSheet, Animated, Text, View, Modal, Button, TouchableNativeFeedback } from "react-native";
+import { StyleSheet, Animated, Text, View, Modal, TouchableNativeFeedback } from "react-native";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 
 import { colors } from "../../constants/constantColor";

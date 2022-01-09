@@ -4,7 +4,7 @@ import { FlatList, ScrollView, TouchableNativeFeedback } from "react-native-gest
 
 import { CarCard, Container } from '../components'
 import { colors } from "../constants/constantColor";
-import { isCloseToBottom } from '../utils'
+// import { isCloseToBottom } from '../utils'
 
 const cars = [
     {
