@@ -25,9 +25,9 @@ export default function Reserv({ navigation, route }) {
 
     function onScrollHeaderTitle(event) {
         if (event.nativeEvent.contentOffset.y <= 43) {
-            navigation.setOptions({ title: '' })
+            navigation.setOptions({ title: '', })
         } else {
-            navigation.setOptions({ title: route.params.data.name })
+            navigation.setOptions({ title: route.params.data.name, })
         }
     }
 

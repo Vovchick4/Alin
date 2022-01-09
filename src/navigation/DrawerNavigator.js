@@ -5,7 +5,9 @@ import { Icon } from "react-native-elements";
 
 import { AboutStackNavigator, NavigatorsStackNavigator } from "./StackNavigator";
 import BottomTabNavigator from "./TabNavigator";
+
 import { DrawerContent } from "../components";
+import { colors } from "../constants/constantColor";
 
 const Drawer = createDrawerNavigator();
 
@@ -14,7 +16,7 @@ const DrawerNavigator = () => {
         <Drawer.Navigator drawerContent={(props) => <DrawerContent {...props} />} screenOptions={{
             headerShown: false,
             drawerActiveTintColor: 'white',
-            drawerActiveBackgroundColor: 'rgb(220, 38, 38)',
+            drawerActiveBackgroundColor: colors.danger,
         }}>
             <Drawer.Screen name="Tabs" component={BottomTabNavigator} options={{
                 drawerLabel: 'Home',

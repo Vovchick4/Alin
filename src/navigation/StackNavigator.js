@@ -16,7 +16,7 @@ const screenOptionStyle = {
         backgroundColor: colors.danger,
     },
     headerTintColor: "white",
-    headerBackTitle: "Back",
+    headerBackTitle: "Black",
 };
 
 function LogoTitle() {
@@ -36,6 +36,7 @@ const MainStackNavigator = () => {
     return (
         <Stack.Navigator screenOptions={screenOptionStyle}>
             <Stack.Screen name="Emergency" component={Emergency} options={{
+                title: "Emergency Calls",
                 headerLeft: () => <LogoTitle />
             }} />
         </Stack.Navigator>
@@ -54,7 +55,9 @@ const RentStackNavigator = () => {
     return (
         <Stack.Navigator screenOptions={screenOptionStyle}>
             <Stack.Screen name="Rent" component={Rent} options={{ headerLeft: () => <LogoTitle /> }} />
-            <Stack.Screen name="Reserv" component={Reserv} options={({ route }) => ({ title: '' })} />
+            <Stack.Screen name="Reserv" component={Reserv} options={({ route }) => (
+                { title: "", headerTitleStyle: { fontSize: 18 }, headerTitleAlign: 'left' }
+            )} />
         </Stack.Navigator>
     );
 }

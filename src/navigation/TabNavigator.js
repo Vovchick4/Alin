@@ -1,10 +1,11 @@
 import React, { useRef } from "react";
 import 'react-native-gesture-handler'
-import { Animated, Easing, TouchableOpacity, Dimensions } from "react-native";
+import { Animated, Easing, Dimensions } from "react-native";
 // import { useNavigation, useRoute } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import { MainStackNavigator, LoyaltyStackNavigator, RentStackNavigator } from "./StackNavigator";
+import { colors } from '../constants/constantColor'
 import { TabButton } from '../components';
 
 const Tab = createBottomTabNavigator();
@@ -51,7 +52,7 @@ const BottomTabNavigator = () => {
                         bottom: 15,
                         marginHorizontal: 20,
                         height: 60,
-                        borderWidth: 0,
+                        borderTopWidth: 0,
                         borderRadius: 10,
                         shadowColor: '#ffff',
                         shadowOpacity: 0.83,
@@ -60,7 +61,7 @@ const BottomTabNavigator = () => {
                             height: 4,
                         },
                         paddingHorizontal: 20,
-                        backgroundColor: 'rgb(220, 38, 38)'
+                        backgroundColor: colors.danger,
                     },
                     tabBarActiveTintColor: 'white',
                     tabBarInactiveTintColor: 'black',

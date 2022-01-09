@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import { View, Text } from "react-native";
+import React from "react";
 import { FlatList, ScrollView, TouchableNativeFeedback } from "react-native-gesture-handler";
 
 import { CarCard, Container } from '../components'
@@ -65,7 +64,9 @@ export default function Rent({ navigation }) {
         <FlatList style={{ marginBottom: 100, }} data={cars} keyExtractor={({ id }) => id} renderItem={({ item }) => (
             <ScrollView>
                 <Container isOnlyVeticalPadding={true}>
-                    <TouchableNativeFeedback background={TouchableNativeFeedback.Ripple(colors.danger)} onPress={() => navigation.navigate("Reserv", { data: item })}>
+                    <TouchableNativeFeedback
+                        background={TouchableNativeFeedback.Ripple(colors.danger)}
+                        onPress={() => navigation.navigate("Reserv", { data: item })}>
                         <CarCard {...item} />
                     </TouchableNativeFeedback>
                 </Container>
