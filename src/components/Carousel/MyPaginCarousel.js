@@ -30,7 +30,7 @@ export default class MyPaginCarousel extends Component {
                     marginHorizontal: 8,
                     backgroundColor: 'rgba(255, 255, 255, 0.92)'
                 }}
-                animatedTension={10}
+                animatedTension={430}
                 inactiveDotStyle={{
                     // Define styles for inactive dots here
                 }}
@@ -44,7 +44,7 @@ export default class MyPaginCarousel extends Component {
         return (
             <View style={{ marginTop: 20 }}>
                 <Carousel
-                    layout="tinder"
+                    layout="default"
                     data={this.state.entries}
                     renderItem={this._renderItem}
                     onSnapToItem={(index) => this.setState({ activeSlide: index })}
