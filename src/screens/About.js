@@ -43,40 +43,44 @@ export default function About() {
 
     return (
         <Container>
-            <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
-                <View style={styles.BoxTab}>
+            <ScrollView>
+                <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
+                    <View style={styles.BoxTab}>
+                        {cities.map((item, index) => (
+                            <View key={item.image} style={index !== 0 && { marginLeft: 43 }}>
+                                <TouchableNativeFeedback
+                                    background={TouchableNativeFeedback.Ripple(colors.danger)}
+                                    onPress={() => setTabIndex(index)}>
+                                    <View style={index === tabIndex ? styles.contentActive : styles.content}>
+                                        <Text style={styles.tab}>{item.name}</Text>
+                                    </View>
+                                </TouchableNativeFeedback>
+                            </View>
+                        ))}
+                    </View>
+                </ScrollView>
+
+                <View style={styles.cityInfoContent}>
                     {cities.map((item, index) => (
-                        <View key={item.image} style={index !== 0 && { marginLeft: 43 }}>
-                            <TouchableNativeFeedback onPress={() => setTabIndex(index)}>
-                                <View style={index === tabIndex ? styles.contentActive : styles.content}>
-                                    <Text style={styles.tab}>{item.name}</Text>
-                                </View>
-                            </TouchableNativeFeedback>
+                        <View key={item.name} style={styles.BoxCity}>
+                            {index === tabIndex &&
+                                <Animated.View style={{ opacity: AnimateState.fromOpacity }}>
+                                    <Image source={item.image} resizeMode="cover" style={styles.image}>
+                                    </Image>
+                                    <View style={styles.contenTextInfoCity}>
+                                        <Text style={styles.cityText}>{item.street}</Text>
+                                        <Text style={styles.cityText}>{item.email}</Text>
+                                        <Text style={styles.cityText}>{item.phone}</Text>
+                                    </View>
+                                    <View style={styles.contentCityMap}>
+                                        <MapView style={styles.cityMap} />
+                                    </View>
+                                </Animated.View>
+                            }
                         </View>
                     ))}
                 </View>
             </ScrollView>
-
-            <View style={styles.cityInfoContent}>
-                {cities.map((item, index) => (
-                    <View key={item.name} style={styles.BoxCity}>
-                        {index === tabIndex &&
-                            <Animated.View style={{ opacity: AnimateState.fromOpacity }}>
-                                <Image source={item.image} resizeMode="cover" style={styles.image}>
-                                </Image>
-                                <View style={styles.contenTextInfoCity}>
-                                    <Text style={styles.cityText}>{item.street}</Text>
-                                    <Text style={styles.cityText}>{item.email}</Text>
-                                    <Text style={styles.cityText}>{item.phone}</Text>
-                                </View>
-                                <View style={styles.contentCityMap}>
-                                    <MapView style={styles.cityMap} />
-                                </View>
-                            </Animated.View>
-                        }
-                    </View>
-                ))}
-            </View>
         </Container>
     )
 }
@@ -123,8 +127,8 @@ const styles = StyleSheet.create({
         marginTop: 40,
     },
     cityMap: {
-        width: Dimensions.get('window').width,
-        height: Dimensions.get('window').height,
+        width: "100%",
+        height: 250,
     }
 })
 

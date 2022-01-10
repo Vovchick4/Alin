@@ -1,5 +1,5 @@
 import React from "react";
-import { FlatList, ScrollView, TouchableNativeFeedback } from "react-native-gesture-handler";
+import { FlatList, TouchableNativeFeedback } from "react-native-gesture-handler";
 
 import { CarCard, Container } from '../components'
 import { colors } from "../constants/constantColor";
@@ -62,15 +62,13 @@ export default function Rent({ navigation }) {
 
     return (
         <FlatList style={{ marginBottom: 100, }} data={cars} keyExtractor={({ id }) => id} renderItem={({ item }) => (
-            <ScrollView>
-                <Container isOnlyVeticalPadding={true}>
-                    <TouchableNativeFeedback
-                        background={TouchableNativeFeedback.Ripple(colors.danger)}
-                        onPress={() => navigation.navigate("Reserv", { data: item })}>
-                        <CarCard {...item} />
-                    </TouchableNativeFeedback>
-                </Container>
-            </ScrollView>
+            <Container isOnlyVeticalPadding={true}>
+                <TouchableNativeFeedback
+                    background={TouchableNativeFeedback.Ripple(colors.danger)}
+                    onPress={() => navigation.navigate("Reserv", { data: item })}>
+                    <CarCard {...item} />
+                </TouchableNativeFeedback>
+            </Container>
         )} />
     );
 }

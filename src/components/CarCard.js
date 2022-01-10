@@ -20,7 +20,7 @@ export default function CarCard({ name, price, desc, photos }) {
                     <Image key={photo.image}
                         style={index !== 0 ? { width: 340, height: 200, marginLeft: 20 } :
                             { width: 340, height: 200, marginLeft: 0 }}
-                        width={340} height={200} source={photo.image} resizeMode='cover' />
+                        width={340} height={200} source={photo.image} resizeMode='contain' />
                 ))}
             </ScrollView>
 

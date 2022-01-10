@@ -4,7 +4,7 @@
     "slug": "alin",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/alin-logo.png",
+    "icon": "./assets/alin.webp",
     "splash": {
       "image": "./assets/alin-logo.png",
       "resizeMode": "contain",
@@ -26,7 +26,7 @@
       }
     },
     "web": {
-      "favicon": "./assets/alin-logo.png"
+      "favicon": "./assets/alin.webp"
     }
   }
 }
