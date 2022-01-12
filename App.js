@@ -4,6 +4,8 @@ import { DefaultTheme, NavigationContainer, useNavigation } from "@react-navigat
 
 import DrawerNavigator from "./src/navigation/DrawerNavigator";
 
+import './src/config/axios'
+
 const navTheme = DefaultTheme;
 navTheme.colors.background = '#000000';
 
