@@ -73,37 +73,39 @@ export default function Loyalty({ navigation }) {
 
 const styles = StyleSheet.create({
     flatList: {
-        marginBottom: 80
+        marginBottom: 80,
+        // paddingHorizontal: 15
     },
     content: {
         flexDirection: 'row',
         alignItems: 'flex-start',
         justifyContent: 'space-between',
         borderWidth: 2,
+        // borderRadius: 8,
         borderTopColor: colors.danger,
-        paddingVertical: 20,
+        paddingVertical: 10,
         paddingRight: 5,
     },
     image: {
-        width: 100,
-        height: 100,
+        width: 80,
+        height: 80,
         marginHorizontal: 5
     },
     title: {
         textAlign: 'center',
         color: Colors.white,
-        fontSize: 20,
+        fontSize: 18,
         fontWeight: "700"
     },
     text: {
         textAlign: 'center',
         color: Colors.white,
-        fontSize: 20,
+        fontSize: 16,
     },
     discount: {
         textAlign: 'center',
         color: colors.danger,
-        fontSize: 24,
+        fontSize: 20,
         fontWeight: "700"
     },
 })

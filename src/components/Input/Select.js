@@ -4,23 +4,21 @@ import { Picker, StyleSheet, View, Text } from "react-native";
 import { Colors } from "react-native/Libraries/NewAppScreen"
 import { colors } from "../../constants/constantColor"
 
-export default function Select({ selectedValue, onChange, enabled = true, label, ...pickerProps }) {
+export default function Select({ mode = "dropdown", data, selectedValue, onChange, enabled = true, label, ...pickerProps }) {
     return (
         <View style={{ flexDirection: "column" }}>
             {label && <Text style={styles.label}>{label}</Text>}
             <View style={styles.content}>
                 <Picker
-                    mode="dropdown"
+                    mode={mode}
                     style={enabled ? styles.content : styles.contentEnabled}
                     selectedValue={selectedValue}
                     onValueChange={onChange}
                     enabled={enabled}
                     {...pickerProps}>
-                    <Picker.Item label="Lviv" value="Lviv" />
-                    <Picker.Item label="Harkiv" value="Harkiv" />
-                    <Picker.Item label="Kyiv" value="Kyiv" />
-                    <Picker.Item label="Ivano-Frankovsk" value="Ivano-Frankovsk" />
-                    <Picker.Item label="Bukowel" value="Bukowel" />
+                    {data.map(city => (
+                        <Picker.Item key={city.city_id} label={city.name} value={city.name} />
+                    ))}
                 </Picker>
             </View>
         </View>
@@ -36,13 +34,13 @@ const styles = StyleSheet.create({
     content: {
         width: 150,
         color: Colors.white,
-        backgroundColor: colors.dark,
+        backgroundColor: colors.gray,
         borderRadius: 8
     },
     contentEnabled: {
         width: 150,
-        color: Colors.darker,
-        backgroundColor: colors.dark,
+        color: colors.dark,
+        backgroundColor: colors.gray,
         borderRadius: 8
     }
 })

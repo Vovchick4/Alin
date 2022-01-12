@@ -1,22 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { StyleSheet, Animated, View, Modal, TouchableNativeFeedback } from "react-native";
-import { Icon } from "react-native-elements";
+import React, { useEffect, useState } from 'react'
+import { View, Modal, StyleSheet, Animated, TouchableNativeFeedback } from 'react-native'
+import { Icon } from 'react-native-elements';
 
-import { colors } from "../../constants/constantColor";
+import { colors } from '../../constants/constantColor';
 
-export default function BottomModal({ children, visible, onClose }) {
+export default function Modals({ children, visible, onClose }) {
     const [showModal, setShowModal] = useState(visible);
     const scaleValue = React.useRef(new Animated.Value(0)).current;
 
-    const AnimateState = {
-        fromOpacity: new Animated.Value(0),
-        toOpacity: new Animated.Value(1)
-    }
-
     useEffect(() => {
-        Animated.timing(AnimateState.fromOpacity, { toValue: 1, duration: 438, delay: 150, useNativeDriver: true }).start()
         toggleModal();
-    }, [visible])
+    }, [visible]);
 
     const toggleModal = () => {
         if (visible) {
@@ -37,18 +31,11 @@ export default function BottomModal({ children, visible, onClose }) {
     };
 
     return (
-        <Modal transparent={true} visible={showModal}>
+        <Modal transparent visible={showModal}>
             <View style={styles.modalBackGround} onTouchStart={onClose}></View>
             <View style={styles.centered}>
                 <Animated.View
-                    style={[styles.modalContainer, {
-                        transform: [{
-                            translateY: scaleValue.interpolate({
-                                inputRange: [0, 1],
-                                outputRange: [0 - (-1000 / 2) + (100 * 2 / 2), 30]
-                            })
-                        }]
-                    }]}>
+                    style={[styles.modalContainer, { transform: [{ scale: scaleValue }] }]}>
                     <TouchableNativeFeedback
                         onPress={onClose}
                         background={TouchableNativeFeedback.Ripple(colors.danger, true)}>
@@ -75,21 +62,20 @@ const styles = StyleSheet.create({
         left: 0,
         right: 0,
         bottom: 0,
-        backgroundColor: 'rgba(0,0,0,0.83)',
+        backgroundColor: 'rgba(0,0,0,0.5)',
     },
     modalContainer: {
         position: 'relative',
-        top: 138,
-        width: '100%',
+        width: '80%',
         backgroundColor: colors.dark,
-        paddingBottom: 183,
+        paddingHorizontal: 20,
+        paddingVertical: 30,
         borderRadius: 20,
         elevation: 20,
     },
     buttonExit: {
         position: 'absolute',
-        top: -34,
+        top: 15,
         right: 15,
     },
-})
-
+});

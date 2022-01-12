@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     input: {
         color: Colors.white,
         fontSize: 16,
-        backgroundColor: colors.dark,
+        backgroundColor: colors.gray,
         paddingVertical: 8,
         paddingHorizontal: 20,
         borderColor: Colors.white,
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     inputError: {
         color: colors.danger,
         fontSize: 16,
-        backgroundColor: colors.dark,
+        backgroundColor: colors.gray,
         paddingVertical: 8,
         paddingHorizontal: 20,
         borderColor: Colors.white,

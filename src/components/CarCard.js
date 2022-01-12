@@ -10,7 +10,7 @@ export default function CarCard({ name, price, desc, photos }) {
 
     return (
         <View style={styles.CarBox}>
-            <Container>
+            <Container isBackGround>
                 <Text style={styles.title}>{name}</Text>
                 <Text style={styles.textPrice}>Per Day <Text style={styles.carPrice}>{price}</Text> Є</Text>
             </Container>
@@ -24,7 +24,7 @@ export default function CarCard({ name, price, desc, photos }) {
                 ))}
             </ScrollView>
 
-            <Container>
+            <Container isBackGround>
                 <Text style={styles.desc} numberOfLines={2}>
                     {desc}
                 </Text>
@@ -35,9 +35,8 @@ export default function CarCard({ name, price, desc, photos }) {
 
 const styles = StyleSheet.create({
     CarBox: {
-        paddingVertical: 15,
         color: Colors.white,
-        backgroundColor: colors.gray
+        backgroundColor: colors.gray,
     },
     title: {
         marginBottom: 5,

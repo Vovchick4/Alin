@@ -1,13 +1,17 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { View, Text, SafeAreaView, TouchableOpacity } from "react-native";
+import { Icon } from "react-native-elements";
 import { FlatList, TouchableNativeFeedback } from "react-native-gesture-handler";
+import { Colors } from "react-native/Libraries/NewAppScreen";
 
-import { CarCard, Container } from '../components'
+import { CarCard, Container, FiltersCars, Modals } from '../components'
 import { colors } from "../constants/constantColor";
 // import { isCloseToBottom } from '../utils'
 
 const cars = [
     {
         id: 1,
+        category_id: 4,
         name: "Volkswagen Polo or similar",
         price: 28,
         brand: "Volkswagen",
@@ -33,6 +37,7 @@ const cars = [
     },
     {
         id: 2,
+        category_id: 4,
         name: "Ford Focus HatchBack or similar",
         price: 43,
         brand: "Ford",
@@ -58,17 +63,108 @@ const cars = [
     }
 ]
 
+const categories = [
+    {
+        id: 1,
+        category_id: 1,
+        name: 'Econom',
+    },
+    {
+        id: 2,
+        category_id: 2,
+        name: 'Average',
+    },
+    {
+        id: 3,
+        category_id: 3,
+        name: 'Buissnes',
+    },
+    {
+        id: 4,
+        category_id: 4,
+        name: 'SUV',
+    },
+]
+
+const sorts = [
+    {
+        id: 1,
+        name: 'Abs price',
+    },
+    {
+        id: 2,
+        name: 'Desc price'
+    }
+]
+
+const stateModals = {
+    sortModal: 'SET_SORT',
+}
+
 export default function Rent({ navigation }) {
+    const [activeCategory, setActiveCategory] = useState(1)
+    const [resCars, setResCars] = useState([])
+    const [modalSort, setModalSort] = useState(null)
+    const [activeSort, setActiveSort] = useState('Abs price')
+
+    useEffect(() => {
+        setResCars(cars.filter(car => car.category_id === activeCategory))
+    }, [activeCategory, setActiveCategory])
+
+    function openSortModal() {
+        setModalSort(stateModals.sortModal)
+    }
+
+    function closeModals() {
+        setModalSort(null)
+    }
 
     return (
-        <FlatList style={{ marginBottom: 100, }} data={cars} keyExtractor={({ id }) => id} renderItem={({ item }) => (
-            <Container isOnlyVeticalPadding={true}>
-                <TouchableNativeFeedback
-                    background={TouchableNativeFeedback.Ripple(colors.danger)}
-                    onPress={() => navigation.navigate("Reserv", { data: item })}>
-                    <CarCard {...item} />
-                </TouchableNativeFeedback>
-            </Container>
-        )} />
+        <FlatList style={{ marginBottom: 80 }} data={resCars} keyExtractor={({ id }) => id}
+            ListHeaderComponent={
+                <Container>
+                    <FiltersCars categories={categories} activeCategory={activeCategory} setActiveCategory={setActiveCategory} />
+                    <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
+                        <Text
+                            style={{ padding: 8, borderRadius: 8, color: Colors.white, backgroundColor: colors.dark }}>
+                            {resCars.length} Cars
+                        </Text>
+                        <TouchableNativeFeedback onPress={openSortModal} background={TouchableNativeFeedback.Ripple(colors.danger, true)}>
+                            <Icon type="font-awesome-5" name="sort-amount-up-alt" color={Colors.white} />
+                        </TouchableNativeFeedback>
+                    </View>
+
+                    <Modals visible={modalSort === stateModals.sortModal} onClose={closeModals}>
+                        <Text style={{ color: "white", fontSize: 18, marginBottom: 20 }}>Choose sort!</Text>
+                        {sorts.map(sortItem => (
+                            <TouchableOpacity
+                                key={sortItem.name}
+                                onPress={() => setActiveSort(sortItem.name)}>
+                                <View
+                                    style={{
+                                        flexDirection: "row",
+                                        alignItems: "center",
+                                        justifyContent: "space-between",
+                                        paddingVertical: 8
+                                    }}>
+                                    <Text style={{ color: "white", fontSize: 18 }}>{sortItem.name}</Text>
+                                    {activeSort === sortItem.name &&
+                                        <Icon type="font-awesome-5" name="check" color={colors.danger} />
+                                    }
+                                </View>
+                            </TouchableOpacity>
+                        ))}
+                    </Modals>
+                </Container>
+            }
+            renderItem={({ item }) => (
+                <Container>
+                    <TouchableNativeFeedback
+                        background={TouchableNativeFeedback.Ripple(colors.danger)}
+                        onPress={() => navigation.navigate("Reserv", { data: item })}>
+                        <CarCard {...item} />
+                    </TouchableNativeFeedback>
+                </Container>
+            )} />
     );
 }

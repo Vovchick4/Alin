@@ -22,6 +22,29 @@ const validationSchema = Yup.object().shape({
     phone: Yup.string().required('Phone is required'),
 });
 
+const cities = [
+    {
+        city_id: 1,
+        name: "Lviv",
+    },
+    {
+        city_id: 2,
+        name: "Harkiv",
+    },
+    {
+        city_id: 3,
+        name: "Kyiv",
+    },
+    {
+        city_id: 4,
+        name: "Ivano-Frankovsk",
+    },
+    {
+        city_id: 5,
+        name: "Bukowel",
+    }
+]
+
 export default function ReservACar({ carName, startPrice, prices, carPhoto, deposit, fuelDeposit }) {
     const fDate = useInputDatePicker()
     const tDate = useInputDatePicker(true)
@@ -192,10 +215,12 @@ export default function ReservACar({ carName, startPrice, prices, carPhoto, depo
 
                 <View style={styles.flexRow}>
                     <Select
+                        data={cities}
                         selectedValue={formik.values.city}
                         onChange={formik.handleChange('city')}
                         label="Place of filing" />
                     <Select
+                        data={cities}
                         selectedValue={formik.values.city}
                         onChange={formik.handleChange('city')}
                         label="Place of return"
@@ -272,7 +297,7 @@ export default function ReservACar({ carName, startPrice, prices, carPhoto, depo
                 <View style={styles.buttonSubmit}>
                     <Text style={styles.title}>Total Price - {totalPrice}Є</Text>
                     <View style={{ width: 120 }}>
-                        <Button testID="submit" onPress={formik.handleSubmit} title="Submit" />
+                        <Button testID="submit" onPress={formik.handleSubmit} title="Submit" color={colors.gray} />
                     </View>
                 </View>
             </View>
@@ -311,13 +336,14 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap',
         flexDirection: "row",
         justifyContent: 'flex-start',
-        marginTop: 10
+        marginTop: 10,
+        paddingLeft: 3
     },
     datePickerTextInput: {
         padding: 12,
         width: 150,
         color: Colors.white,
-        backgroundColor: colors.dark,
+        backgroundColor: colors.gray,
         borderWidth: 0,
         borderRadius: 8,
     },

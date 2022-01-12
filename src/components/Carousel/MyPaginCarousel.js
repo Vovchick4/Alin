@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
-import { View, Dimensions } from 'react-native';
+import { View, Dimensions, StatusBar } from 'react-native';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
+
+import { colors } from '../../constants/constantColor';
 import { MySlide } from './MySlide';
 
 export default class MyPaginCarousel extends Component {
@@ -22,7 +24,7 @@ export default class MyPaginCarousel extends Component {
             <Pagination
                 dotsLength={entries.length}
                 activeDotIndex={activeSlide}
-                containerStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.75)' }}
+                containerStyle={{ backgroundColor: colors.gray }}
                 dotStyle={{
                     width: 10,
                     height: 10,
@@ -30,7 +32,7 @@ export default class MyPaginCarousel extends Component {
                     marginHorizontal: 8,
                     backgroundColor: 'rgba(255, 255, 255, 0.92)'
                 }}
-                animatedTension={430}
+                animatedDuration={10}
                 inactiveDotStyle={{
                     // Define styles for inactive dots here
                 }}
@@ -42,9 +44,15 @@ export default class MyPaginCarousel extends Component {
 
     render() {
         return (
-            <View style={{ marginTop: 20 }}>
+            <View>
+                {/* <StatusBar barStyle="dark-content" backgroundColor="#ffff" /> */}
                 <Carousel
                     layout="default"
+                    layoutCardOffset={50}
+                    pagingEnabled={true}
+                    activeAnimationType='timing'
+                    // snapToAlignment='center'
+                    // activeSlideAlignment="center"
                     data={this.state.entries}
                     renderItem={this._renderItem}
                     onSnapToItem={(index) => this.setState({ activeSlide: index })}

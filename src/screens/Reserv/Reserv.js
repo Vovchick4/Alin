@@ -31,14 +31,6 @@ export default function Reserv({ navigation, route }) {
         }
     }
 
-    const renderItem = ({ item }) => {
-        return (
-            <View style={{}}>
-                <Image source={item.image} style={{ width: 300, height: 200 }} resizeMode='contain' />
-            </View>
-        );
-    }
-
     return (
         <ScrollView style={{ marginBottom: 100 }} onScroll={onScrollHeaderTitle}>
             <BottomModal visible={activeModal === reservModal.rentCar} onClose={closeModals}>
@@ -52,22 +44,20 @@ export default function Reserv({ navigation, route }) {
                 />
             </BottomModal>
 
-            <Container>
+            <Container isBackGround>
                 <Text style={styles.title}>{route.params.data.name}</Text>
                 <Text style={styles.titlePrice}>{route.params.data.price}Є</Text>
 
-                <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center' }}>
+                <View style={{
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    backgroundColor: colors.gray
+                }}>
                     <MyPaginCarousel entries={route.params.data.photos} activeSlide={0} />
-                    {/* <Carousel
-                        ref={(c) => { this._carousel = c; }}
-                        data={route.params.data.photos}
-                        renderItem={renderItem}
-                        sliderWidth={300}
-                        itemWidth={300}
-                    /> */}
                 </View>
+            </Container>
 
-                {/* {route.params.data.photos.map((car, index) => (
+            {/* {route.params.data.photos.map((car, index) => (
                     <View key={car.image} style={{ marginTop: 15 }}>
                         {tabIndex === index && <Image source={car.image} style={styles.imagePreview} resizeMode='cover' />}
                     </View>
@@ -81,33 +71,52 @@ export default function Reserv({ navigation, route }) {
                     ))}
                 </ScrollView> */}
 
+            <Container>
                 <Text style={styles.brand}>Марка: {route.params.data.brand}</Text>
+            </Container>
 
-                <View style={{ flexDirection: 'row', justifyContent: "space-between", marginTop: 8, }}>
-                    <View>
-                        <Text style={styles.text}>Кількість пасажирів</Text>
-                        <Text style={styles.text}>Кондиціонер</Text>
-                        <Text style={styles.text}>Тип трансмісії</Text>
-                        <Text style={styles.text}>Тип палива</Text>
-                    </View>
-                    <View>
-                        <Text style={styles.text}>{route.params.data.countPeople}</Text>
-                        <Text style={styles.text}>{route.params.data.conditioner && 'A/C'}</Text>
-                        <Text style={styles.text}>{route.params.data.transmission}</Text>
-                        <Text style={styles.text}>{route.params.data.fuel}</Text>
-                    </View>
+            <View style={{
+                flexDirection: 'row',
+                justifyContent: "space-between",
+                paddingHorizontal: 15,
+                backgroundColor: colors.gray
+            }}>
+                <View>
+                    <Text style={styles.text}>Кількість пасажирів</Text>
+                    <Text style={styles.text}>Кондиціонер</Text>
+                    <Text style={styles.text}>Тип трансмісії</Text>
+                    <Text style={styles.text}>Тип палива</Text>
                 </View>
+                <View>
+                    <Text style={styles.text}>{route.params.data.countPeople}</Text>
+                    <Text style={styles.text}>{route.params.data.conditioner && 'A/C'}</Text>
+                    <Text style={styles.text}>{route.params.data.transmission}</Text>
+                    <Text style={styles.text}>{route.params.data.fuel}</Text>
+                </View>
+            </View>
 
-                <View style={{ marginTop: 20 }}>
+            <Container>
+                <View>
                     <Text style={styles.title}>Опис</Text>
-                    <Text style={styles.desc}>
-                        {route.params.data.desc}
-                    </Text>
                 </View>
+            </Container>
 
-                <View style={{ marginTop: 8 }}>
-                    <Button title="Замовити" color={colors.danger} onPress={rentCarModal} />
+            <Container isBackGround>
+                <Text style={styles.desc}>
+                    {route.params.data.desc}
+                </Text>
+
+                <View style={{ marginTop: 12, width: 120 }}>
+                    <Button testID="openModal" title="Замовити" color={colors.dark} onPress={rentCarModal} />
                 </View>
+            </Container>
+
+            <Container>
+                <Text style={styles.title}>Another cars</Text>
+            </Container>
+
+            <Container isBackGround>
+
             </Container>
         </ScrollView>
     )
@@ -116,7 +125,7 @@ export default function Reserv({ navigation, route }) {
 const styles = StyleSheet.create({
     title: {
         color: Colors.white,
-        fontSize: 20,
+        fontSize: 18,
         fontWeight: '700',
     },
     titlePrice: {
@@ -126,16 +135,17 @@ const styles = StyleSheet.create({
     },
     brand: {
         color: Colors.white,
-        fontSize: 20,
+        fontSize: 18,
+        fontWeight: '700',
     },
     text: {
         color: Colors.white,
-        fontSize: 18,
-        marginTop: 8,
+        fontSize: 16,
+        marginVertical: 8,
     },
     desc: {
         color: Colors.white,
-        marginTop: 8,
+        // marginTop: 8,
     },
     scrollTop: {
         marginTop: 15
