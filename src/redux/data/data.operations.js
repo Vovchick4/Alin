@@ -39,7 +39,7 @@ export const categoriesFetchAll = () => (dispatch) => {
 
     axios({
         method: 'GET',
-        url: 'categories',
+        url: 'categories?sort=id%3Aasc',
     })
         .then((res) => {
             dispatch(actions.categoriesAllSuccess(res.data.data))

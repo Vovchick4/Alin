@@ -47,7 +47,7 @@ export default function Rent({ navigation }) {
         setLoading(true);
 
         axios({
-            url: `cars?filters[category][name][$eq]=${activeCategory}&filters[cities][name][$eq]=${activeCity}&filters[sub_category][name][$eq]=${activeSubCategory}&sort=deposit%3A${activeSort}`,
+            url: `cars?filters[category][name][$eq]=${activeCategory}&filters[cities][name][$eq]=${activeCity}&filters[sub_categories][name][$eq]=${activeSubCategory}&sort=deposit%3A${activeSort}`,
             method: 'GET',
             params: {
                 populate: '*',

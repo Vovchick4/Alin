@@ -7,7 +7,7 @@ export default function CarsCardElse({ car, cars, IMAGES_PREFIX }) {
     const navigation = useNavigation();
 
     return (
-        <TouchableNativeFeedback onPress={() => navigation.navigate("Reserv", { data: car.attributes, cars })}>
+        <TouchableNativeFeedback onPress={() => navigation.push("Reserv", { data: car.attributes, cars: cars })}>
             <View style={styles.contentBg}>
                 <Image
                     style={{ width: '100%', height: 120 }}
@@ -23,7 +23,8 @@ export default function CarsCardElse({ car, cars, IMAGES_PREFIX }) {
 const styles = StyleSheet.create({
     contentBg: {
         padding: 5,
-        backgroundColor: colors.dark
+        backgroundColor: colors.dark,
+        marginRight: 8
     },
     name: {
         width: 183,

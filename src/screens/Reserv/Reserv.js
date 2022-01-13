@@ -131,9 +131,11 @@ export default function Reserv({ navigation, route }) {
             {route.params.cars.length > 0 &&
                 <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                     <Container isBackGround>
-                        {route.params.cars.map(car => (
-                            <CarsCardElse key={car.id} car={car} cars={route.params.cars} IMAGES_PREFIX={IMAGES_PREFIX} />
-                        ))}
+                        <View style={{ flexDirection: 'row' }} >
+                            {route.params.cars.map(car => (
+                                <CarsCardElse key={car.id} car={car} cars={route.params.cars} IMAGES_PREFIX={IMAGES_PREFIX} />
+                            ))}
+                        </View>
                     </Container>
                 </ScrollView>
             }
