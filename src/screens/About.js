@@ -1,11 +1,13 @@
 
 import React, { useEffect, useState } from "react"
-import { StyleSheet, Image, View, Text, TouchableNativeFeedback, Dimensions, Animated } from "react-native"
+import { StyleSheet, Image, View, Text, TouchableNativeFeedback, Animated } from "react-native"
 import { ScrollView } from "react-native-gesture-handler"
+import { useSelector } from "react-redux"
 import MapView from 'react-native-maps'
 
 import { Container } from "../components"
 import { colors } from "../constants/constantColor"
+import { dataSelectors } from "../redux/data"
 
 const tabStyles = {
     content: {
@@ -14,24 +16,10 @@ const tabStyles = {
     }
 }
 
-const cities = [
-    {
-        name: 'Lviv',
-        image: require('../images/ukraine-lviv-cityscape-wallpaper-preview.jpg'),
-        street: 'street Lubinska 196',
-        email: 'lviv@alin.ua',
-        phone: '+38 098 777 16 00',
-    },
-    {
-        name: 'Kyiv',
-        image: require('../images/mqdefault.jpg'),
-        street: 'Boryspil Airport',
-        email: 'kyiv@alin.ua',
-        phone: '+38 098 777 15 00',
-    },
-]
-
+const IMAGES_PREFIX = 'https://alin-back.herokuapp.com'
 export default function About() {
+    const cities = useSelector(dataSelectors.getCities)
+
     const [tabIndex, setTabIndex] = useState(0)
     const AnimateState = {
         fromOpacity: new Animated.Value(0)
@@ -47,12 +35,12 @@ export default function About() {
                 <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
                     <View style={styles.BoxTab}>
                         {cities.map((item, index) => (
-                            <View key={item.image} style={index !== 0 && { marginLeft: 43 }}>
+                            <View key={item.attributes.name} style={index !== 0 && { marginLeft: 43 }}>
                                 <TouchableNativeFeedback
                                     background={TouchableNativeFeedback.Ripple(colors.danger)}
                                     onPress={() => setTabIndex(index)}>
                                     <View style={index === tabIndex ? styles.contentActive : styles.content}>
-                                        <Text style={styles.tab}>{item.name}</Text>
+                                        <Text style={styles.tab}>{item.attributes.name}</Text>
                                     </View>
                                 </TouchableNativeFeedback>
                             </View>
@@ -62,15 +50,17 @@ export default function About() {
 
                 <View style={styles.cityInfoContent}>
                     {cities.map((item, index) => (
-                        <View key={item.name} style={styles.BoxCity}>
+                        <View key={item.attributes.name} style={styles.BoxCity}>
                             {index === tabIndex &&
                                 <Animated.View style={{ opacity: AnimateState.fromOpacity }}>
-                                    <Image source={item.image} resizeMode="cover" style={styles.image}>
-                                    </Image>
+                                    <Image
+                                        source={{ uri: IMAGES_PREFIX + item.attributes.Image.data.attributes.url }}
+                                        resizeMode="cover"
+                                        style={styles.image} />
                                     <View style={styles.contenTextInfoCity}>
-                                        <Text style={styles.cityText}>{item.street}</Text>
-                                        <Text style={styles.cityText}>{item.email}</Text>
-                                        <Text style={styles.cityText}>{item.phone}</Text>
+                                        <Text style={styles.cityText}>{item.attributes.address}</Text>
+                                        <Text style={styles.cityText}>{item.attributes.mail}</Text>
+                                        <Text style={styles.cityText}>{item.attributes.phone}</Text>
                                     </View>
                                     <View style={styles.contentCityMap}>
                                         <MapView style={styles.cityMap} />

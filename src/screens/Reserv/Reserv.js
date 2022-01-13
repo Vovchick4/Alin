@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { View, Text, StyleSheet, Button } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
+import { useSelector } from 'react-redux';
 import axios from "axios";
 import { Colors } from 'react-native/Libraries/NewAppScreen'
-// import Carousel from 'react-native-snap-carousel';
 
 import { Container, BottomModal, MyPaginCarousel } from '../../components'
 import ReservACar from './ReservACar'
 import { colors } from '../../constants/constantColor'
+import { dataSelectors } from '../../redux/data';
+
+import CarsCardElse from './CarsCardElse';
 
 const reservModal = {
     rentCar: 'RENT_CAR'
@@ -15,40 +18,12 @@ const reservModal = {
 const IMAGES_PREFIX = 'https://alin-back.herokuapp.com'
 
 export default function Reserv({ navigation, route }) {
+    const cities = useSelector(dataSelectors.getCities)
+    const additionalServices = useSelector(dataSelectors.getAdditionalServices)
+    const dataLoading = useSelector(dataSelectors.getLoading)
+
     // const [tabIndex, setTabIndex] = useState(0)
     const [activeModal, setActiveModal] = useState(null)
-
-    const [cities, setCities] = useState([])
-    const [additionalServices, setAdditionalServices] = useState([])
-    const [loading, setLoading] = useState(false)
-
-    useEffect(() => {
-        setLoading(true);
-
-        axios({
-            url: `cities`,
-            method: 'GET',
-        })
-            .then((res) => {
-                setCities(res.data.data);
-            })
-            .catch((err) => alert(err))
-            .finally(() => setLoading(false));
-    }, [])
-
-    useEffect(() => {
-        setLoading(true);
-
-        axios({
-            url: `additional-services`,
-            method: 'GET',
-        })
-            .then((res) => {
-                setAdditionalServices(res.data.data);
-            })
-            .catch((err) => alert(err))
-            .finally(() => setLoading(false));
-    }, [])
 
     function rentCarModal() {
         setActiveModal(reservModal.rentCar)
@@ -72,7 +47,7 @@ export default function Reserv({ navigation, route }) {
                 <ReservACar
                     cities={cities}
                     additionalServices={additionalServices}
-                    loading={loading}
+                    loading={dataLoading}
                     carName={route.params.data.name}
                     startPrice={route.params.data.price}
                     prices={route.params.data.prices}
@@ -145,7 +120,7 @@ export default function Reserv({ navigation, route }) {
                 </Text>
 
                 <View style={{ marginTop: 12, width: 120 }}>
-                    <Button testID="openModal" title="Замовити" color={colors.dark} onPress={rentCarModal} disabled={loading} />
+                    <Button testID="openModal" title="Замовити" color={colors.dark} onPress={rentCarModal} disabled={dataLoading} />
                 </View>
             </Container>
 
@@ -153,9 +128,15 @@ export default function Reserv({ navigation, route }) {
                 <Text style={styles.title}>Another cars</Text>
             </Container>
 
-            <Container isBackGround>
-
-            </Container>
+            {route.params.cars.length > 0 &&
+                <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+                    <Container isBackGround>
+                        {route.params.cars.map(car => (
+                            <CarsCardElse key={car.id} car={car} cars={route.params.cars} IMAGES_PREFIX={IMAGES_PREFIX} />
+                        ))}
+                    </Container>
+                </ScrollView>
+            }
         </ScrollView>
     )
 }

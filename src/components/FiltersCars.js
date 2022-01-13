@@ -18,10 +18,10 @@ export default function FiltersCars(
         setActiveSubCategory
     }
 ) {
-
     function pressCategory(name) {
         setActiveCategory(name)
     }
+
     return (
         <React.Fragment>
             <ScrollView horizontal={true} style={styles.content}>

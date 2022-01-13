@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react"
 import { View, Text, SafeAreaView, TouchableOpacity } from "react-native"
+import { useSelector } from "react-redux";
 import { Icon } from "react-native-elements";
 import { FlatList, TouchableNativeFeedback } from "react-native-gesture-handler"
+import { colors } from "../constants/constantColor"
 import axios from "axios"
 import { Colors } from "react-native/Libraries/NewAppScreen"
 
 import { CarCard, Container, FiltersCars, Loaders, Modals } from '../components'
-import { colors } from "../constants/constantColor"
+import { dataSelectors } from '../redux/data'
 // import { isCloseToBottom } from '../utils'
 
 const sorts = [
@@ -28,10 +30,11 @@ const stateModals = {
 
 export default function Rent({ navigation }) {
     const [resCars, setResCars] = useState([])
-    const [categories, setCategories] = useState([])
-    const [cities, setCities] = useState([])
-    const [subCategories, setSubCategories] = useState([])
     const [loading, setLoading] = useState(false)
+
+    const cities = useSelector(dataSelectors.getCities)
+    const categories = useSelector(dataSelectors.getCategoires)
+    const subCategories = useSelector(dataSelectors.getSubCategoires)
 
     const [activeCity, setActiveCity] = useState("Lviv")
     const [activeCategory, setActiveCategory] = useState('Econom')
@@ -56,51 +59,6 @@ export default function Rent({ navigation }) {
             .catch((err) => alert(err))
             .finally(() => setLoading(false));
     }, [activeCategory, setActiveCategory, activeCity, setActiveCity, activeSubCategory, setActiveSubCategory, activeSort, setActiveSort])
-
-    useEffect(() => {
-        setLoading(true);
-
-        axios({
-            url: `categories`,
-            method: 'GET',
-        })
-            .then((res) => {
-                setCategories(res.data.data);
-            })
-            .catch((err) => alert(err))
-            .finally(() => setLoading(false));
-    }, [])
-
-    useEffect(() => {
-        setLoading(true);
-
-        axios({
-            url: `cities`,
-            method: 'GET',
-            params: {
-                populate: "images"
-            }
-        })
-            .then((res) => {
-                setCities(res.data.data);
-            })
-            .catch((err) => alert(err))
-            .finally(() => setLoading(false));
-    }, [])
-
-    useEffect(() => {
-        setLoading(true);
-
-        axios({
-            url: `sub-categories`,
-            method: 'GET',
-        })
-            .then((res) => {
-                setSubCategories(res.data.data);
-            })
-            .catch((err) => alert(err))
-            .finally(() => setLoading(false));
-    }, [])
 
     function openSortModal() {
         setModalSort(stateModals.sortModal)
@@ -165,7 +123,7 @@ export default function Rent({ navigation }) {
                         <Container>
                             <TouchableNativeFeedback
                                 background={TouchableNativeFeedback.Ripple(colors.danger)}
-                                onPress={() => navigation.navigate("Reserv", { data: item.attributes })}>
+                                onPress={() => navigation.navigate("Reserv", { data: item.attributes, cars: resCars })}>
                                 <CarCard {...item.attributes} />
                             </TouchableNativeFeedback>
                         </Container>

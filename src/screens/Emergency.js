@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, TouchableNativeFeedback, StyleSheet, Image, Linking } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { ScrollView } from 'react-native-gesture-handler';
 
-import { Container } from '../components';
+import { Container, Loaders } from '../components';
 import { colors } from '../constants/constantColor';
+import { dataOperations, dataSelectors } from "../redux/data"
 
 const calls = [
     {
@@ -37,24 +40,39 @@ const calls = [
 ]
 
 export default function Emergency({ navigation }) {
+    const dispatch = useDispatch()
+    const dataLoading = useSelector(dataSelectors.getLoading)
+
+    useEffect(() => {
+        dispatch(dataOperations.citiesFetchAll())
+        dispatch(dataOperations.addtionalServicesFetchAll())
+        dispatch(dataOperations.categoriesFetchAll())
+        dispatch(dataOperations.subCategoriesFetchAll())
+    }, [])
+
     return (
-        <Container>
-            {calls.map(call => (
-                <TouchableNativeFeedback
-                    key={call.id}
-                    background={TouchableNativeFeedback.Ripple(colors.danger)}
-                    onPress={() => Linking.openURL(`tel:${call.phone}`)}
-                >
-                    <View style={call.id !== 1 ? styles.content : styles.contentWithoutBorderTop}>
-                        <Image style={styles.image} source={call.image} resizeMode="contain" />
-                        <View style={styles.contentText}>
-                            <Text style={styles.text}>{call.name}</Text>
-                            <Text style={styles.text}>{call.text}</Text>
-                        </View>
-                    </View>
-                </TouchableNativeFeedback>
-            ))}
-        </Container>
+        <React.Fragment>
+            {dataLoading && <Loaders />}
+            <ScrollView style={{ marginBottom: 80 }}>
+                <Container>
+                    {calls.map(call => (
+                        <TouchableNativeFeedback
+                            key={call.id}
+                            background={TouchableNativeFeedback.Ripple(colors.danger)}
+                            onPress={() => Linking.openURL(`tel:${call.phone}`)}
+                        >
+                            <View style={call.id !== 1 ? styles.content : styles.contentWithoutBorderTop}>
+                                <Image style={styles.image} source={call.image} resizeMode="contain" />
+                                <View style={styles.contentText}>
+                                    <Text style={styles.text}>{call.name}</Text>
+                                    <Text style={styles.text}>{call.text}</Text>
+                                </View>
+                            </View>
+                        </TouchableNativeFeedback>
+                    ))}
+                </Container>
+            </ScrollView>
+        </React.Fragment>
     );
 }
 

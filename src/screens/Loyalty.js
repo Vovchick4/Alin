@@ -32,7 +32,7 @@ export default function Loyalty({ navigation }) {
         <React.Fragment>
             {loading && <Loaders />}
 
-            {!loading &&
+            {!loading && programs.length > 0 &&
                 <FlatList
                     style={styles.flatList}
                     data={programs}
