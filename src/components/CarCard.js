@@ -6,27 +6,27 @@ import { Colors } from "react-native/Libraries/NewAppScreen"
 import { Container } from "."
 import { colors } from '../constants/constantColor'
 
-export default function CarCard({ name, price, desc, photos }) {
-
+const IMAGES_PREFIX = 'https://alin-back.herokuapp.com'
+export default function CarCard({ name, deposit, content, images }) {
     return (
         <View style={styles.CarBox}>
             <Container isBackGround>
                 <Text style={styles.title}>{name}</Text>
-                <Text style={styles.textPrice}>Per Day <Text style={styles.carPrice}>{price}</Text> Є</Text>
+                <Text style={styles.textPrice}>Per Day <Text style={styles.carPrice}>{deposit}</Text> Є</Text>
             </Container>
 
             <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-                {photos.map((photo, index) => (
-                    <Image key={photo.image}
+                {images.data.map((image, index) => (
+                    <Image key={image.id}
                         style={index !== 0 ? { width: 340, height: 200, marginLeft: 20 } :
                             { width: 340, height: 200, marginLeft: 0 }}
-                        width={340} height={200} source={photo.image} resizeMode='contain' />
+                        width={340} height={200} source={{ uri: IMAGES_PREFIX + image.attributes.url }} resizeMode='contain' />
                 ))}
             </ScrollView>
 
             <Container isBackGround>
                 <Text style={styles.desc} numberOfLines={2}>
-                    {desc}
+                    {content}
                 </Text>
             </Container>
         </View>

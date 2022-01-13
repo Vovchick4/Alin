@@ -5,29 +5,19 @@ import { Colors } from 'react-native/Libraries/NewAppScreen'
 import { Container, Select } from '.'
 import { colors } from '../constants/constantColor'
 
-const cities = [
+export default function FiltersCars(
     {
-        city_id: 1,
-        name: "Lviv",
-    },
-    {
-        city_id: 2,
-        name: "Harkiv",
-    },
-    {
-        city_id: 3,
-        name: "Kyiv",
-    },
-    {
-        city_id: 4,
-        name: "Ivano-Frankovsk",
-    },
-    {
-        city_id: 5,
-        name: "Bukowel",
+        cities,
+        categories,
+        activeCity,
+        setActiveCity,
+        subCategories,
+        activeCategory,
+        setActiveCategory,
+        activeSubCategory,
+        setActiveSubCategory
     }
-]
-export default function FiltersCars({ categories, activeCategory, setActiveCategory }) {
+) {
 
     function pressCategory(name) {
         setActiveCategory(name)
@@ -38,41 +28,21 @@ export default function FiltersCars({ categories, activeCategory, setActiveCateg
                 {categories.map(category => (
                     <Pressable
                         key={category.id}
-                        onPress={() => pressCategory(category.category_id)}
-                        style={category.category_id === activeCategory ? styles.textContentActive : styles.textContent}>
-                        <Text style={styles.text}>{category.name}</Text>
+                        onPress={() => pressCategory(category.attributes.name)}
+                        style={category.attributes.name === activeCategory ? styles.textContentActive : styles.textContent}>
+                        <Text style={styles.text}>{category.attributes.name}</Text>
                     </Pressable>
 
                 ))}
             </ScrollView>
 
             <View style={styles.selectContent}>
-                <Select mode="modal" data={cities} selectedValue="Lviv" />
-                <Select mode="modal" data={
-                    [
-                        {
-                            city_id: 1,
-                            name: 'Choose values ...'
-                        },
-                        {
-                            city_id: 2,
-                            name: 'Fuil'
-                        },
-                        {
-                            city_id: 3,
-                            name: 'Diesel'
-                        },
-                        {
-                            city_id: 4,
-                            name: 'Gas'
-                        },
-                        {
-                            city_id: 5,
-                            name: 'Outlet'
-                        }
-                    ]
-                }
-                    selectedValue="Lviv" />
+                <Select mode="modal" data={cities} selectedValue={activeCity} onChange={(value) => { setActiveCity(value) }} />
+                <Select
+                    mode="modal"
+                    data={subCategories}
+                    selectedValue={activeSubCategory}
+                    onChange={(value) => { setActiveSubCategory(value) }} />
             </View>
         </React.Fragment>
     )

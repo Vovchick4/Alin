@@ -16,8 +16,8 @@ export default function Select({ mode = "dropdown", data, selectedValue, onChang
                     onValueChange={onChange}
                     enabled={enabled}
                     {...pickerProps}>
-                    {data.map(city => (
-                        <Picker.Item key={city.city_id} label={city.name} value={city.name} />
+                    {data.map(item => (
+                        <Picker.Item key={item.id} label={item.attributes.name} value={item.attributes.name} />
                     ))}
                 </Picker>
             </View>

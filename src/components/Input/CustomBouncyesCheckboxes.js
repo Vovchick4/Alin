@@ -2,19 +2,12 @@ import React, { Component } from "react";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 
-const services = [
-    { id: '2', name: 'Additional driver / 10€', price: '10', max_price: '10', sort_order: '1' },
-    { id: '3', name: 'GPS Navigator / 5€ day', price: '5', max_price: '40', sort_order: '2' },
-    { id: '4', name: 'Baby seat / 5€ day', price: '5', max_price: '40', sort_order: '3' },
-    { id: '5', name: 'Electric Scooter / 10€ day', price: '10', max_price: '200', sort_order: '4' },
-    { id: '6', name: 'Wi-Fi in the car / 3€ day', price: '3', max_price: '39', sort_order: '5' }
-]
 export default class CustomBouncyesCheckboxes extends Component {
     constructor(props) {
         super(props);
         this.state = {
             // checked: false,
-            services: services,
+            services: this.props.additionalServices,
             arrayBounces: []
         };
     }
@@ -66,7 +59,7 @@ export default class CustomBouncyesCheckboxes extends Component {
                         style={{ marginTop: 8 }}
                         fillColor="#000"
                         unfillColor="#FFFFFF"
-                        text={item.name}
+                        text={item.attributes.name}
                         iconStyle={{ borderColor: Colors.white }}
                         textStyle={{ color: Colors.white }}
                         onPress={() => this.toggleChange(item.id)}

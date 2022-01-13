@@ -1,73 +1,62 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableNativeFeedback, FlatList, Image } from 'react-native';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import React, { useEffect, useState } from 'react'
+import { View, Text, StyleSheet, TouchableNativeFeedback, FlatList, Image } from 'react-native'
+import axios from 'axios'
+import { Colors } from 'react-native/Libraries/NewAppScreen'
 
-import { Container } from '../components'
+import { Loaders } from '../components'
 import { colors } from '../constants/constantColor'
 
-const programs = [
-    {
-        id: 1,
-        name: 'Citadel Inn',
-        image: require("../images/citadelInn.webp"),
-        description: 'Opsis Opsis Opsis',
-        discount: 38,
-        address: 'Lviv Opta',
-        phone: '+380982815204'
-    },
-    {
-        id: 2,
-        name: 'Sonata Inn',
-        image: require("../images/Sonata.webp"),
-        description: 'Opsis Opsis',
-        discount: 43,
-        address: 'Lviv Opta',
-        phone: '+380982815204'
-    },
-    {
-        id: 3,
-        name: 'Any Car Inn',
-        image: require("../images/anyCar.webp"),
-        description: 'Opsis Opsis',
-        discount: 83,
-        address: 'Lviv Opta',
-        phone: '+380982815204'
-    },
-    {
-        id: 4,
-        name: 'EuroLviv Inn',
-        image: require("../images/euroLviv.webp"),
-        description: 'Opsis',
-        discount: 34,
-        address: 'Lviv Opta',
-        phone: '+380982815204'
-    }
-]
-
+const IMAGES_PREFIX = 'https://alin-back.herokuapp.com'
 export default function Loyalty({ navigation }) {
+    const [programs, setPrograms] = useState([])
+    const [loading, setLoading] = useState(false)
+
+    useEffect(() => {
+        setLoading(true);
+
+        axios({
+            url: `loality-programs`,
+            method: 'GET',
+            params: {
+                populate: 'logo'
+            }
+        })
+            .then((res) => {
+                setPrograms(res.data.data);
+            })
+            .catch((err) => alert(err))
+            .finally(() => setLoading(false));
+    }, [])
+
     return (
-        <FlatList
-            style={styles.flatList}
-            data={programs}
-            keyExtractor={({ id }) => id}
-            renderItem={({ item }) => (
-                <TouchableNativeFeedback
-                    background={TouchableNativeFeedback.Ripple(colors.danger)}
-                    onPress={() => navigation.navigate("MoreInfo", { data: item })}>
-                    <View style={styles.content}>
-                        <Image style={styles.image} source={item.image} resizeMode="contain" />
-                        <View style={{ width: '40%' }}>
-                            <Text style={styles.title}>{item.name}</Text>
-                            <Text style={styles.text} numberOfLines={2}>{item.description}</Text>
-                        </View>
-                        <View style={{ width: '30%' }}>
-                            <Text style={styles.text}>Discount</Text>
-                            <Text style={styles.discount}>{item.discount}</Text>
-                        </View>
-                    </View>
-                </TouchableNativeFeedback>
-            )}
-        />
+        <React.Fragment>
+            {loading && <Loaders />}
+
+            {!loading &&
+                <FlatList
+                    style={styles.flatList}
+                    data={programs}
+                    keyExtractor={({ id }) => id}
+                    renderItem={({ item }) => (
+                        <TouchableNativeFeedback
+                            background={TouchableNativeFeedback.Ripple(colors.danger)}
+                            onPress={() => navigation.navigate("MoreInfo", { data: item.attributes })}>
+                            <View style={styles.content}>
+                                <Image style={styles.image} source={{ uri: IMAGES_PREFIX + item.attributes.logo.data.attributes.url }} resizeMode="contain" />
+                                <View style={{ width: '40%' }}>
+                                    <Text style={styles.title}>{item.attributes.title}</Text>
+                                    <Text style={styles.text} numberOfLines={2}>{item.attributes.description}</Text>
+                                </View>
+                                <View style={{ width: '30%' }}>
+                                    <Text style={styles.text}>Discount</Text>
+                                    <Text style={styles.discount}>{item.attributes.discount}</Text>
+                                </View>
+                            </View>
+                        </TouchableNativeFeedback>
+                    )}
+                />
+            }
+        </React.Fragment>
     );
 }
 

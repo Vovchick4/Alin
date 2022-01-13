@@ -6,6 +6,7 @@ import { Colors } from 'react-native/Libraries/NewAppScreen'
 import { Container } from '../components'
 import { colors } from '../constants/constantColor'
 
+const IMAGES_PREFIX = 'https://alin-back.herokuapp.com'
 export default function MoreInfo({ route }) {
     const openMap = async (address, city, zipCode,) => {
         const destination = encodeURIComponent(`${address} ${zipCode}, ${city}`);
@@ -25,8 +26,11 @@ export default function MoreInfo({ route }) {
         <ScrollView style={{ marginBottom: 80 }}>
             <Container>
                 <View style={styles.content}>
-                    <Image style={styles.image} source={route.params.data.image} resizeMode="contain" />
-                    <Text style={styles.title}>{route.params.data.name}</Text>
+                    <Image
+                        style={styles.image}
+                        source={{ uri: IMAGES_PREFIX + route.params.data.logo.data.attributes.url }}
+                        resizeMode="contain" />
+                    <Text style={styles.title}>{route.params.data.title}</Text>
 
                     <View style={{
                         flexDirection: "row", alignItems: 'center'

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react"
-import { View, Text, StyleSheet, Button, TextInput } from "react-native"
+import { View, Text, StyleSheet, Button } from "react-native"
+import axios from "axios";
 import { RadioButton } from "react-native-paper";
 import { ScrollView } from "react-native-gesture-handler";
 import * as Yup from "yup";
@@ -7,7 +8,7 @@ import { useFormik } from "formik"
 import moment from "moment";
 
 import { useInputDatePicker } from '../../hooks'
-import { Input, Select, MyDatePicker, CustomBouncyesCheckboxes, FormRow } from "../../components"
+import { Input, Select, MyDatePicker, CustomBouncyesCheckboxes, FormRow, Loaders } from "../../components"
 import { Colors } from "react-native/Libraries/NewAppScreen"
 import { colors } from "../../constants/constantColor"
 
@@ -22,30 +23,19 @@ const validationSchema = Yup.object().shape({
     phone: Yup.string().required('Phone is required'),
 });
 
-const cities = [
+export default function ReservACar(
     {
-        city_id: 1,
-        name: "Lviv",
-    },
-    {
-        city_id: 2,
-        name: "Harkiv",
-    },
-    {
-        city_id: 3,
-        name: "Kyiv",
-    },
-    {
-        city_id: 4,
-        name: "Ivano-Frankovsk",
-    },
-    {
-        city_id: 5,
-        name: "Bukowel",
+        loading,
+        cities,
+        additionalServices,
+        carName,
+        startPrice,
+        prices,
+        carPhoto,
+        deposit,
+        fuelDeposit
     }
-]
-
-export default function ReservACar({ carName, startPrice, prices, carPhoto, deposit, fuelDeposit }) {
+) {
     const fDate = useInputDatePicker()
     const tDate = useInputDatePicker(true)
     const fTime = useInputDatePicker()
@@ -104,9 +94,9 @@ export default function ReservACar({ carName, startPrice, prices, carPhoto, depo
 
     const totalPriceServices = isCheckedBounces.reduce(
         (prev, serviceItem) => {
-            let max_price = Number(serviceItem.price) * countDays
-            if (max_price >= Number(serviceItem.max_price)) {
-                max_price = Number(serviceItem.max_price)
+            let max_price = Number(serviceItem.attributes.price) * countDays
+            if (max_price >= Number(serviceItem.attributes.max_price)) {
+                max_price = Number(serviceItem.attributes.max_price)
             }
             return prev + max_price
         }, 0) // Total Price Services 
@@ -159,6 +149,8 @@ export default function ReservACar({ carName, startPrice, prices, carPhoto, depo
 
     return (
         <ScrollView style={styles.contentForm}>
+            {loading && <Loaders />}
+
             <Text style={styles.title}>Налаштування бронювання</Text>
             <View style={styles.form}>
                 <View style={styles.flexRow}>
@@ -256,6 +248,7 @@ export default function ReservACar({ carName, startPrice, prices, carPhoto, depo
 
                 <View style={styles.BouncyCheckboxContent}>
                     <CustomBouncyesCheckboxes
+                        additionalServices={additionalServices}
                         setIsService={setIsCheckedBounces}
                     />
                 </View>

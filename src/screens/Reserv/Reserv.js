@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
-import { View, Text, StyleSheet, Image, Button } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { View, Text, StyleSheet, Button } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
+import axios from "axios";
 import { Colors } from 'react-native/Libraries/NewAppScreen'
 // import Carousel from 'react-native-snap-carousel';
 
@@ -11,9 +12,43 @@ import { colors } from '../../constants/constantColor'
 const reservModal = {
     rentCar: 'RENT_CAR'
 }
+const IMAGES_PREFIX = 'https://alin-back.herokuapp.com'
+
 export default function Reserv({ navigation, route }) {
-    const [tabIndex, setTabIndex] = useState(0)
+    // const [tabIndex, setTabIndex] = useState(0)
     const [activeModal, setActiveModal] = useState(null)
+
+    const [cities, setCities] = useState([])
+    const [additionalServices, setAdditionalServices] = useState([])
+    const [loading, setLoading] = useState(false)
+
+    useEffect(() => {
+        setLoading(true);
+
+        axios({
+            url: `cities`,
+            method: 'GET',
+        })
+            .then((res) => {
+                setCities(res.data.data);
+            })
+            .catch((err) => alert(err))
+            .finally(() => setLoading(false));
+    }, [])
+
+    useEffect(() => {
+        setLoading(true);
+
+        axios({
+            url: `additional-services`,
+            method: 'GET',
+        })
+            .then((res) => {
+                setAdditionalServices(res.data.data);
+            })
+            .catch((err) => alert(err))
+            .finally(() => setLoading(false));
+    }, [])
 
     function rentCarModal() {
         setActiveModal(reservModal.rentCar)
@@ -35,10 +70,13 @@ export default function Reserv({ navigation, route }) {
         <ScrollView style={{ marginBottom: 100 }} onScroll={onScrollHeaderTitle}>
             <BottomModal visible={activeModal === reservModal.rentCar} onClose={closeModals}>
                 <ReservACar
+                    cities={cities}
+                    additionalServices={additionalServices}
+                    loading={loading}
                     carName={route.params.data.name}
                     startPrice={route.params.data.price}
                     prices={route.params.data.prices}
-                    carPhoto={route.params.data.photos[0].image}
+                    carPhoto={route.params.data.images.data[0]}
                     deposit={route.params.data.deposit}
                     fuelDeposit={route.params.data.fuel_deposit}
                 />
@@ -46,14 +84,14 @@ export default function Reserv({ navigation, route }) {
 
             <Container isBackGround>
                 <Text style={styles.title}>{route.params.data.name}</Text>
-                <Text style={styles.titlePrice}>{route.params.data.price}Є</Text>
+                <Text style={styles.titlePrice}>{route.params.data.deposit}Є</Text>
 
                 <View style={{
                     flexDirection: 'row',
                     justifyContent: 'center',
                     backgroundColor: colors.gray
                 }}>
-                    <MyPaginCarousel entries={route.params.data.photos} activeSlide={0} />
+                    <MyPaginCarousel entries={route.params.data.images.data} activeSlide={0} />
                 </View>
             </Container>
 
@@ -88,9 +126,9 @@ export default function Reserv({ navigation, route }) {
                     <Text style={styles.text}>Тип палива</Text>
                 </View>
                 <View>
-                    <Text style={styles.text}>{route.params.data.countPeople}</Text>
+                    <Text style={styles.text}>{route.params.data.count}</Text>
                     <Text style={styles.text}>{route.params.data.conditioner && 'A/C'}</Text>
-                    <Text style={styles.text}>{route.params.data.transmission}</Text>
+                    <Text style={styles.text}>{route.params.data.gearbox}</Text>
                     <Text style={styles.text}>{route.params.data.fuel}</Text>
                 </View>
             </View>
@@ -103,11 +141,11 @@ export default function Reserv({ navigation, route }) {
 
             <Container isBackGround>
                 <Text style={styles.desc}>
-                    {route.params.data.desc}
+                    {route.params.data.content}
                 </Text>
 
                 <View style={{ marginTop: 12, width: 120 }}>
-                    <Button testID="openModal" title="Замовити" color={colors.dark} onPress={rentCarModal} />
+                    <Button testID="openModal" title="Замовити" color={colors.dark} onPress={rentCarModal} disabled={loading} />
                 </View>
             </Container>
 
