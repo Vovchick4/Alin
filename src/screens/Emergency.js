@@ -5,8 +5,9 @@ import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { ScrollView } from 'react-native-gesture-handler';
 
 import { Container, Loaders } from '../components';
-import { colors } from '../constants/constantColor';
+import { myColors } from '../constants/constantColor';
 import { dataOperations, dataSelectors } from "../redux/data"
+import { useTheme } from '@react-navigation/native';
 
 const calls = [
     {
@@ -40,6 +41,8 @@ const calls = [
 ]
 
 export default function Emergency({ navigation }) {
+    const { colors } = useTheme()
+
     const dispatch = useDispatch()
     const dataLoading = useSelector(dataSelectors.getLoading)
 
@@ -58,14 +61,14 @@ export default function Emergency({ navigation }) {
                     {calls.map(call => (
                         <TouchableNativeFeedback
                             key={call.id}
-                            background={TouchableNativeFeedback.Ripple(colors.danger)}
+                            background={TouchableNativeFeedback.Ripple(myColors.danger)}
                             onPress={() => Linking.openURL(`tel:${call.phone}`)}
                         >
                             <View style={call.id !== 1 ? styles.content : styles.contentWithoutBorderTop}>
                                 <Image style={styles.image} source={call.image} resizeMode="contain" />
                                 <View style={styles.contentText}>
-                                    <Text style={styles.text}>{call.name}</Text>
-                                    <Text style={styles.text}>{call.text}</Text>
+                                    <Text style={[styles.text, { color: colors.text }]}>{call.name}</Text>
+                                    <Text style={[styles.text, { color: colors.text }]}>{call.text}</Text>
                                 </View>
                             </View>
                         </TouchableNativeFeedback>
@@ -82,7 +85,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
         borderTopWidth: 2,
-        borderTopColor: colors.danger,
+        borderTopColor: myColors.danger,
     },
     contentWithoutBorderTop: {
         flexDirection: 'row',

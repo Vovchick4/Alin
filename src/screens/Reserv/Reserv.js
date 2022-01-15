@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { View, Text, StyleSheet, Button } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { useSelector } from 'react-redux';
+import { useTheme } from '@react-navigation/native';
 import axios from "axios";
 import { Colors } from 'react-native/Libraries/NewAppScreen'
 
 import { Container, BottomModal, MyPaginCarousel } from '../../components'
 import ReservACar from './ReservACar'
-import { colors } from '../../constants/constantColor'
+import { myColors } from '../../constants/constantColor'
 import { dataSelectors } from '../../redux/data';
 
 import CarsCardElse from './CarsCardElse';
@@ -18,6 +19,8 @@ const reservModal = {
 const IMAGES_PREFIX = 'https://alin-back.herokuapp.com'
 
 export default function Reserv({ navigation, route }) {
+    const { colors } = useTheme()
+
     const cities = useSelector(dataSelectors.getCities)
     const additionalServices = useSelector(dataSelectors.getAdditionalServices)
     const dataLoading = useSelector(dataSelectors.getLoading)
@@ -57,18 +60,20 @@ export default function Reserv({ navigation, route }) {
                 />
             </BottomModal>
 
-            <Container isBackGround>
-                <Text style={styles.title}>{route.params.data.name}</Text>
-                <Text style={styles.titlePrice}>{route.params.data.deposit}Є</Text>
+            <View>
+                <Container>
+                    <Text style={[styles.title, { color: colors.text }]}>{route.params.data.name}</Text>
+                    <Text style={[styles.titlePrice, { color: colors.text }]}>{route.params.data.deposit}Є</Text>
+                </Container>
 
                 <View style={{
                     flexDirection: 'row',
                     justifyContent: 'center',
-                    backgroundColor: colors.gray
+                    backgroundColor: myColors.gray
                 }}>
                     <MyPaginCarousel entries={route.params.data.images.data} activeSlide={0} />
                 </View>
-            </Container>
+            </View>
 
             {/* {route.params.data.photos.map((car, index) => (
                     <View key={car.image} style={{ marginTop: 15 }}>
@@ -85,22 +90,22 @@ export default function Reserv({ navigation, route }) {
                 </ScrollView> */}
 
             <Container>
-                <Text style={styles.brand}>Марка: {route.params.data.brand}</Text>
+                <Text style={[styles.brand, { color: colors.text }]}>Марка: {route.params.data.brand}</Text>
             </Container>
 
             <View style={{
                 flexDirection: 'row',
                 justifyContent: "space-between",
                 paddingHorizontal: 15,
-                backgroundColor: colors.gray
+                backgroundColor: myColors.gray
             }}>
-                <View>
+                <View style={{ padding: 15 }}>
                     <Text style={styles.text}>Кількість пасажирів</Text>
                     <Text style={styles.text}>Кондиціонер</Text>
                     <Text style={styles.text}>Тип трансмісії</Text>
                     <Text style={styles.text}>Тип палива</Text>
                 </View>
-                <View>
+                <View style={{ padding: 15 }}>
                     <Text style={styles.text}>{route.params.data.count}</Text>
                     <Text style={styles.text}>{route.params.data.conditioner && 'A/C'}</Text>
                     <Text style={styles.text}>{route.params.data.gearbox}</Text>
@@ -110,22 +115,22 @@ export default function Reserv({ navigation, route }) {
 
             <Container>
                 <View>
-                    <Text style={styles.title}>Опис</Text>
+                    <Text style={[styles.title, { color: colors.text }]}>Опис</Text>
                 </View>
             </Container>
 
             <Container isBackGround>
-                <Text style={styles.desc}>
+                <Text style={[styles.desc, { color: colors.text }]}>
                     {route.params.data.content}
                 </Text>
 
                 <View style={{ marginTop: 12, width: 120 }}>
-                    <Button testID="openModal" title="Замовити" color={colors.dark} onPress={rentCarModal} disabled={dataLoading} />
+                    <Button testID="openModal" title="Замовити" color={myColors.dark} onPress={rentCarModal} disabled={dataLoading} />
                 </View>
             </Container>
 
             <Container>
-                <Text style={styles.title}>Another cars</Text>
+                <Text style={[styles.title, { color: colors.text }]}>Another cars</Text>
             </Container>
 
             {route.params.cars.length > 0 &&

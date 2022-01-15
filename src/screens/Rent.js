@@ -3,12 +3,13 @@ import { View, Text, SafeAreaView, TouchableOpacity } from "react-native"
 import { useSelector } from "react-redux";
 import { Icon } from "react-native-elements";
 import { FlatList, TouchableNativeFeedback } from "react-native-gesture-handler"
-import { colors } from "../constants/constantColor"
+import { myColors } from "../constants/constantColor"
 import axios from "axios"
 import { Colors } from "react-native/Libraries/NewAppScreen"
 
 import { CarCard, Container, FiltersCars, Loaders, Modals } from '../components'
 import { dataSelectors } from '../redux/data'
+import { useTheme } from "@react-navigation/native";
 // import { isCloseToBottom } from '../utils'
 
 const sorts = [
@@ -29,6 +30,8 @@ const stateModals = {
 }
 
 export default function Rent({ navigation }) {
+    const { colors } = useTheme()
+
     const [resCars, setResCars] = useState([])
     const [loading, setLoading] = useState(false)
 
@@ -88,16 +91,16 @@ export default function Rent({ navigation }) {
                                 setActiveSubCategory={setActiveSubCategory} />
                             <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
                                 <Text
-                                    style={{ padding: 8, borderRadius: 8, color: Colors.white, backgroundColor: colors.dark }}>
+                                    style={{ padding: 8, borderRadius: 8, color: Colors.white, backgroundColor: myColors.dark }}>
                                     {resCars.length} Cars
                                 </Text>
-                                <TouchableNativeFeedback onPress={openSortModal} background={TouchableNativeFeedback.Ripple(colors.danger, true)}>
-                                    <Icon type="font-awesome-5" name="sort-amount-up-alt" color={Colors.white} />
+                                <TouchableNativeFeedback onPress={openSortModal} background={TouchableNativeFeedback.Ripple(myColors.danger, true)}>
+                                    <Icon type="font-awesome-5" name="sort-amount-up-alt" color={colors.text} />
                                 </TouchableNativeFeedback>
                             </View>
 
                             <Modals visible={modalSort === stateModals.sortModal} onClose={closeModals}>
-                                <Text style={{ color: "white", fontSize: 18, marginBottom: 20 }}>Choose sort!</Text>
+                                <Text style={{ color: colors.text, fontSize: 18, marginBottom: 20 }}>Choose sort!</Text>
                                 {sorts.map(sortItem => (
                                     <TouchableOpacity
                                         key={sortItem.name}
@@ -109,9 +112,9 @@ export default function Rent({ navigation }) {
                                                 justifyContent: "space-between",
                                                 paddingVertical: 8
                                             }}>
-                                            <Text style={{ color: "white", fontSize: 18 }}>{sortItem.name}</Text>
+                                            <Text style={{ color: colors.text, fontSize: 18 }}>{sortItem.name}</Text>
                                             {activeSort === sortItem.value &&
-                                                <Icon type="font-awesome-5" name="check" color={colors.danger} />
+                                                <Icon type="font-awesome-5" name="check" color={myColors.danger} />
                                             }
                                         </View>
                                     </TouchableOpacity>
@@ -122,7 +125,7 @@ export default function Rent({ navigation }) {
                     renderItem={({ item }) => (
                         <Container>
                             <TouchableNativeFeedback
-                                background={TouchableNativeFeedback.Ripple(colors.danger)}
+                                background={TouchableNativeFeedback.Ripple(myColors.danger)}
                                 onPress={() => navigation.navigate("Reserv", { data: item.attributes, cars: resCars })}>
                                 <CarCard {...item.attributes} />
                             </TouchableNativeFeedback>

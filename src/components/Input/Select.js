@@ -2,7 +2,7 @@ import React from "react";
 import { Picker, StyleSheet, View, Text } from "react-native";
 
 import { Colors } from "react-native/Libraries/NewAppScreen"
-import { colors } from "../../constants/constantColor"
+import { myColors } from "../../constants/constantColor"
 
 export default function Select({ mode = "dropdown", data, selectedValue, onChange, enabled = true, label, ...pickerProps }) {
     return (
@@ -34,13 +34,13 @@ const styles = StyleSheet.create({
     content: {
         width: 150,
         color: Colors.white,
-        backgroundColor: colors.gray,
+        backgroundColor: myColors.gray,
         borderRadius: 8
     },
     contentEnabled: {
         width: 150,
-        color: colors.dark,
-        backgroundColor: colors.gray,
+        color: myColors.dark,
+        backgroundColor: myColors.gray,
         borderRadius: 8
     }
 })

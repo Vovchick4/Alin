@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet, Animated, View, Modal, TouchableNativeFeedback } from "react-native";
 import { Icon } from "react-native-elements";
 
-import { colors } from "../../constants/constantColor";
+import { myColors } from "../../constants/constantColor";
 
 export default function BottomModal({ children, visible, onClose }) {
     const [showModal, setShowModal] = useState(visible);
@@ -51,7 +51,7 @@ export default function BottomModal({ children, visible, onClose }) {
                     }]}>
                     <TouchableNativeFeedback
                         onPress={onClose}
-                        background={TouchableNativeFeedback.Ripple(colors.danger, true)}>
+                        background={TouchableNativeFeedback.Ripple(myColors.danger, true)}>
                         <View style={styles.buttonExit}>
                             <Icon type='font-awesome-5' name='times' size={30} color="white" />
                         </View>
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
         position: 'relative',
         top: 138,
         width: '100%',
-        backgroundColor: colors.dark,
+        backgroundColor: myColors.dark,
         paddingBottom: 183,
         borderRadius: 20,
         elevation: 20,

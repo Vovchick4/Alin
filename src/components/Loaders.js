@@ -1,12 +1,12 @@
 import React from 'react'
 import { View, ActivityIndicator, StyleSheet } from 'react-native'
 
-import { colors } from '../constants/constantColor';
+import { myColors } from '../constants/constantColor';
 
 export default function Loaders() {
     return (
         <View style={[styles.container, styles.horizontal]}>
-            <ActivityIndicator size="large" color={colors.danger} />
+            <ActivityIndicator size="large" color={myColors.danger} />
         </View>
     )
 }

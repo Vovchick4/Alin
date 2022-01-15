@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, Text, Image, TouchableNativeFeedback, StyleSheet } from 'react-native'
 import { useNavigation } from '@react-navigation/native';
-import { colors } from '../../constants/constantColor';
+import { myColors } from '../../constants/constantColor';
 
 export default function CarsCardElse({ car, cars, IMAGES_PREFIX }) {
     const navigation = useNavigation();
@@ -23,7 +23,7 @@ export default function CarsCardElse({ car, cars, IMAGES_PREFIX }) {
 const styles = StyleSheet.create({
     contentBg: {
         padding: 5,
-        backgroundColor: colors.dark,
+        backgroundColor: myColors.dark,
         marginRight: 8
     },
     name: {

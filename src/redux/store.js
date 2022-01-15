@@ -10,9 +10,11 @@ import {
 } from 'redux-persist';
 
 import { dataReducer } from './data';
+import { themeReducer } from './theme';
 
 const rootReducer = combineReducers({
     data: dataReducer,
+    theme: themeReducer,
 });
 
 export const store = configureStore({

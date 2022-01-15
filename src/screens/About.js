@@ -6,18 +6,21 @@ import { useSelector } from "react-redux"
 import MapView from 'react-native-maps'
 
 import { Container } from "../components"
-import { colors } from "../constants/constantColor"
+import { myColors } from "../constants/constantColor"
 import { dataSelectors } from "../redux/data"
+import { useTheme } from "@react-navigation/native"
 
 const tabStyles = {
     content: {
-        active: { backgroundColor: colors.danger },
-        inActive: { backgroundColor: colors.dark }
+        active: { backgroundColor: myColors.danger },
+        inActive: { backgroundColor: myColors.dark }
     }
 }
 
 const IMAGES_PREFIX = 'https://alin-back.herokuapp.com'
 export default function About() {
+    const { colors } = useTheme()
+
     const cities = useSelector(dataSelectors.getCities)
 
     const [tabIndex, setTabIndex] = useState(0)
@@ -37,7 +40,7 @@ export default function About() {
                         {cities.map((item, index) => (
                             <View key={item.attributes.name} style={index !== 0 && { marginLeft: 43 }}>
                                 <TouchableNativeFeedback
-                                    background={TouchableNativeFeedback.Ripple(colors.danger)}
+                                    background={TouchableNativeFeedback.Ripple(myColors.danger)}
                                     onPress={() => setTabIndex(index)}>
                                     <View style={index === tabIndex ? styles.contentActive : styles.content}>
                                         <Text style={styles.tab}>{item.attributes.name}</Text>
@@ -58,9 +61,9 @@ export default function About() {
                                         resizeMode="cover"
                                         style={styles.image} />
                                     <View style={styles.contenTextInfoCity}>
-                                        <Text style={styles.cityText}>{item.attributes.address}</Text>
-                                        <Text style={styles.cityText}>{item.attributes.mail}</Text>
-                                        <Text style={styles.cityText}>{item.attributes.phone}</Text>
+                                        <Text style={[styles.cityText, { color: colors.text }]}>{item.attributes.address}</Text>
+                                        <Text style={[styles.cityText, { color: colors.text }]}>{item.attributes.mail}</Text>
+                                        <Text style={[styles.cityText, { color: colors.text }]}>{item.attributes.phone}</Text>
                                     </View>
                                     <View style={styles.contentCityMap}>
                                         <MapView style={styles.cityMap} />

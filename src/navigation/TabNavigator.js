@@ -5,8 +5,8 @@ import { Animated, Easing, Dimensions } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import { MainStackNavigator, LoyaltyStackNavigator, RentStackNavigator } from "./StackNavigator";
-import { colors } from '../constants/constantColor'
 import { TabButton } from '../components';
+import { useTheme } from "@react-navigation/native";
 
 const Tab = createBottomTabNavigator();
 
@@ -37,7 +37,7 @@ function getWidth() {
 }
 
 const BottomTabNavigator = () => {
-
+    const { colors } = useTheme()
     // Animated Tab Indicator...
     const tabOffsetValue = useRef(new Animated.Value(0)).current;
     return (
@@ -126,7 +126,7 @@ const BottomTabNavigator = () => {
             <Animated.View style={{
                 width: getWidth() - 20,
                 height: 2,
-                backgroundColor: 'white',
+                backgroundColor: colors.text,
                 position: 'absolute',
                 bottom: 75,
                 // Horizontal Padding = 20...

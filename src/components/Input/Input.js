@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react"
 import { TextInput, Animated, StyleSheet, Text } from "react-native"
 
 import { Colors } from "react-native/Libraries/NewAppScreen"
-import { colors } from "../../constants/constantColor"
+import { myColors } from "../../constants/constantColor"
 
 export default function Input({ label, error, value, onChange, placeholder, keyboardType, ...inputProps }) {
     const fromOpacity = useRef(new Animated.Value(0)).current
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     input: {
         color: Colors.white,
         fontSize: 16,
-        backgroundColor: colors.gray,
+        backgroundColor: myColors.gray,
         paddingVertical: 8,
         paddingHorizontal: 20,
         borderColor: Colors.white,
@@ -47,9 +47,9 @@ const styles = StyleSheet.create({
         borderRadius: 8
     },
     inputError: {
-        color: colors.danger,
+        color: myColors.danger,
         fontSize: 16,
-        backgroundColor: colors.gray,
+        backgroundColor: myColors.gray,
         paddingVertical: 8,
         paddingHorizontal: 20,
         borderColor: Colors.white,

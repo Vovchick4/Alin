@@ -3,7 +3,6 @@ import { View, Text, StyleSheet, TouchableNativeFeedback, ScrollView, Pressable 
 import { Colors } from 'react-native/Libraries/NewAppScreen'
 
 import { Container, Select } from '.'
-import { colors } from '../constants/constantColor'
 
 export default function FiltersCars(
     {

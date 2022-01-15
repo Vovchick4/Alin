@@ -1,10 +1,11 @@
 
+import { useTheme } from "@react-navigation/native";
 import React from "react";
 import { View, Text, StyleSheet, Linking, Image, TouchableNativeFeedback } from "react-native";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 
 import { Container } from "../components";
-import { colors } from "../constants/constantColor";
+import { myColors } from "../constants/constantColor";
 
 const navigators = [
     {
@@ -31,18 +32,20 @@ const navigators = [
 ]
 
 export default function Navigators() {
+    const { colors } = useTheme()
+
     return (
         <Container>
             <View style={styles.flexContent}>
                 {navigators.map(navigate => (
                     <TouchableNativeFeedback
                         key={navigate.id}
-                        background={TouchableNativeFeedback.Ripple(colors.danger)}
+                        background={TouchableNativeFeedback.Ripple(myColors.danger)}
                         onPress={() => Linking.openURL(navigate.link)}>
                         <View style={styles.content}>
                             <Image style={styles.image} source={navigate.image} resizeMode="contain" />
-                            <Text style={styles.text}>{navigate.name}</Text>
-                            <Text style={styles.description}>{navigate.text}</Text>
+                            <Text style={[styles.text, { color: colors.text }]}>{navigate.name}</Text>
+                            <Text style={[styles.description, { color: colors.text }]}>{navigate.text}</Text>
                         </View>
                     </TouchableNativeFeedback>
                 ))}

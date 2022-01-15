@@ -1,10 +1,13 @@
+import { useTheme } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react'
 import { View, Modal, StyleSheet, Animated, TouchableNativeFeedback } from 'react-native'
 import { Icon } from 'react-native-elements';
 
-import { colors } from '../../constants/constantColor';
+import { myColors } from '../../constants/constantColor';
 
 export default function Modals({ children, visible, onClose }) {
+    const { colors } = useTheme()
+
     const [showModal, setShowModal] = useState(visible);
     const scaleValue = React.useRef(new Animated.Value(0)).current;
 
@@ -35,12 +38,12 @@ export default function Modals({ children, visible, onClose }) {
             <View style={styles.modalBackGround} onTouchStart={onClose}></View>
             <View style={styles.centered}>
                 <Animated.View
-                    style={[styles.modalContainer, { transform: [{ scale: scaleValue }] }]}>
+                    style={[styles.modalContainer, { backgroundColor: colors.background }, { transform: [{ scale: scaleValue }] }]}>
                     <TouchableNativeFeedback
                         onPress={onClose}
-                        background={TouchableNativeFeedback.Ripple(colors.danger, true)}>
+                        background={TouchableNativeFeedback.Ripple(myColors.danger, true)}>
                         <View style={styles.buttonExit}>
-                            <Icon type='font-awesome-5' name='times' size={30} color="white" />
+                            <Icon type='font-awesome-5' name='times' size={30} color={colors.text} />
                         </View>
                     </TouchableNativeFeedback>
                     {children}
@@ -67,7 +70,7 @@ const styles = StyleSheet.create({
     modalContainer: {
         position: 'relative',
         width: '80%',
-        backgroundColor: colors.dark,
+        // backgroundColor: myColors.dark,
         paddingHorizontal: 20,
         paddingVertical: 30,
         borderRadius: 20,

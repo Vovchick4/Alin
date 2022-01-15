@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { View, Dimensions, StatusBar } from 'react-native';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 
-import { colors } from '../../constants/constantColor';
+import { myColors } from '../../constants/constantColor';
 import { MySlide } from './MySlide';
 
 export default class MyPaginCarousel extends Component {
@@ -24,7 +24,7 @@ export default class MyPaginCarousel extends Component {
             <Pagination
                 dotsLength={entries.length}
                 activeDotIndex={activeSlide}
-                containerStyle={{ backgroundColor: colors.gray }}
+                containerStyle={{ backgroundColor: myColors.gray }}
                 dotStyle={{
                     width: 10,
                     height: 10,

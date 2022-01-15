@@ -2,18 +2,19 @@ import React from "react";
 import { View, Image } from "react-native";
 import { TouchableNativeFeedback } from "react-native-gesture-handler";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { useTranslation } from 'react-i18next';
 
-import { Emergency, Rent, Reserv, Loyalty, MoreInfo, About, Navigators } from '../screens';
+import { Emergency, Rent, Reserv, Loyalty, MoreInfo, About, Navigators, Settings, Language, Theme, AskQuestion, Faq, PrivacyPolicy } from '../screens';
 import { DrawerActions, useNavigation } from "@react-navigation/native";
 
-import { colors } from "../constants/constantColor";
+import { myColors } from "../constants/constantColor";
 
 const Stack = createNativeStackNavigator();
 
 const screenOptionStyle = {
     headerTitleAlign: 'center',
     headerStyle: {
-        backgroundColor: colors.danger,
+        backgroundColor: myColors.danger,
     },
     headerTintColor: "white",
     headerBackTitle: "Black",
@@ -44,9 +45,9 @@ function LogoTitle() {
                 alignItems: 'center',
                 padding: 10,
                 borderRadius: 100,
-                backgroundColor: colors.danger,
+                backgroundColor: myColors.danger,
             }}
-            background={TouchableNativeFeedback.Ripple(colors.dark, true)}
+            background={TouchableNativeFeedback.Ripple(myColors.dark, true)}
             onPress={() => navigation.dispatch(DrawerActions.openDrawer())}>
             <Image
                 style={{ width: 25, height: 25, tintColor: 'white' }}
@@ -80,10 +81,13 @@ const LoyaltyStackNavigator = () => {
 }
 
 const RentStackNavigator = () => {
+    const { t } = useTranslation()
+
     return (
         <Stack.Navigator screenOptions={screenOptionStyle}>
             <Stack.Screen name="Rent" component={Rent} options={{
                 // transitionSpec: { open: config, close: config },
+                title: t('Rent'),
                 headerLeft: () => <LogoTitle />
             }} />
             <Stack.Screen name="Reserv" component={Reserv} options={() => (
@@ -112,4 +116,24 @@ const AboutStackNavigator = () => {
     );
 }
 
-export { MainStackNavigator, LoyaltyStackNavigator, RentStackNavigator, NavigatorsStackNavigator, AboutStackNavigator };
+const SettingsNavigator = () => {
+    return (
+        <Stack.Navigator screenOptions={screenOptionStyle}>
+            <Stack.Screen name="Settings" component={Settings} options={{ headerLeft: () => <LogoTitle /> }} />
+            <Stack.Screen name="Language" component={Language} />
+            <Stack.Screen name="Theme" component={Theme} />
+            <Stack.Screen name="AskQuestion" component={AskQuestion} />
+            <Stack.Screen name="Faq" component={Faq} />
+            <Stack.Screen name="PrivacyPolicy" component={PrivacyPolicy} />
+        </Stack.Navigator>
+    );
+}
+
+export {
+    MainStackNavigator,
+    LoyaltyStackNavigator,
+    RentStackNavigator,
+    SettingsNavigator,
+    NavigatorsStackNavigator,
+    AboutStackNavigator
+};

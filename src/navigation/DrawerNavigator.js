@@ -3,11 +3,11 @@ import React from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Icon } from "react-native-elements";
 
-import { AboutStackNavigator, NavigatorsStackNavigator } from "./StackNavigator";
+import { AboutStackNavigator, NavigatorsStackNavigator, SettingsNavigator } from "./StackNavigator";
 import BottomTabNavigator from "./TabNavigator";
 
 import { DrawerContent } from "../components";
-import { colors } from "../constants/constantColor";
+import { myColors } from "../constants/constantColor";
 
 const Drawer = createDrawerNavigator();
 
@@ -16,30 +16,46 @@ const DrawerNavigator = () => {
         <Drawer.Navigator drawerContent={(props) => <DrawerContent {...props} />} screenOptions={{
             headerShown: false,
             drawerActiveTintColor: 'white',
-            drawerActiveBackgroundColor: colors.danger,
+            drawerActiveBackgroundColor: myColors.danger,
         }}>
             <Drawer.Screen name="Tabs" component={BottomTabNavigator} options={{
                 drawerLabel: 'Home',
-                drawerIcon: ({ color }) =>
+                drawerLabelStyle: { marginLeft: -10, fontSize: 16 },
+                drawerIcon: ({ color, size }) =>
                     <Icon name='ios-home'
                         type='ionicon'
                         color={color}
+                        size={size}
                     />,
             }} />
             <Drawer.Screen name="Navigators Drawer" component={NavigatorsStackNavigator} options={{
                 drawerLabel: 'Navigators',
-                drawerIcon: ({ color }) =>
+                drawerLabelStyle: { marginLeft: -10, fontSize: 16 },
+                drawerIcon: ({ color, size }) =>
                     <Icon name='navigate-circle-sharp'
                         type='ionicon'
                         color={color}
+                        size={size}
                     />,
             }} />
             <Drawer.Screen name="About Drawer" component={AboutStackNavigator} options={{
                 drawerLabel: 'About',
-                drawerIcon: ({ color }) =>
+                drawerLabelStyle: { marginLeft: -11, fontSize: 16 },
+                drawerIcon: ({ color, size }) =>
                     <Icon name='id-card'
                         type='font-awesome-5'
                         color={color}
+                        size={size}
+                    />,
+            }} />
+            <Drawer.Screen name="Settings Drawer" component={SettingsNavigator} options={{
+                drawerLabel: 'Settings',
+                drawerLabelStyle: { marginLeft: -14, fontSize: 16 },
+                drawerIcon: ({ color, size }) =>
+                    <Icon name='cogs'
+                        type='font-awesome-5'
+                        color={color}
+                        size={size}
                     />,
             }} />
         </Drawer.Navigator>

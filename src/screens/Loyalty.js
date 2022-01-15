@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { View, Text, StyleSheet, TouchableNativeFeedback, FlatList, Image } from 'react-native'
 import axios from 'axios'
+import { useTheme } from '@react-navigation/native'
 import { Colors } from 'react-native/Libraries/NewAppScreen'
 
 import { Loaders } from '../components'
-import { colors } from '../constants/constantColor'
+import { myColors } from '../constants/constantColor'
 
 const IMAGES_PREFIX = 'https://alin-back.herokuapp.com'
 export default function Loyalty({ navigation }) {
+    const { colors } = useTheme()
+
     const [programs, setPrograms] = useState([])
     const [loading, setLoading] = useState(false)
 
@@ -39,16 +42,16 @@ export default function Loyalty({ navigation }) {
                     keyExtractor={({ id }) => id}
                     renderItem={({ item }) => (
                         <TouchableNativeFeedback
-                            background={TouchableNativeFeedback.Ripple(colors.danger)}
+                            background={TouchableNativeFeedback.Ripple(myColors.danger)}
                             onPress={() => navigation.navigate("MoreInfo", { data: item.attributes })}>
                             <View style={styles.content}>
                                 <Image style={styles.image} source={{ uri: IMAGES_PREFIX + item.attributes.logo.data.attributes.url }} resizeMode="contain" />
                                 <View style={{ width: '40%' }}>
-                                    <Text style={styles.title}>{item.attributes.title}</Text>
-                                    <Text style={styles.text} numberOfLines={2}>{item.attributes.description}</Text>
+                                    <Text style={[styles.title, { color: colors.text }]}>{item.attributes.title}</Text>
+                                    <Text style={[styles.text, { color: colors.text }]} numberOfLines={2}>{item.attributes.description}</Text>
                                 </View>
                                 <View style={{ width: '30%' }}>
-                                    <Text style={styles.text}>Discount</Text>
+                                    <Text style={[styles.text, { color: colors.text }]}>Discount</Text>
                                     <Text style={styles.discount}>{item.attributes.discount}</Text>
                                 </View>
                             </View>
@@ -71,7 +74,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         borderWidth: 2,
         // borderRadius: 8,
-        borderTopColor: colors.danger,
+        borderTopColor: myColors.danger,
         paddingVertical: 10,
         paddingRight: 5,
     },
@@ -93,7 +96,7 @@ const styles = StyleSheet.create({
     },
     discount: {
         textAlign: 'center',
-        color: colors.danger,
+        color: myColors.danger,
         fontSize: 20,
         fontWeight: "700"
     },

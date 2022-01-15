@@ -10,7 +10,7 @@ import moment from "moment";
 import { useInputDatePicker } from '../../hooks'
 import { Input, Select, MyDatePicker, CustomBouncyesCheckboxes, FormRow, Loaders } from "../../components"
 import { Colors } from "react-native/Libraries/NewAppScreen"
-import { colors } from "../../constants/constantColor"
+import { myColors } from "../../constants/constantColor"
 
 const validationSchema = Yup.object().shape({
     name: Yup.string()
@@ -290,7 +290,7 @@ export default function ReservACar(
                 <View style={styles.buttonSubmit}>
                     <Text style={styles.title}>Total Price - {totalPrice}Є</Text>
                     <View style={{ width: 120 }}>
-                        <Button testID="submit" onPress={formik.handleSubmit} title="Submit" color={colors.gray} />
+                        <Button testID="submit" onPress={formik.handleSubmit} title="Submit" color={myColors.gray} />
                     </View>
                 </View>
             </View>
@@ -336,7 +336,7 @@ const styles = StyleSheet.create({
         padding: 12,
         width: 150,
         color: Colors.white,
-        backgroundColor: colors.gray,
+        backgroundColor: myColors.gray,
         borderWidth: 0,
         borderRadius: 8,
     },
