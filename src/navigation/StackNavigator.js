@@ -4,7 +4,7 @@ import { TouchableNativeFeedback } from "react-native-gesture-handler";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useTranslation } from 'react-i18next';
 
-import { Emergency, Rent, Reserv, Loyalty, MoreInfo, About, Navigators, Settings, Language, Theme, AskQuestion, Faq, PrivacyPolicy } from '../screens';
+import { Emergency, Rent, Reserv, Loyalty, MoreInfo, About, Navigators, Settings, Language, Theme, AskQuestion, Faq, PrivacyPolicy, AboutAlin, ProgramLoality } from '../screens';
 import { DrawerActions, useNavigation } from "@react-navigation/native";
 
 import { myColors } from "../constants/constantColor";
@@ -122,9 +122,11 @@ const SettingsNavigator = () => {
             <Stack.Screen name="Settings" component={Settings} options={{ headerLeft: () => <LogoTitle /> }} />
             <Stack.Screen name="Language" component={Language} />
             <Stack.Screen name="Theme" component={Theme} />
-            <Stack.Screen name="AskQuestion" component={AskQuestion} />
+            <Stack.Screen name="AskQuestion" component={AskQuestion} options={{ title: "Ask A Question" }} />
             <Stack.Screen name="Faq" component={Faq} />
-            <Stack.Screen name="PrivacyPolicy" component={PrivacyPolicy} />
+            <Stack.Screen name="AboutAlin" component={AboutAlin} options={{ title: "About Alin" }} />
+            <Stack.Screen name="ProgramLoality" component={ProgramLoality} options={{ title: "Loality Program Info" }} />
+            <Stack.Screen name="PrivacyPolicy" component={PrivacyPolicy} options={{ title: "Privacy Policy" }} />
         </Stack.Navigator>
     );
 }

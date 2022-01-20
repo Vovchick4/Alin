@@ -20,7 +20,7 @@ export default function Language() {
     const { colors } = useTheme()
 
     useEffect(() => {
-        setLoading(true);
+        setLoading(true)
 
         axios({
             method: 'GET',
@@ -30,7 +30,7 @@ export default function Language() {
                 setLocales(res.data);
             })
             .catch((err) => alert(err))
-            .finally(() => setLoading(false));
+            .finally(() => setLoading(false))
     }, [])
 
     const setLocaleLng = async (locale) => {

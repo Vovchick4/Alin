@@ -5,7 +5,7 @@ import { ScrollView } from "react-native-gesture-handler"
 import { useSelector } from "react-redux"
 import MapView from 'react-native-maps'
 
-import { Container } from "../components"
+import { Container, Loaders } from "../components"
 import { myColors } from "../constants/constantColor"
 import { dataSelectors } from "../redux/data"
 import { useTheme } from "@react-navigation/native"
@@ -22,6 +22,7 @@ export default function About() {
     const { colors } = useTheme()
 
     const cities = useSelector(dataSelectors.getCities)
+    const dataLoading = useSelector(dataSelectors.getLoading)
 
     const [tabIndex, setTabIndex] = useState(0)
     const AnimateState = {
@@ -34,46 +35,52 @@ export default function About() {
 
     return (
         <Container>
-            <ScrollView>
-                <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
-                    <View style={styles.BoxTab}>
-                        {cities.map((item, index) => (
-                            <View key={item.attributes.name} style={index !== 0 && { marginLeft: 43 }}>
-                                <TouchableNativeFeedback
-                                    background={TouchableNativeFeedback.Ripple(myColors.danger)}
-                                    onPress={() => setTabIndex(index)}>
-                                    <View style={index === tabIndex ? styles.contentActive : styles.content}>
-                                        <Text style={styles.tab}>{item.attributes.name}</Text>
-                                    </View>
-                                </TouchableNativeFeedback>
-                            </View>
-                        ))}
-                    </View>
-                </ScrollView>
+            {dataLoading && <Loaders />}
 
-                <View style={styles.cityInfoContent}>
-                    {cities.map((item, index) => (
-                        <View key={item.attributes.name} style={styles.BoxCity}>
-                            {index === tabIndex &&
-                                <Animated.View style={{ opacity: AnimateState.fromOpacity }}>
-                                    <Image
-                                        source={{ uri: IMAGES_PREFIX + item.attributes.Image.data.attributes.url }}
-                                        resizeMode="cover"
-                                        style={styles.image} />
-                                    <View style={styles.contenTextInfoCity}>
-                                        <Text style={[styles.cityText, { color: colors.text }]}>{item.attributes.address}</Text>
-                                        <Text style={[styles.cityText, { color: colors.text }]}>{item.attributes.mail}</Text>
-                                        <Text style={[styles.cityText, { color: colors.text }]}>{item.attributes.phone}</Text>
+            {!dataLoading && (
+                <React.Fragment>
+                    <ScrollView>
+                        <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
+                            <View style={styles.BoxTab}>
+                                {cities.map((item, index) => (
+                                    <View key={item.attributes.name} style={index !== 0 && { marginLeft: 8 }}>
+                                        <TouchableNativeFeedback
+                                            background={TouchableNativeFeedback.Ripple(myColors.danger)}
+                                            onPress={() => setTabIndex(index)}>
+                                            <View style={index === tabIndex ? styles.contentActive : styles.content}>
+                                                <Text style={styles.tab}>{item.attributes.name}</Text>
+                                            </View>
+                                        </TouchableNativeFeedback>
                                     </View>
-                                    <View style={styles.contentCityMap}>
-                                        <MapView style={styles.cityMap} />
-                                    </View>
-                                </Animated.View>
-                            }
+                                ))}
+                            </View>
+                        </ScrollView>
+
+                        <View style={styles.cityInfoContent}>
+                            {cities.map((item, index) => (
+                                <View key={item.attributes.name} style={styles.BoxCity}>
+                                    {index === tabIndex &&
+                                        <Animated.View style={{ opacity: AnimateState.fromOpacity }}>
+                                            <Image
+                                                source={{ uri: IMAGES_PREFIX + item.attributes.Image.data.attributes.url }}
+                                                resizeMode="cover"
+                                                style={styles.image} />
+                                            <View style={styles.contenTextInfoCity}>
+                                                <Text style={[styles.cityText, { color: colors.text }]}>{item.attributes.address}</Text>
+                                                <Text style={[styles.cityText, { color: colors.text }]}>{item.attributes.mail}</Text>
+                                                <Text style={[styles.cityText, { color: colors.text }]}>{item.attributes.phone}</Text>
+                                            </View>
+                                            <View style={styles.contentCityMap}>
+                                                <MapView style={styles.cityMap} />
+                                            </View>
+                                        </Animated.View>
+                                    }
+                                </View>
+                            ))}
                         </View>
-                    ))}
-                </View>
-            </ScrollView>
+                    </ScrollView>
+                </React.Fragment>
+            )}
         </Container>
     )
 }
@@ -99,7 +106,7 @@ const styles = StyleSheet.create({
         color: '#ffff'
     },
     cityInfoContent: {
-        marginTop: 30,
+        marginTop: 8,
     },
     BoxCity: {
         flexDirection: 'column',
@@ -117,7 +124,7 @@ const styles = StyleSheet.create({
         height: 200,
     },
     contentCityMap: {
-        marginTop: 40,
+        marginTop: 8,
     },
     cityMap: {
         width: "100%",

@@ -24,6 +24,7 @@ export default function Reserv({ navigation, route }) {
     const cities = useSelector(dataSelectors.getCities)
     const additionalServices = useSelector(dataSelectors.getAdditionalServices)
     const dataLoading = useSelector(dataSelectors.getLoading)
+    const [loading, setLoading] = useState(false)
 
     // const [tabIndex, setTabIndex] = useState(0)
     const [activeModal, setActiveModal] = useState(null)
@@ -34,6 +35,26 @@ export default function Reserv({ navigation, route }) {
 
     function closeModals() {
         setActiveModal(null)
+    }
+
+    function orderCar(data) {
+        setLoading(true)
+
+        axios({
+            method: 'POST',
+            url: '/mail',
+            data: JSON.stringify(data),
+        })
+            .then((res) => {
+                console.log(res)
+                closeModals()
+            })
+            .catch((error) => {
+                alert(error)
+            })
+            .finally(() => {
+                setLoading(false)
+            })
     }
 
     function onScrollHeaderTitle(event) {
@@ -48,9 +69,10 @@ export default function Reserv({ navigation, route }) {
         <ScrollView style={{ marginBottom: 100 }} onScroll={onScrollHeaderTitle}>
             <BottomModal visible={activeModal === reservModal.rentCar} onClose={closeModals}>
                 <ReservACar
+                    onSubmit={orderCar}
+                    loading={loading}
                     cities={cities}
                     additionalServices={additionalServices}
-                    loading={dataLoading}
                     carName={route.params.data.name}
                     startPrice={route.params.data.price}
                     prices={route.params.data.prices}

@@ -18,6 +18,10 @@ export const subCategoires = createReducer([], {
     [actions.subCategoriesAllSuccess]: (_, { payload }) => payload,
 });
 
+export const brand = createReducer([], {
+    [actions.brandAllSuccess]: (_, { payload }) => payload,
+});
+
 export const loading = createReducer(false, {
     [actions.citiesAllRequest]: () => true,
     [actions.citiesAllSuccess]: () => false,
@@ -34,6 +38,10 @@ export const loading = createReducer(false, {
     [actions.subCategoriesAllRequest]: () => true,
     [actions.subCategoriesAllSuccess]: () => false,
     [actions.subCategoriesAllError]: () => false,
+
+    [actions.brandAllRequest]: () => true,
+    [actions.brandAllSuccess]: () => false,
+    [actions.brandAllError]: () => false,
 });
 
-export default combineReducers({ cities, additionalServices, categories, subCategoires, loading })
+export default combineReducers({ cities, additionalServices, categories, subCategoires, brand, loading })

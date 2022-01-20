@@ -43,19 +43,19 @@ const calls = [
 export default function Emergency({ navigation }) {
     const { colors } = useTheme()
 
-    const dispatch = useDispatch()
-    const dataLoading = useSelector(dataSelectors.getLoading)
+    // const dispatch = useDispatch()
+    // const dataLoading = useSelector(dataSelectors.getLoading)
 
-    useEffect(() => {
-        dispatch(dataOperations.citiesFetchAll())
-        dispatch(dataOperations.addtionalServicesFetchAll())
-        dispatch(dataOperations.categoriesFetchAll())
-        dispatch(dataOperations.subCategoriesFetchAll())
-    }, [])
+    // useEffect(() => {
+    //     dispatch(dataOperations.citiesFetchAll())
+    //     dispatch(dataOperations.addtionalServicesFetchAll())
+    //     dispatch(dataOperations.categoriesFetchAll())
+    //     dispatch(dataOperations.subCategoriesFetchAll())
+    // }, [])
 
     return (
         <React.Fragment>
-            {dataLoading && <Loaders />}
+            {/* {dataLoading && <Loaders />} */}
             <ScrollView style={{ marginBottom: 80 }}>
                 <Container>
                     {calls.map(call => (

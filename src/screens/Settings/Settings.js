@@ -1,18 +1,68 @@
-import React from 'react'
-import { View, Text, StyleSheet, TouchableNativeFeedback } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { View, Text, StyleSheet, Dimensions } from 'react-native'
+import { TouchableNativeFeedback } from 'react-native-gesture-handler'
 import { Icon } from 'react-native-elements'
+import axios from 'axios'
 import { useTranslation } from 'react-i18next'
 import { useTheme } from '@react-navigation/native';
 import { Colors } from 'react-native/Libraries/NewAppScreen'
 
-import { Container } from '../../components'
+import { Container, Loaders, Skeletons } from '../../components'
 import { myColors } from '../../constants/constantColor'
+
+const { width } = Dimensions.get('window')
 
 export default function Settings({ navigation }) {
     const { colors } = useTheme()
-    const { t } = useTranslation()
+    const { t, i18n } = useTranslation()
 
-    const dataSetings = [
+    const [policyData, setPolicyData] = useState({})
+    const [faqData, setFaqData] = useState({})
+    const [programLoality, setProgramLoality] = useState({})
+    const [aboutAlin, setAboutAlin] = useState({})
+    const [loading, setLoading] = useState(false)
+
+    useEffect(() => {
+        setLoading(true)
+
+        axios({
+            method: 'GET',
+            url: `alin-policy-guard?locale=${i18n.language}`,
+        })
+            .then((res) => {
+                setPolicyData(res.data);
+            })
+            .catch((err) => alert(err))
+
+        axios({
+            method: 'GET',
+            url: `alin-faq?locale=${i18n.language}`,
+        })
+            .then((res) => {
+                setFaqData(res.data);
+            })
+            .catch((err) => alert(err))
+
+        axios({
+            method: 'GET',
+            url: `alin-program-loality?locale=${i18n.language}`,
+        })
+            .then((res) => {
+                setProgramLoality(res.data);
+            })
+            .catch((err) => alert(err))
+
+        axios({
+            method: 'GET',
+            url: `alin-back?locale=${i18n.language}`,
+        })
+            .then((res) => {
+                setAboutAlin(res.data);
+            })
+            .catch((err) => alert(err))
+    }, [i18n.language])
+
+    const dataSettings = [
         {
             id: 1,
             name: 'Language',
@@ -34,19 +84,36 @@ export default function Settings({ navigation }) {
             id: 1,
             name: 'Ask a Question',
             icon: <Icon type="font-awesome-5" name="info-circle" color={Colors.white} />,
-            naivgate: 'AskQuestion'
+            naivgate: 'AskQuestion',
+            params: 'none'
         },
         {
             id: 2,
             name: 'Alin FAQ',
-            icon: <Icon type="font-awesome-5" name="question-circle" color={Colors.white} />,
-            naivgate: 'Faq'
+            icon: <Icon type="font-awesome-5" name="list" color={Colors.white} />,
+            naivgate: 'Faq',
+            params: faqData
         },
         {
             id: 3,
+            name: 'About Alin',
+            icon: <Icon type="font-awesome-5" name="question-circle" color={Colors.white} />,
+            naivgate: 'AboutAlin',
+            params: aboutAlin
+        },
+        {
+            id: 4,
+            name: 'Loality Program',
+            icon: <Icon type="font-awesome-5" name="tags" color={Colors.white} />,
+            naivgate: 'ProgramLoality',
+            params: programLoality
+        },
+        {
+            id: 5,
             name: 'Privacy Policy',
             icon: <Icon type="font-awesome-5" name="check-circle" color={Colors.white} />, // user-shield (icon)
-            naivgate: 'PrivacyPolicy'
+            naivgate: 'PrivacyPolicy',
+            params: policyData
         }
     ]
 
@@ -56,8 +123,12 @@ export default function Settings({ navigation }) {
                 <Text style={[styles.text, { color: colors.text }]}>{t('Settings')}</Text>
             </Container>
             <View style={styles.content}>
-                {dataSetings.map((set, index) => (
-                    <TouchableNativeFeedback key={set.id} onPress={() => navigation.navigate(set.naivgate)}>
+                {dataSettings.map((set, index) => (
+                    <TouchableNativeFeedback
+                        key={set.id}
+                        onPress={() => navigation.navigate(set.naivgate)}
+                        background={TouchableNativeFeedback.Ripple(myColors.danger)}
+                    >
                         <View style={index === 0 ? [styles.textContent, { marginTop: 0 }] : styles.textContent}>
                             {set.icon}
                             <Text style={styles.setName}>{set.name}</Text>
@@ -69,15 +140,23 @@ export default function Settings({ navigation }) {
             <Container>
                 <Text style={[styles.text, { color: colors.text }]}>{t('Help')}</Text>
             </Container>
+
             <View style={styles.content}>
-                {dataHelps.map((set, index) => (
-                    <TouchableNativeFeedback key={set.id} onPress={() => navigation.navigate(set.naivgate)}>
-                        <View style={index === 0 ? [styles.textContent, { marginTop: 0 }] : styles.textContent}>
-                            {set.icon}
-                            <Text style={styles.setName}>{set.name}</Text>
-                        </View>
-                    </TouchableNativeFeedback>
-                ))}
+                {!loading && <Skeletons height={340} />}
+
+                {loading &&
+                    dataHelps.map((set, index) => (
+                        <TouchableNativeFeedback
+                            key={set.id}
+                            onPress={() => navigation.navigate(set.naivgate, { data: set.params })}
+                            background={TouchableNativeFeedback.Ripple(myColors.danger)}
+                        >
+                            <View style={index === 0 ? [styles.textContent, { marginTop: 0 }] : styles.textContent}>
+                                {set.icon}
+                                <Text style={styles.setName}>{set.name}</Text>
+                            </View>
+                        </TouchableNativeFeedback>
+                    ))}
             </View>
         </React.Fragment>
     )

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import {
   DefaultTheme as NavigationDefaultTheme,
   DarkTheme as NavigationDarkTheme,
@@ -6,55 +6,46 @@ import {
 } from "@react-navigation/native"
 import { useTranslation } from 'react-i18next'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { Provider } from "react-redux"
+import { useDispatch } from 'react-redux';
 import {
-  Provider as PaperProvider,
   DefaultTheme as PaperDefaultTheme,
   DarkTheme as PaperDarkTheme
 } from 'react-native-paper';
-import { PersistGate } from "redux-persist/integration/react"
-import { store, persistor } from "./src/redux/store"
 
+import { dataOperations } from "./src/redux/data"
 import DrawerNavigator from "./src/navigation/DrawerNavigator"
 import { ThemeContext } from "./src/context/contentextTheme"
 
-import './src/config/axios'
-import './src/config/i18next'
+const CustomDarkTheme = {
+  ...NavigationDefaultTheme,
+  ...PaperDefaultTheme,
+  colors: {
+    ...NavigationDefaultTheme.colors,
+    ...PaperDefaultTheme.colors,
+    background: '#ffffff',
+    text: '#000000',
+    danger: "rgb(183, 48, 48)",
+  }
+}
 
-// const navTheme = DefaultTheme
-// navTheme.colors.background = 'rgba(255, 255, 255)'
-
-// const navThemeLight = DarkTheme
-// navThemeLight.colors.background = '#000000'
+const CustomDefaultTheme = {
+  ...NavigationDarkTheme,
+  ...PaperDarkTheme,
+  colors: {
+    ...NavigationDarkTheme.colors,
+    ...PaperDarkTheme.colors,
+    background: '#000000',
+    text: '#ffffff',
+    danger: "rgb(183, 48, 48)",
+  }
+}
 
 const App = () => {
   const { i18n } = useTranslation()
 
-  const [isDarkTheme, setIsDarkTheme] = useState(false);
+  const [isDarkTheme, setIsDarkTheme] = useState(false)
 
-  const CustomDarkTheme = {
-    ...NavigationDefaultTheme,
-    ...PaperDefaultTheme,
-    colors: {
-      ...NavigationDefaultTheme.colors,
-      ...PaperDefaultTheme.colors,
-      background: '#ffffff',
-      text: '#000000',
-      danger: "rgb(183, 48, 48)",
-    }
-  }
-
-  const CustomDefaultTheme = {
-    ...NavigationDarkTheme,
-    ...PaperDarkTheme,
-    colors: {
-      ...NavigationDarkTheme.colors,
-      ...PaperDarkTheme.colors,
-      background: '#000000',
-      text: '#ffffff',
-      danger: "rgb(183, 48, 48)",
-    }
-  }
+  const dispatch = useDispatch()
 
   const theme = isDarkTheme ? CustomDefaultTheme : CustomDarkTheme
 
@@ -109,16 +100,20 @@ const App = () => {
     }
   }, [i18n])
 
+  useEffect(() => {
+    dispatch(dataOperations.citiesFetchAll())
+    dispatch(dataOperations.addtionalServicesFetchAll())
+    dispatch(dataOperations.categoriesFetchAll())
+    dispatch(dataOperations.subCategoriesFetchAll())
+    dispatch(dataOperations.brandFetchAll())
+  }, [])
+
   return (
-    <Provider store={store}>
-      {/* <PersistGate loading={null} persistor={persistor}> */}
-      <ThemeContext.Provider value={themeContext}>
-        <NavigationContainer theme={theme}>
-          <DrawerNavigator />
-        </NavigationContainer>
-      </ThemeContext.Provider>
-      {/* </PersistGate> */}
-    </Provider >
+    <ThemeContext.Provider value={themeContext}>
+      <NavigationContainer theme={theme}>
+        <DrawerNavigator />
+      </NavigationContainer>
+    </ThemeContext.Provider>
   );
 };
 

@@ -38,7 +38,8 @@ export default function Modals({ children, visible, onClose }) {
             <View style={styles.modalBackGround} onTouchStart={onClose}></View>
             <View style={styles.centered}>
                 <Animated.View
-                    style={[styles.modalContainer, { backgroundColor: colors.background }, { transform: [{ scale: scaleValue }] }]}>
+                    style={[styles.modalContainer, colors.text === '#ffffff' ?
+                        { backgroundColor: myColors.gray } : { backgroundColor: 'white' }, { transform: [{ scale: scaleValue }] }]}>
                     <TouchableNativeFeedback
                         onPress={onClose}
                         background={TouchableNativeFeedback.Ripple(myColors.danger, true)}>

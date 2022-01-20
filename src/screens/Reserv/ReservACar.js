@@ -25,6 +25,7 @@ const validationSchema = Yup.object().shape({
 
 export default function ReservACar(
     {
+        onSubmit,
         loading,
         cities,
         additionalServices,
@@ -61,13 +62,33 @@ export default function ReservACar(
                 return;
             }
 
+            const formData = new FormData()
+            formData.append('carName', carName)
+            formData.append('carPhoto', carPhoto)
+            formData.append('fromDate', moment(fDate.date).format('YYYY-MM-DD'))
+            formData.append('toDate', moment(tDate.date).format('YYYY-MM-DD'))
+            formData.append('fromTime', moment(fTime.date).format('YYYY-MM-DD'))
+            formData.append('toDate', moment(tTime.date).format('YYYY-MM-DD'))
+            formData.append('totalPrice', totalPrice)
+            formData.append('countDays', countDays)
+            formData.append('deposit_price', deposit)
+            formData.append('fuel_deposite', fuelDeposit)
+            formData.append('services', isCheckedBounces)
+            formData.append('city', values.city)
+            formData.append('name', values.name)
+            formData.append('email', values.email)
+            formData.append('phone', values.email)
+            formData.append('comment', values.comment)
+
+            console.log(formData)
+
             const data = {
                 carName,
-                carPhoto,
+                carPhoto: carPhoto.attributes.url,
                 fromDate: moment(fDate.date).format('YYYY-MM-DD'),
                 toDate: moment(tDate.date).format('YYYY-MM-DD'),
-                fromTime: moment(fTime.date).format('HH:mm'),
-                toTime: moment(tTime.date).format('HH:mm'),
+                fromTime: moment(fTime.date).format('HH:mm:ss.SSS'),
+                toTime: moment(tTime.date).format('HH:mm:ss.SSS'),
                 totalPrice,
                 countDays,
                 deposit_price: deposit,
@@ -76,7 +97,7 @@ export default function ReservACar(
                 ...values
             }
 
-            alert("Succsess" + JSON.stringify(data));
+            onSubmit(data)
         },
     });
 

@@ -2,10 +2,11 @@ import React, { useState } from 'react'
 import { View, Text, StyleSheet, TouchableNativeFeedback, ScrollView, Pressable } from 'react-native'
 import { Colors } from 'react-native/Libraries/NewAppScreen'
 
-import { Container, Select } from '.'
+import { Container, Select, Skeletons } from '../../components'
 
 export default function FiltersCars(
     {
+        loading,
         cities,
         categories,
         activeCity,
@@ -24,20 +25,22 @@ export default function FiltersCars(
     return (
         <React.Fragment>
             <ScrollView horizontal={true} style={styles.content}>
-                {categories.map(category => (
-                    <Pressable
-                        key={category.id}
-                        onPress={() => pressCategory(category.attributes.name)}
-                        style={category.attributes.name === activeCategory ? styles.textContentActive : styles.textContent}>
-                        <Text style={styles.text}>{category.attributes.name}</Text>
-                    </Pressable>
+                {!loading ?
+                    categories.map(category => (
+                        <Pressable
+                            key={category.id}
+                            onPress={() => pressCategory(category.attributes.name)}
+                            style={category.attributes.name === activeCategory ? styles.textContentActive : styles.textContent}>
+                            <Text style={styles.text}>{category.attributes.name}</Text>
+                        </Pressable>
 
-                ))}
+                    )) : <Skeletons height={30} />}
             </ScrollView>
 
             <View style={styles.selectContent}>
-                <Select mode="modal" data={cities} selectedValue={activeCity} onChange={(value) => { setActiveCity(value) }} />
+                <Select loading={loading} mode="modal" data={cities} selectedValue={activeCity} onChange={(value) => { setActiveCity(value) }} />
                 <Select
+                    loading={loading}
                     mode="modal"
                     data={subCategories}
                     selectedValue={activeSubCategory}
@@ -65,7 +68,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: 'center',
         justifyContent: 'space-between',
-        marginBottom: 15
+        marginBottom: 15,
     },
     textContentActive: {
         width: 100,

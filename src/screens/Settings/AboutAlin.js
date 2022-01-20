@@ -1,10 +1,10 @@
-import React from 'react'
-import { View, Text, StyleSheet, ScrollView } from 'react-native'
-import { useTheme } from '@react-navigation/native'
+import React from 'react';
+import { useTheme } from '@react-navigation/native';
+import { Text, StyleSheet, ScrollView } from 'react-native';
 
-import { Container } from '../../components'
+import { Container } from '../../components';
 
-export default function PrivacyPolicy({ route }) {
+export default function AboutAlin({ route }) {
     const { colors } = useTheme()
 
     return (
@@ -16,7 +16,7 @@ export default function PrivacyPolicy({ route }) {
                 </Text>
             </Container>
         </ScrollView>
-    )
+    );
 }
 
 const styles = StyleSheet.create({

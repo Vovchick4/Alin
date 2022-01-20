@@ -1,5 +1,4 @@
 import axios from 'axios'
-
 import { dataActions as actions } from './'
 
 export const citiesFetchAll = () => (dispatch) => {
@@ -63,5 +62,21 @@ export const subCategoriesFetchAll = () => (dispatch) => {
         .catch((error) => {
             alert(error)
             dispatch(actions.subCategoriesAllError(error))
+        })
+}
+
+export const brandFetchAll = () => (dispatch) => {
+    dispatch(actions.brandAllRequest())
+
+    axios({
+        method: 'GET',
+        url: 'brand-cars',
+    })
+        .then((res) => {
+            dispatch(actions.brandAllSuccess(res.data.data))
+        })
+        .catch((error) => {
+            alert(error)
+            dispatch(actions.brandAllError(error))
         })
 }

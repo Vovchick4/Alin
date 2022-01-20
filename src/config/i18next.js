@@ -3,7 +3,7 @@ import { initReactI18next } from 'react-i18next'
 
 import en from '../locales/en.json'
 import uk from '../locales/uk.json'
-import { setLocale } from './axios'
+import { setLocale } from './axios';
 
 i18next.use(initReactI18next).init({
     compatibilityJSON: 'v3',
@@ -15,6 +15,4 @@ i18next.use(initReactI18next).init({
     lng: 'en',
 });
 
-i18next.on('languageChanged', (lng) => {
-    setLocale(lng);
-});
+i18next.on('languageChanged', (lng) => setLocale(lng))

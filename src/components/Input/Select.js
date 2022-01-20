@@ -2,24 +2,27 @@ import React from "react";
 import { Picker, StyleSheet, View, Text } from "react-native";
 
 import { Colors } from "react-native/Libraries/NewAppScreen"
+import { Skeletons } from "..";
 import { myColors } from "../../constants/constantColor"
 
-export default function Select({ mode = "dropdown", data, selectedValue, onChange, enabled = true, label, ...pickerProps }) {
+export default function Select({ loading = false, mode = "dropdown", data, selectedValue, onChange, enabled = true, label, ...pickerProps }) {
     return (
         <View style={{ flexDirection: "column" }}>
             {label && <Text style={styles.label}>{label}</Text>}
             <View style={styles.content}>
-                <Picker
-                    mode={mode}
-                    style={enabled ? styles.content : styles.contentEnabled}
-                    selectedValue={selectedValue}
-                    onValueChange={onChange}
-                    enabled={enabled}
-                    {...pickerProps}>
-                    {data.map(item => (
-                        <Picker.Item key={item.id} label={item.attributes.name} value={item.attributes.name} />
-                    ))}
-                </Picker>
+                {!loading ?
+                    <Picker
+                        mode={mode}
+                        style={enabled ? styles.content : styles.contentEnabled}
+                        selectedValue={selectedValue}
+                        onValueChange={onChange}
+                        enabled={enabled}
+                        {...pickerProps}>
+                        {data.map(item => (
+                            <Picker.Item key={item.id} label={item.attributes.name} value={item.attributes.name} />
+                        ))}
+                    </Picker>
+                    : <Skeletons height={48} />}
             </View>
         </View>
     )

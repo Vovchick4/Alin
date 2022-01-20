@@ -1,9 +1,23 @@
 /**
  * @format
  */
-import 'react-native-gesture-handler'
-import { AppRegistry } from 'react-native'
+import { registerRootComponent } from 'expo';
+import React from 'react';
 import App from './App'
-import { name as appName } from './app.json'
+import { Provider } from "react-redux"
+import { store, persistor } from "./src/redux/store"
 
-AppRegistry.registerComponent(appName, () => App)
+import './src/config/i18next'
+import './src/config/axios'
+
+class Index extends React.Component {
+    render() {
+        return (
+            <Provider store={store}>
+                <App />
+            </Provider>
+        )
+    }
+}
+
+registerRootComponent(Index)

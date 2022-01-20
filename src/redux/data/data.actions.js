@@ -15,3 +15,7 @@ export const categoriesAllError = createAction('categories/fetchAllError');
 export const subCategoriesAllRequest = createAction('subCategories/fetchAllRequest');
 export const subCategoriesAllSuccess = createAction('subCategories/fetchAllSuccess');
 export const subCategoriesAllError = createAction('subCategories/fetchAllError');
+
+export const brandAllRequest = createAction('brand/fetchAllRequest');
+export const brandAllSuccess = createAction('brand/fetchAllSuccess');
+export const brandAllError = createAction('brand/fetchAllError');

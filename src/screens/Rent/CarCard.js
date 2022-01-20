@@ -4,8 +4,8 @@ import { ScrollView } from "react-native-gesture-handler"
 import { Colors } from "react-native/Libraries/NewAppScreen"
 import { useTheme } from "@react-navigation/native"
 
-import { Container } from "."
-import { myColors } from '../constants/constantColor'
+import { Container } from "../../components"
+import { myColors } from '../../constants/constantColor'
 
 const IMAGES_PREFIX = 'https://alin-back.herokuapp.com'
 export default function CarCard({ name, deposit, content, images }) {

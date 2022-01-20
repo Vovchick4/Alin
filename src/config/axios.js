@@ -1,9 +1,11 @@
 import axios from 'axios'
 
-axios.defaults.baseURL = 'https://alin-back.herokuapp.com/api/'
+axios.defaults.baseURL = 'https://alin-back.herokuapp.com/api'
+// axios.defaults.headers.common = 'uk'
 
 export function setLocale(lng) {
-    axios.defaults.headers.locale = lng;
+    // axios.defaults.params.locale = lng
+    // console.log(axios.defaults.params.locale);
 }
 
 // export function setToken(token) {
