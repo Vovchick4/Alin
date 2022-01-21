@@ -9,15 +9,16 @@ import { Container } from "../../components"
 import { myColors } from '../../constants/constantColor'
 
 const IMAGES_PREFIX = 'https://alin-back.herokuapp.com'
-export default function CarCard({ name, deposit, content, images }) {
+export default function CarCard({ name, deposit, content, prices, images }) {
     const { colors } = useTheme()
     const { t } = useTranslation()
 
     return (
         <View style={[{ background: colors.background }, styles.CarBox]}>
             <Container isBackGround>
-                <Text style={[styles.title, { color: colors.text }]}>{name}</Text>
-                <Text style={[styles.textPrice, { color: colors.text }]}>{t('Per Day')} <Text style={styles.carPrice}>{deposit}</Text> Є</Text>
+                {/* <Text style={[styles.textPrice, { color: colors.text }]}>{t('Per Day')} 
+                <Text style={styles.carPrice}>{deposit}</Text> Є</Text> */}
+                <Text numberOfLines={2} style={[styles.title, { textAlign: 'center', color: colors.text }]}>{name}</Text>
             </Container>
 
             <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
@@ -29,10 +30,21 @@ export default function CarCard({ name, deposit, content, images }) {
                 ))}
             </ScrollView>
 
-            <Container isBackGround>
+            <Container>
+                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                    {prices.map((price, i) => (
+                        <View key={i} style={[{}, i === 0 ? { marginRight: 10 } : { marginHorizontal: 10 }]}>
+                            <Text style={styles.title}>{price.days}</Text>
+                            <Text style={[styles.title, { textAlign: 'center' }]}>{price.money}€</Text>
+                        </View>
+                    ))}
+                </View>
+                {/* <Text style={[styles.title, { color: colors.text }]} numberOfLines={2}>
+                    {t("Description")}
+                </Text>
                 <Text style={[styles.desc, { color: colors.text }]} numberOfLines={2}>
                     {content}
-                </Text>
+                </Text> */}
             </Container>
         </View>
     )

@@ -86,8 +86,23 @@ export default function Reserv({ navigation, route }) {
 
             <View>
                 <Container>
-                    <Text style={[styles.title, { color: colors.text }]}>{route.params.data.name}</Text>
-                    <Text style={[styles.titlePrice, { color: colors.text }]}>{route.params.data.deposit}€</Text>
+                    <Text style={[styles.title, { marginBottom: 10, textAlign: 'center', color: colors.text }]}>{route.params.data.name}</Text>
+                    {/* <Text style={[styles.titlePrice, { textAlign: 'center', color: colors.text, marginVertical: 10 }]}>
+                        {t("Per Day")}:
+                    </Text> */}
+
+                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                        {route.params.data.prices.map((price, i) => (
+                            <View key={i} style={[{}, i === 0 ? { marginRight: 10 } : { marginHorizontal: 10 }]}>
+                                <Text style={styles.title}>{price.days}</Text>
+                                <Text style={[styles.title, { textAlign: 'center' }]}>{price.money}€</Text>
+                            </View>
+                        ))}
+                    </View>
+
+                    <Text style={[styles.titlePrice, { textAlign: 'center', color: colors.text, marginTop: 10 }]}>
+                        {t("Deposit")}: {route.params.data.deposit}€
+                    </Text>
                 </Container>
 
                 <View style={{
@@ -154,7 +169,7 @@ export default function Reserv({ navigation, route }) {
             </Container>
 
             <Container>
-                <Text style={[styles.title, { color: colors.text }]}>Another cars</Text>
+                <Text style={[styles.title, { color: colors.text }]}>{t("Another cars")}</Text>
             </Container>
 
             {route.params.cars.length > 0 &&

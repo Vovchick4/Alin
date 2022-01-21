@@ -145,7 +145,7 @@ export default function Rent({ navigation }) {
                         </View>
 
                         <Modals visible={modal === stateModals.brandCar} onClose={closeModals}>
-                            <Text style={{ color: colors.text, fontSize: 18, marginBottom: 20 }}>Choose Brand Car!</Text>
+                            <Text style={{ color: colors.text, fontSize: 18, marginBottom: 20, maxWidth: '90%' }}>{t('Choose Brand Car')}!</Text>
                             <TouchableOpacity onPress={() => { setActiveBrand('All Brands'); closeModals() }} disabled={loading}>
                                 <View
                                     style={{
@@ -154,7 +154,7 @@ export default function Rent({ navigation }) {
                                         justifyContent: "space-between",
                                         paddingVertical: 8
                                     }}>
-                                    <Text style={{ color: colors.text, fontSize: 18 }}>{t("All brands!")}</Text>
+                                    <Text style={{ color: colors.text, fontSize: 18 }}>{t("All Brands")}!</Text>
                                     {activeBrand === 'All Brands' &&
                                         <Icon type="font-awesome-5" name="check" color={myColors.danger} />
                                     }

@@ -103,7 +103,7 @@ export default function Settings({ navigation }) {
         },
         {
             id: 4,
-            name: t('Loality Program'),
+            name: t('Loyalty Program'),
             icon: <Icon type="font-awesome-5" name="tags" color={Colors.white} />,
             naivgate: 'ProgramLoality',
             params: programLoality

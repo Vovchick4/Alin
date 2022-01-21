@@ -122,6 +122,10 @@ export default function ReservACar(
         priceDepositDays()
         setTotalPrice((prev) => countDays * prev + totalPriceServices)
 
+        if (fTime.date < tTime.date) {
+            setCountDays(prev => prev + 1)
+        }
+
         // Not Working Time + 1 day
         if (moment(fTime.date).format('HH:mm') >= '21:00' ||
             moment(fTime.date).format('HH:mm') <= "08:00" ||
@@ -327,7 +331,7 @@ export default function ReservACar(
                         onBlur={formik.handleBlur('phone')}
                         error={t(formik.errors.phone)}
                         keyboardType="number-pad"
-                        placeholder={t("Your Pnone")} />
+                        placeholder={t("Your Phone")} />
                 </FormRow>
 
                 <Input
@@ -341,8 +345,13 @@ export default function ReservACar(
                 <Text style={notWorkingTime && styles.label}>
                     {notWorkingTime && `${notWorkingTime} + 10€`}
                 </Text>
+
+                <Text style={styles.label}>
+                    {t("Number of days:")} {countDays}
+                </Text>
+
                 <View style={styles.buttonSubmit}>
-                    <Text style={styles.title}>{t('Total Price')} - {totalPrice}€</Text>
+                    <Text style={[styles.title, { lineHeight: 40 }]}>{t('Total Price')} - {totalPrice}€</Text>
                     <View style={{ width: 120 }}>
                         <Button testID="submit" onPress={formik.handleSubmit} title={t("Submit")} color={myColors.gray} disabled={loading} />
                     </View>
@@ -397,6 +406,7 @@ const styles = StyleSheet.create({
     },
     buttonSubmit: {
         flexDirection: 'row',
+        flexWrap: 'wrap',
         alignItems: 'center',
         justifyContent: 'space-between',
         marginVertical: 12,

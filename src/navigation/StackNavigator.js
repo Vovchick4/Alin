@@ -76,9 +76,9 @@ const LoyaltyStackNavigator = () => {
 
     return (
         <Stack.Navigator screenOptions={screenOptionStyle}>
-            <Stack.Screen name="Loyalty" component={Loyalty} options={{ title: t('Loyality'), headerLeft: () => <LogoTitle /> }} />
+            <Stack.Screen name="Loyalty" component={Loyalty} options={{ title: t('Loyalty'), headerLeft: () => <LogoTitle /> }} />
             <Stack.Screen name="MoreInfo" component={MoreInfo} options={({ route }) => (
-                { title: route.params.data.name }
+                { title: route.params.data.title }
             )} />
         </Stack.Navigator>
     );
@@ -119,7 +119,7 @@ const AboutStackNavigator = () => {
 
     return (
         <Stack.Navigator screenOptions={screenOptionStyle}>
-            <Stack.Screen name="About" component={About} options={{ title: t('Contact'), headerLeft: () => <LogoTitle /> }} />
+            <Stack.Screen name="About" component={About} options={{ title: t('Contacts'), headerLeft: () => <LogoTitle /> }} />
         </Stack.Navigator>
     );
 }
@@ -135,8 +135,8 @@ const SettingsNavigator = () => {
             <Stack.Screen name="AskQuestion" component={AskQuestion} options={{ title: t("Ask A Question") }} />
             <Stack.Screen name="Faq" component={Faq} />
             <Stack.Screen name="AboutAlin" component={AboutAlin} options={{ title: t("About Alin") }} />
-            <Stack.Screen name="ProgramLoality" component={ProgramLoality} options={{ title: t("Loality Program Info") }} />
-            <Stack.Screen name="PrivacyPolicy" component={PrivacyPolicy} options={{ title: t("Privacy Policy") }} />
+            <Stack.Screen name="ProgramLoality" component={ProgramLoality} options={{ title: t("Loyalty Program Info"), headerTitleStyle: { fontSize: 18 }, headerTitleAlign: 'left', }} />
+            <Stack.Screen name="PrivacyPolicy" component={PrivacyPolicy} options={{ title: t("Privacy Policy"), headerTitleStyle: { fontSize: 18 }, headerTitleAlign: 'left', }} />
         </Stack.Navigator>
     );
 }

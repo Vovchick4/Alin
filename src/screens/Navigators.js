@@ -63,6 +63,7 @@ const styles = StyleSheet.create({
     flexContent: {
         flexDirection: 'row',
         flexWrap: 'wrap',
+        alignItems: 'flex-start'
     },
     content: {
         alignItems: 'center',
