@@ -2,6 +2,7 @@ import React from "react";
 
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Icon } from "react-native-elements";
+import { useTranslation } from 'react-i18next'
 
 import { AboutStackNavigator, NavigatorsStackNavigator, SettingsNavigator } from "./StackNavigator";
 import BottomTabNavigator from "./TabNavigator";
@@ -12,6 +13,8 @@ import { myColors } from "../constants/constantColor";
 const Drawer = createDrawerNavigator();
 
 const DrawerNavigator = () => {
+    const { t } = useTranslation()
+
     return (
         <Drawer.Navigator drawerContent={(props) => <DrawerContent {...props} />} screenOptions={{
             headerShown: false,
@@ -19,7 +22,7 @@ const DrawerNavigator = () => {
             drawerActiveBackgroundColor: myColors.danger,
         }}>
             <Drawer.Screen name="Tabs" component={BottomTabNavigator} options={{
-                drawerLabel: 'Home',
+                drawerLabel: t('Home'),
                 drawerLabelStyle: { marginLeft: -10, fontSize: 16 },
                 drawerIcon: ({ color, size }) =>
                     <Icon name='ios-home'
@@ -29,7 +32,7 @@ const DrawerNavigator = () => {
                     />,
             }} />
             <Drawer.Screen name="Navigators Drawer" component={NavigatorsStackNavigator} options={{
-                drawerLabel: 'Navigators',
+                drawerLabel: t('Navigators'),
                 drawerLabelStyle: { marginLeft: -10, fontSize: 16 },
                 drawerIcon: ({ color, size }) =>
                     <Icon name='navigate-circle-sharp'
@@ -39,7 +42,7 @@ const DrawerNavigator = () => {
                     />,
             }} />
             <Drawer.Screen name="About Drawer" component={AboutStackNavigator} options={{
-                drawerLabel: 'About',
+                drawerLabel: t('Contacts'),
                 drawerLabelStyle: { marginLeft: -11, fontSize: 16 },
                 drawerIcon: ({ color, size }) =>
                     <Icon name='id-card'
@@ -49,7 +52,7 @@ const DrawerNavigator = () => {
                     />,
             }} />
             <Drawer.Screen name="Settings Drawer" component={SettingsNavigator} options={{
-                drawerLabel: 'Settings',
+                drawerLabel: t('Settings'),
                 drawerLabelStyle: { marginLeft: -14, fontSize: 16 },
                 drawerIcon: ({ color, size }) =>
                     <Icon name='cogs'

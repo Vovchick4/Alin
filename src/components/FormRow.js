@@ -13,6 +13,6 @@ const styles = StyleSheet.create({
     formRow: {
         flexDirection: 'column',
         justifyContent: "space-between",
-        marginVertical: 20
+        marginVertical: 10
     }
 })

@@ -1,57 +1,47 @@
-import React, { useEffect } from 'react';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { View, Text, TouchableNativeFeedback, StyleSheet, Image, Linking } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { ScrollView } from 'react-native-gesture-handler';
 
 import { Container, Loaders } from '../components';
 import { myColors } from '../constants/constantColor';
-import { dataOperations, dataSelectors } from "../redux/data"
 import { useTheme } from '@react-navigation/native';
-
-const calls = [
-    {
-        id: 1,
-        name: 'State Emergency Service',
-        image: require("../images/firefighter.png"),
-        text: "Tap to State Emergency Service",
-        phone: '101'
-    },
-    {
-        id: 2,
-        name: 'Ambulance',
-        image: require("../images/ambulance.png"),
-        text: "Tap to Ambulance",
-        phone: '103'
-    },
-    {
-        id: 3,
-        name: 'Police',
-        image: require("../images/police-car.png"),
-        text: "Tap to Police",
-        phone: '102'
-    },
-    {
-        id: 4,
-        name: 'Alin',
-        image: require("../images/alin-logo.png"),
-        text: "Tap to Call Us",
-        phone: '+380987771600'
-    }
-]
 
 export default function Emergency({ navigation }) {
     const { colors } = useTheme()
+    const { t } = useTranslation()
 
-    // const dispatch = useDispatch()
-    // const dataLoading = useSelector(dataSelectors.getLoading)
-
-    // useEffect(() => {
-    //     dispatch(dataOperations.citiesFetchAll())
-    //     dispatch(dataOperations.addtionalServicesFetchAll())
-    //     dispatch(dataOperations.categoriesFetchAll())
-    //     dispatch(dataOperations.subCategoriesFetchAll())
-    // }, [])
+    const calls = [
+        {
+            id: 1,
+            name: t('State Emergency Service'),
+            image: require("../images/firefighter.png"),
+            text: t("Tap to call State Emergency Service"),
+            phone: '101'
+        },
+        {
+            id: 2,
+            name: t('Ambulance'),
+            image: require("../images/ambulance.png"),
+            text: t("Tap to call Ambulance"),
+            phone: '103'
+        },
+        {
+            id: 3,
+            name: t('Police'),
+            image: require("../images/police-car.png"),
+            text: t("Tap to call Police"),
+            phone: '102'
+        },
+        {
+            id: 4,
+            name: 'Alin',
+            image: require("../images/alin-logo.png"),
+            text: t("Tap to call Call Us"),
+            phone: '+380987771600'
+        }
+    ]
 
     return (
         <React.Fragment>

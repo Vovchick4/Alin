@@ -1,4 +1,5 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { Text, View, StyleSheet, Image, TouchableNativeFeedback, ScrollView, Linking } from 'react-native'
 import { useTheme } from '@react-navigation/native'
 import { Icon } from 'react-native-elements'
@@ -10,6 +11,7 @@ import { myColors } from '../constants/constantColor'
 const IMAGES_PREFIX = 'https://alin-back.herokuapp.com'
 export default function MoreInfo({ route }) {
     const { colors } = useTheme()
+    const { t } = useTranslation()
 
     const openMap = async (address, city, zipCode,) => {
         const destination = encodeURIComponent(`${address} ${zipCode}, ${city}`);
@@ -38,7 +40,7 @@ export default function MoreInfo({ route }) {
                     <View style={{
                         flexDirection: "row", alignItems: 'center'
                     }}>
-                        <Text style={[styles.discountText, { color: colors.text }]}>Discount: </Text>
+                        <Text style={[styles.discountText, { color: colors.text }]}>{t('Discount')}: </Text>
                         <Text style={styles.discount}>{route.params.data.discount}</Text>
                     </View>
                 </View>
@@ -48,7 +50,7 @@ export default function MoreInfo({ route }) {
                         background={TouchableNativeFeedback.Ripple(myColors.danger)}
                         onPress={() => openMap(route.params.data.address, "Lviv")}>
                         <View>
-                            <Text style={[styles.text, { color: colors.text }]}>Address:
+                            <Text style={[styles.text, { color: colors.text }]}>{t('Address')}:
                                 <Text style={{ color: myColors.danger }}> {route.params.data.address}</Text>
                             </Text>
                         </View>
@@ -57,21 +59,21 @@ export default function MoreInfo({ route }) {
                         background={TouchableNativeFeedback.Ripple(myColors.danger)}
                         onPress={() => Linking.openURL(`tel:${route.params.data.phone}`)}>
                         <View>
-                            <Text style={[styles.text, { color: colors.text }]}>Phone:
+                            <Text style={[styles.text, { color: colors.text }]}>{t('Phone')}:
                                 <Text style={{ color: myColors.danger }}> {route.params.data.phone}</Text>
                             </Text>
                         </View>
                     </TouchableNativeFeedback>
                 </View>
 
-                <Text style={[styles.title, { color: colors.text }]}>Description</Text>
+                <Text style={[styles.title, { color: colors.text }]}>{t('Discription')}</Text>
                 <Text style={[styles.text, { color: colors.text }]}>{route.params.data.description}</Text>
 
                 <TouchableNativeFeedback
                     background={TouchableNativeFeedback.Ripple(myColors.danger)}
                     onPress={() => openMap(route.params.data.address, "Lviv")}>
                     <View>
-                        <Text style={[styles.title, { color: colors.text }]}>Tap to route:</Text>
+                        <Text style={[styles.title, { color: colors.text }]}>{t('Tap to route')}:</Text>
                         <View style={styles.icon}>
                             <Icon type="font-awesome-5" name="route" size={150} color={colors.text} />
                         </View>

@@ -65,13 +65,13 @@ export default function Settings({ navigation }) {
     const dataSettings = [
         {
             id: 1,
-            name: 'Language',
+            name: t('Language'),
             icon: <Icon type="font-awesome-5" name="globe" color={Colors.white} />,
             naivgate: 'Language'
         },
         {
             id: 2,
-            name: 'Theme',
+            name: t('Theme'),
             icon: colors.text === "#ffffff" ?
                 <Icon type="font-awesome-5" name="moon" color={Colors.white} /> :
                 <Icon type="font-awesome-5" name="sun" color={Colors.white} />,
@@ -82,35 +82,35 @@ export default function Settings({ navigation }) {
     const dataHelps = [
         {
             id: 1,
-            name: 'Ask a Question',
+            name: t('Ask a Question'),
             icon: <Icon type="font-awesome-5" name="info-circle" color={Colors.white} />,
             naivgate: 'AskQuestion',
             params: 'none'
         },
         {
             id: 2,
-            name: 'Alin FAQ',
+            name: `Alin FAQ`,
             icon: <Icon type="font-awesome-5" name="list" color={Colors.white} />,
             naivgate: 'Faq',
             params: faqData
         },
         {
             id: 3,
-            name: 'About Alin',
+            name: t('About') + ' Alin',
             icon: <Icon type="font-awesome-5" name="question-circle" color={Colors.white} />,
             naivgate: 'AboutAlin',
             params: aboutAlin
         },
         {
             id: 4,
-            name: 'Loality Program',
+            name: t('Loality Program'),
             icon: <Icon type="font-awesome-5" name="tags" color={Colors.white} />,
             naivgate: 'ProgramLoality',
             params: programLoality
         },
         {
             id: 5,
-            name: 'Privacy Policy',
+            name: t('Privacy Policy'),
             icon: <Icon type="font-awesome-5" name="check-circle" color={Colors.white} />, // user-shield (icon)
             naivgate: 'PrivacyPolicy',
             params: policyData
@@ -127,8 +127,7 @@ export default function Settings({ navigation }) {
                     <TouchableNativeFeedback
                         key={set.id}
                         onPress={() => navigation.navigate(set.naivgate)}
-                        background={TouchableNativeFeedback.Ripple(myColors.danger)}
-                    >
+                        background={TouchableNativeFeedback.Ripple(myColors.danger)}>
                         <View style={index === 0 ? [styles.textContent, { marginTop: 0 }] : styles.textContent}>
                             {set.icon}
                             <Text style={styles.setName}>{set.name}</Text>

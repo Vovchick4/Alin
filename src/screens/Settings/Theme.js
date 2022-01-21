@@ -24,7 +24,7 @@ export default function Theme() {
             </Container>
 
             <View style={styles.preference}>
-                <Text style={styles.setLocaleName}>Dark Theme</Text>
+                <Text style={styles.setLocaleName}>{t('Dark Theme')}</Text>
                 <Switch
                     value={colors.text === "#ffffff" ? true : false}
                     onValueChange={toggleTheme}

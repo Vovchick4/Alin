@@ -24,9 +24,9 @@ export default function Input({ label, error, value, onChange, placeholder, keyb
                 placeholder={placeholder}
                 keyboardType={keyboardType}
                 {...inputProps} />
-            <Animated.View style={{ opacity: fromOpacity }}>
-                {error && <Text style={styles.error}>{error}</Text>}
-            </Animated.View>
+            {/* <Animated.View style={{ opacity: fromOpacity }}> */}
+            <Text style={error && styles.error}>{error && error}</Text>
+            {/* </Animated.View> */}
         </React.Fragment>
     )
 }

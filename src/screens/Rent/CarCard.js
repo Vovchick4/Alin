@@ -1,4 +1,5 @@
 import React from "react"
+import { useTranslation } from "react-i18next"
 import { View, Text, StyleSheet, Image } from "react-native"
 import { ScrollView } from "react-native-gesture-handler"
 import { Colors } from "react-native/Libraries/NewAppScreen"
@@ -10,12 +11,13 @@ import { myColors } from '../../constants/constantColor'
 const IMAGES_PREFIX = 'https://alin-back.herokuapp.com'
 export default function CarCard({ name, deposit, content, images }) {
     const { colors } = useTheme()
+    const { t } = useTranslation()
 
     return (
         <View style={[{ background: colors.background }, styles.CarBox]}>
             <Container isBackGround>
                 <Text style={[styles.title, { color: colors.text }]}>{name}</Text>
-                <Text style={[styles.textPrice, { color: colors.text }]}>Per Day <Text style={styles.carPrice}>{deposit}</Text> Є</Text>
+                <Text style={[styles.textPrice, { color: colors.text }]}>{t('Per Day')} <Text style={styles.carPrice}>{deposit}</Text> Є</Text>
             </Container>
 
             <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>

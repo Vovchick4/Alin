@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react"
+import { useTranslation } from "react-i18next";
 import { View, Text, SafeAreaView, TouchableOpacity } from "react-native"
 import { useSelector } from "react-redux";
 import { Icon } from "react-native-elements";
@@ -34,6 +35,7 @@ const stateModals = {
 
 export default function Rent({ navigation }) {
     const { colors } = useTheme()
+    const { t } = useTranslation()
 
     const [resCars, setResCars] = useState([])
     const [loading, setLoading] = useState(false)
@@ -132,7 +134,7 @@ export default function Rent({ navigation }) {
                         <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
                             <Text
                                 style={{ padding: 8, borderRadius: 8, color: Colors.white, backgroundColor: myColors.dark }}>
-                                {resCars.length} Cars
+                                {resCars.length} {t("Cars")}
                             </Text>
                             <TouchableOpacity
                                 disabled={loading}
@@ -152,7 +154,7 @@ export default function Rent({ navigation }) {
                                         justifyContent: "space-between",
                                         paddingVertical: 8
                                     }}>
-                                    <Text style={{ color: colors.text, fontSize: 18 }}>All Brands</Text>
+                                    <Text style={{ color: colors.text, fontSize: 18 }}>{t("All brands!")}</Text>
                                     {activeBrand === 'All Brands' &&
                                         <Icon type="font-awesome-5" name="check" color={myColors.danger} />
                                     }
@@ -180,7 +182,7 @@ export default function Rent({ navigation }) {
                         </Modals>
 
                         <Modals visible={modal === stateModals.sortModal} onClose={closeModals}>
-                            <Text style={{ color: colors.text, fontSize: 18, marginBottom: 20 }}>Choose sort!</Text>
+                            <Text style={{ color: colors.text, fontSize: 18, marginBottom: 20 }}>{t("Choose sort!")}</Text>
                             {sorts.map(sortItem => (
                                 <TouchableOpacity
                                     disabled={loading}

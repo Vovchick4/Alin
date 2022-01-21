@@ -1,8 +1,8 @@
 import React from "react";
 import { View, Image } from "react-native";
+import { useTranslation } from "react-i18next";
 import { TouchableNativeFeedback } from "react-native-gesture-handler";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { useTranslation } from 'react-i18next';
 
 import { Emergency, Rent, Reserv, Loyalty, MoreInfo, About, Navigators, Settings, Language, Theme, AskQuestion, Faq, PrivacyPolicy, AboutAlin, ProgramLoality } from '../screens';
 import { DrawerActions, useNavigation } from "@react-navigation/native";
@@ -59,10 +59,12 @@ function LogoTitle() {
 }
 
 const MainStackNavigator = () => {
+    const { t } = useTranslation()
+
     return (
         <Stack.Navigator screenOptions={screenOptionStyle}>
             <Stack.Screen name="Emergency" component={Emergency} options={{
-                title: "Emergency Calls",
+                title: t("Emergency Calls"),
                 headerLeft: () => <LogoTitle />
             }} />
         </Stack.Navigator>
@@ -70,9 +72,11 @@ const MainStackNavigator = () => {
 }
 
 const LoyaltyStackNavigator = () => {
+    const { t } = useTranslation()
+
     return (
         <Stack.Navigator screenOptions={screenOptionStyle}>
-            <Stack.Screen name="Loyalty" component={Loyalty} options={{ headerLeft: () => <LogoTitle /> }} />
+            <Stack.Screen name="Loyalty" component={Loyalty} options={{ title: t('Loyality'), headerLeft: () => <LogoTitle /> }} />
             <Stack.Screen name="MoreInfo" component={MoreInfo} options={({ route }) => (
                 { title: route.params.data.name }
             )} />
@@ -101,32 +105,38 @@ const RentStackNavigator = () => {
 }
 
 const NavigatorsStackNavigator = () => {
+    const { t } = useTranslation()
+
     return (
         <Stack.Navigator screenOptions={screenOptionStyle}>
-            <Stack.Screen name="Navigators" component={Navigators} options={{ headerLeft: () => <LogoTitle /> }} />
+            <Stack.Screen name="Navigators" component={Navigators} options={{ title: t('Navigators'), headerLeft: () => <LogoTitle /> }} />
         </Stack.Navigator>
     );
 }
 
 const AboutStackNavigator = () => {
+    const { t } = useTranslation()
+
     return (
         <Stack.Navigator screenOptions={screenOptionStyle}>
-            <Stack.Screen name="About" component={About} options={{ headerLeft: () => <LogoTitle /> }} />
+            <Stack.Screen name="About" component={About} options={{ title: t('Contact'), headerLeft: () => <LogoTitle /> }} />
         </Stack.Navigator>
     );
 }
 
 const SettingsNavigator = () => {
+    const { t } = useTranslation()
+
     return (
         <Stack.Navigator screenOptions={screenOptionStyle}>
-            <Stack.Screen name="Settings" component={Settings} options={{ headerLeft: () => <LogoTitle /> }} />
-            <Stack.Screen name="Language" component={Language} />
-            <Stack.Screen name="Theme" component={Theme} />
-            <Stack.Screen name="AskQuestion" component={AskQuestion} options={{ title: "Ask A Question" }} />
+            <Stack.Screen name="Settings" component={Settings} options={{ title: t("Settings"), headerLeft: () => <LogoTitle /> }} />
+            <Stack.Screen name="Language" component={Language} options={{ title: t("Language") }} />
+            <Stack.Screen name="Theme" component={Theme} options={{ title: t("Theme") }} />
+            <Stack.Screen name="AskQuestion" component={AskQuestion} options={{ title: t("Ask A Question") }} />
             <Stack.Screen name="Faq" component={Faq} />
-            <Stack.Screen name="AboutAlin" component={AboutAlin} options={{ title: "About Alin" }} />
-            <Stack.Screen name="ProgramLoality" component={ProgramLoality} options={{ title: "Loality Program Info" }} />
-            <Stack.Screen name="PrivacyPolicy" component={PrivacyPolicy} options={{ title: "Privacy Policy" }} />
+            <Stack.Screen name="AboutAlin" component={AboutAlin} options={{ title: t("About Alin") }} />
+            <Stack.Screen name="ProgramLoality" component={ProgramLoality} options={{ title: t("Loality Program Info") }} />
+            <Stack.Screen name="PrivacyPolicy" component={PrivacyPolicy} options={{ title: t("Privacy Policy") }} />
         </Stack.Navigator>
     );
 }

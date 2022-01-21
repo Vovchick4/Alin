@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react"
 import { View, Text, StyleSheet, Button } from "react-native"
-import axios from "axios";
+import { useTranslation } from "react-i18next";
 import { RadioButton } from "react-native-paper";
 import { ScrollView } from "react-native-gesture-handler";
 import * as Yup from "yup";
 import { useFormik } from "formik"
-import moment from "moment";
+import moment from "moment-timezone";
 
 import { useInputDatePicker } from '../../hooks'
 import { Input, Select, MyDatePicker, CustomBouncyesCheckboxes, FormRow, Loaders } from "../../components"
@@ -37,6 +37,8 @@ export default function ReservACar(
         fuelDeposit
     }
 ) {
+    const { t } = useTranslation()
+
     const fDate = useInputDatePicker()
     const tDate = useInputDatePicker(true)
     const fTime = useInputDatePicker()
@@ -44,6 +46,7 @@ export default function ReservACar(
 
     const [isCheckedBounces, setIsCheckedBounces] = useState([]) // Selected Services
     const [isDeposit, setisDeposit] = useState('With Deposit')
+    const [notWorkingTime, setNotWorkingTime] = useState('')
     const [countDays, setCountDays] = useState(1)
     const [totalPrice, setTotalPrice] = useState(startPrice)
 
@@ -58,29 +61,28 @@ export default function ReservACar(
         validationSchema,
         onSubmit: (values) => {
             if (fDate.date >= tDate.date) {
-                alert("Reservation can't be retroactive");
+                alert(t("Reservation can't be retroactive"));
                 return;
             }
 
-            const formData = new FormData()
-            formData.append('carName', carName)
-            formData.append('carPhoto', carPhoto)
-            formData.append('fromDate', moment(fDate.date).format('YYYY-MM-DD'))
-            formData.append('toDate', moment(tDate.date).format('YYYY-MM-DD'))
-            formData.append('fromTime', moment(fTime.date).format('YYYY-MM-DD'))
-            formData.append('toDate', moment(tTime.date).format('YYYY-MM-DD'))
-            formData.append('totalPrice', totalPrice)
-            formData.append('countDays', countDays)
-            formData.append('deposit_price', deposit)
-            formData.append('fuel_deposite', fuelDeposit)
-            formData.append('services', isCheckedBounces)
-            formData.append('city', values.city)
-            formData.append('name', values.name)
-            formData.append('email', values.email)
-            formData.append('phone', values.email)
-            formData.append('comment', values.comment)
-
-            console.log(formData)
+            // const formData = new FormData()
+            // formData.append('carName', carName)
+            // formData.append('carPhoto', carPhoto)
+            // formData.append('fromDate', moment(fDate.date).format('YYYY-MM-DD'))
+            // formData.append('toDate', moment(tDate.date).format('YYYY-MM-DD'))
+            // formData.append('fromTime', moment(fTime.date).format('YYYY-MM-DD'))
+            // formData.append('toDate', moment(tTime.date).format('YYYY-MM-DD'))
+            // formData.append('totalPrice', totalPrice)
+            // formData.append('countDays', countDays)
+            // formData.append('deposit_price', deposit)
+            // formData.append('fuel_deposite', fuelDeposit)
+            // formData.append('services', isCheckedBounces)
+            // formData.append('city', values.city)
+            // formData.append('name', values.name)
+            // formData.append('email', values.email)
+            // formData.append('phone', values.email)
+            // formData.append('comment', values.comment)
+            // console.log(formData)
 
             const data = {
                 carName,
@@ -105,14 +107,36 @@ export default function ReservACar(
         if (fDate.date >= tDate.date) {
             fDate.setDate(new Date())
             tDate.setDate(new Date(Date.now() + (3600 * 1000 * 24)))
-            alert("Reservation can't be retroactive");
+            alert(t("Reservation can't be retroactive"));
         }
+
+        // Notes
+        // console.log(moment(fTime.date, "Kiev/Ukraine").format('HH:mm') >= '21:00')
+
+        // console.log(fTime.date)
+        // console.log(moment('2022-01-21T08:00:00.852Z').format('HH:mm'))
+        // console.log(moment.tz(fTime.date, "Europe/Kiev").format('HH:mm'))
+        // console.log(moment(fTime.date).format('HH:mm') <= "08:00")
 
         setCountDays(moment(tDate.date).diff(fDate.date, 'days')) // Total Count Days
         priceDepositDays()
         setTotalPrice((prev) => countDays * prev + totalPriceServices)
-    }, [fDate, tDate, isDeposit, setTotalPrice, setCountDays])
 
+        // Not Working Time + 1 day
+        if (moment(fTime.date).format('HH:mm') >= '21:00' ||
+            moment(fTime.date).format('HH:mm') <= "08:00" ||
+            moment(tTime.date).format('HH:mm') >= '21:00' ||
+            moment(tTime.date).format('HH:mm') <= "08:00" ||
+            getWeeksDay(fDate.date) == 'ВС' ||
+            getWeeksDay(tDate.date) == 'ВС') {
+            setTotalPrice(prev => prev + 10)
+            setNotWorkingTime(t("Not Working Time"))
+        } else {
+            setNotWorkingTime('')
+        }
+    }, [fDate, tDate, tTime, fTime, isDeposit, setTotalPrice, setCountDays])
+
+    // Total Price Services 
     const totalPriceServices = isCheckedBounces.reduce(
         (prev, serviceItem) => {
             let max_price = Number(serviceItem.attributes.price) * countDays
@@ -120,7 +144,7 @@ export default function ReservACar(
                 max_price = Number(serviceItem.attributes.max_price)
             }
             return prev + max_price
-        }, 0) // Total Price Services 
+        }, 0)
 
     function priceDepositDays() { // завдаток взалежності від кількості днів  
         if (countDays <= 2) {
@@ -150,6 +174,12 @@ export default function ReservACar(
         }
     }
 
+    function getWeeksDay(date) { // метод провіряє який сьогодні день тижня потрібний для провірки нероблчого дня (Неділя)
+        let days = ['ВС', 'ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ'];
+        let d = new Date(date);
+        return days[d.getDay()];
+    }
+
     // function handleBounceCheckBoxes(event, value) {
     //     console.log(event);
     //     if (event) {
@@ -170,13 +200,11 @@ export default function ReservACar(
 
     return (
         <ScrollView style={styles.contentForm}>
-            {loading && <Loaders />}
-
-            <Text style={styles.title}>Налаштування бронювання</Text>
+            <Text style={styles.title}>{t('Rent Settings')}</Text>
             <View style={styles.form}>
                 <View style={styles.flexRow}>
                     <View>
-                        <Text style={styles.label}>Date of filing</Text>
+                        <Text style={styles.label}>{t('Date of filing')}</Text>
                         <MyDatePicker
                             testID="fromDate"
                             style={styles.datePickerTextInput}
@@ -187,7 +215,7 @@ export default function ReservACar(
                             onChange={fDate.onChange} />
                     </View>
                     <View>
-                        <Text style={styles.label}>Date of filing</Text>
+                        <Text style={styles.label}>{t('Date of return')}</Text>
                         <MyDatePicker
                             testID="toDate"
                             style={styles.datePickerTextInput}
@@ -201,7 +229,7 @@ export default function ReservACar(
 
                 <View style={styles.flexRow}>
                     <View>
-                        <Text style={styles.label}>Time of filing</Text>
+                        <Text style={styles.label}>{t('Time of filing')}</Text>
                         <MyDatePicker
                             testID="fromTime"
                             style={styles.datePickerTextInput}
@@ -213,7 +241,7 @@ export default function ReservACar(
                             onChange={fTime.onChange} />
                     </View>
                     <View>
-                        <Text style={styles.label}>Time of filing</Text>
+                        <Text style={styles.label}>{t('Time of return')}</Text>
                         <MyDatePicker
                             testID="toTime"
                             style={styles.datePickerTextInput}
@@ -231,12 +259,12 @@ export default function ReservACar(
                         data={cities}
                         selectedValue={formik.values.city}
                         onChange={formik.handleChange('city')}
-                        label="Place of filing" />
+                        label={t("Place of filing")} />
                     <Select
                         data={cities}
                         selectedValue={formik.values.city}
                         onChange={formik.handleChange('city')}
-                        label="Place of return"
+                        label={t("Place of return")}
                         enabled={false} />
                 </View>
 
@@ -254,7 +282,7 @@ export default function ReservACar(
                             }
                         }}
                             style={styles.label}>
-                            Without Deposit
+                            {t('Without Deposit')}
                         </Text>
                     </View>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
@@ -263,7 +291,9 @@ export default function ReservACar(
                             value="With Deposit"
                             status={isDeposit === 'With Deposit' ? 'checked' : 'unchecked'}
                             onPress={() => setisDeposit('With Deposit')} />
-                        <Text onPress={() => setisDeposit('With Deposit')} style={styles.label}>With Deposit</Text>
+                        <Text onPress={() => setisDeposit('With Deposit')} style={styles.label}>
+                            {t('With Deposit')}
+                        </Text>
                     </View>
                 </View>
 
@@ -279,25 +309,25 @@ export default function ReservACar(
                         value={formik.values.name}
                         onChangeText={formik.handleChange('name')}
                         onBlur={formik.handleBlur('name')}
-                        error={formik.errors.name}
-                        placeholder="Your Name" />
+                        error={t(formik.errors.name)}
+                        placeholder={t("Your Name")} />
                 </FormRow>
 
                 <Input
                     value={formik.values.email}
                     onChangeText={formik.handleChange('email')}
                     onBlur={formik.handleBlur('email')}
-                    error={formik.errors.email}
-                    placeholder="Your Email" />
+                    error={t(formik.errors.email)}
+                    placeholder={t("Your Email")} />
 
                 <FormRow>
                     <Input
                         value={formik.values.phone}
                         onChangeText={formik.handleChange('phone')}
                         onBlur={formik.handleBlur('phone')}
-                        error={formik.errors.phone}
+                        error={t(formik.errors.phone)}
                         keyboardType="number-pad"
-                        placeholder="Your Phone" />
+                        placeholder={t("Your Pnone")} />
                 </FormRow>
 
                 <Input
@@ -306,12 +336,15 @@ export default function ReservACar(
                     onChangeText={formik.handleChange('comment')}
                     onBlur={formik.handleBlur('comment')}
                     keyboardType="default"
-                    placeholder="Comment" />
+                    placeholder={t("Comment")} />
 
+                <Text style={notWorkingTime && styles.label}>
+                    {notWorkingTime && `${notWorkingTime} + 10€`}
+                </Text>
                 <View style={styles.buttonSubmit}>
-                    <Text style={styles.title}>Total Price - {totalPrice}Є</Text>
+                    <Text style={styles.title}>{t('Total Price')} - {totalPrice}€</Text>
                     <View style={{ width: 120 }}>
-                        <Button testID="submit" onPress={formik.handleSubmit} title="Submit" color={myColors.gray} />
+                        <Button testID="submit" onPress={formik.handleSubmit} title={t("Submit")} color={myColors.gray} disabled={loading} />
                     </View>
                 </View>
             </View>
@@ -351,7 +384,8 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: 'flex-start',
         marginTop: 10,
-        paddingLeft: 3
+        paddingLeft: 3,
+        marginBottom: 15
     },
     datePickerTextInput: {
         padding: 12,
@@ -365,7 +399,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        marginVertical: 20,
+        marginVertical: 12,
         paddingBottom: 8,
         width: '100%',
     }

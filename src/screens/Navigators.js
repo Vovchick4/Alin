@@ -1,38 +1,43 @@
 
 import { useTheme } from "@react-navigation/native";
 import React from "react";
-import { View, Text, StyleSheet, Linking, Image, TouchableNativeFeedback } from "react-native";
+import { useTranslation } from "react-i18next";
+import { View, Text, StyleSheet, Linking, Image, TouchableNativeFeedback, Platform } from "react-native";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 
 import { Container } from "../components";
 import { myColors } from "../constants/constantColor";
 
-const navigators = [
-    {
-        id: 1,
-        name: 'Waze',
-        text: 'GPS, Maps, Traffic Alerts & Live Navigation',
-        image: require("../images/waze.webp"),
-        link: 'https://play.google.com/store/apps/details?id=com.waze&hl=ru&gl=US'
-    },
-    {
-        id: 2,
-        name: 'Google Maps',
-        image: require("../images/mapsGOOGLE.webp"),
-        text: 'Places, Navigation & Traffic',
-        link: 'https://play.google.com/store/apps/details?id=com.google.android.apps.maps&hl=ru&gl=US'
-    },
-    {
-        id: 3,
-        name: 'Maps Offline',
-        image: require("../images/OFFmaps.webp"),
-        text: 'MAPS.ME: Offline maps GPS Nav',
-        link: 'https://play.google.com/store/apps/details?id=com.mapswithme.maps.pro&hl=ru&gl=US'
-    },
-]
-
 export default function Navigators() {
     const { colors } = useTheme()
+    const { t } = useTranslation()
+
+    const navigators = [
+        {
+            id: 1,
+            name: 'Waze',
+            text: t('GPS, Maps, Traffic Alerts & Live Navigation'),
+            image: require("../images/waze.webp"),
+            link: Platform.OS === 'ios' ? 'https://apps.apple.com/us/app/waze-navigation-live-traffic/id323229106'
+                : 'https://play.google.com/store/apps/details?id=com.waze&hl=ru&gl=US'
+        },
+        {
+            id: 2,
+            name: 'Google Maps',
+            image: require("../images/mapsGOOGLE.webp"),
+            text: t('Places, Navigation & Traffic'),
+            link: Platform.OS === 'ios' ? 'https://apps.apple.com/us/app/apple-maps/id915056765'
+                : 'https://play.google.com/store/apps/details?id=com.google.android.apps.maps&hl=ru&gl=US'
+        },
+        {
+            id: 3,
+            name: 'Maps Offline',
+            image: require("../images/OFFmaps.webp"),
+            text: t('MAPS.ME: Offline maps GPS Navigator'),
+            link: Platform.OS === 'ios' ? 'https://apps.apple.com/us/app/maps-me-offline-maps-gps-nav/id510623322'
+                : 'https://play.google.com/store/apps/details?id=com.mapswithme.maps.pro&hl=ru&gl=US'
+        },
+    ]
 
     return (
         <Container>

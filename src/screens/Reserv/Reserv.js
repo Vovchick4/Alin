@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { View, Text, StyleSheet, Button } from 'react-native'
+import { useTranslation } from 'react-i18next';
 import { ScrollView } from 'react-native-gesture-handler'
 import { useSelector } from 'react-redux';
 import { useTheme } from '@react-navigation/native';
 import axios from "axios";
 import { Colors } from 'react-native/Libraries/NewAppScreen'
 
-import { Container, BottomModal, MyPaginCarousel } from '../../components'
+import { Container, BottomModal, MyPaginCarousel, Loaders } from '../../components'
 import ReservACar from './ReservACar'
 import { myColors } from '../../constants/constantColor'
 import { dataSelectors } from '../../redux/data';
@@ -20,6 +21,7 @@ const IMAGES_PREFIX = 'https://alin-back.herokuapp.com'
 
 export default function Reserv({ navigation, route }) {
     const { colors } = useTheme()
+    const { t } = useTranslation()
 
     const cities = useSelector(dataSelectors.getCities)
     const additionalServices = useSelector(dataSelectors.getAdditionalServices)
@@ -43,10 +45,9 @@ export default function Reserv({ navigation, route }) {
         axios({
             method: 'POST',
             url: '/mail',
-            data: JSON.stringify(data),
+            data
         })
             .then((res) => {
-                console.log(res)
                 closeModals()
             })
             .catch((error) => {
@@ -68,6 +69,7 @@ export default function Reserv({ navigation, route }) {
     return (
         <ScrollView style={{ marginBottom: 100 }} onScroll={onScrollHeaderTitle}>
             <BottomModal visible={activeModal === reservModal.rentCar} onClose={closeModals}>
+                {loading && <Loaders isOverlay isCentered />}
                 <ReservACar
                     onSubmit={orderCar}
                     loading={loading}
@@ -85,7 +87,7 @@ export default function Reserv({ navigation, route }) {
             <View>
                 <Container>
                     <Text style={[styles.title, { color: colors.text }]}>{route.params.data.name}</Text>
-                    <Text style={[styles.titlePrice, { color: colors.text }]}>{route.params.data.deposit}Є</Text>
+                    <Text style={[styles.titlePrice, { color: colors.text }]}>{route.params.data.deposit}€</Text>
                 </Container>
 
                 <View style={{
@@ -112,7 +114,7 @@ export default function Reserv({ navigation, route }) {
                 </ScrollView> */}
 
             <Container>
-                <Text style={[styles.brand, { color: colors.text }]}>Марка: {route.params.data.brand}</Text>
+                <Text style={[styles.brand, { color: colors.text }]}>{t("Brand")}: {route.params.data.brand}</Text>
             </Container>
 
             <View style={{
@@ -122,10 +124,10 @@ export default function Reserv({ navigation, route }) {
                 backgroundColor: myColors.gray
             }}>
                 <View style={{ padding: 15 }}>
-                    <Text style={styles.text}>Кількість пасажирів</Text>
-                    <Text style={styles.text}>Кондиціонер</Text>
-                    <Text style={styles.text}>Тип трансмісії</Text>
-                    <Text style={styles.text}>Тип палива</Text>
+                    <Text style={styles.text}>{t("Number of passengers")}</Text>
+                    <Text style={styles.text}>{t("Сonditioner")}</Text>
+                    <Text style={styles.text}>{t("Type gearbox")}</Text>
+                    <Text style={styles.text}>{t("Type fuel")}</Text>
                 </View>
                 <View style={{ padding: 15 }}>
                     <Text style={styles.text}>{route.params.data.count}</Text>
@@ -137,7 +139,7 @@ export default function Reserv({ navigation, route }) {
 
             <Container>
                 <View>
-                    <Text style={[styles.title, { color: colors.text }]}>Опис</Text>
+                    <Text style={[styles.title, { color: colors.text }]}>{t("Description")}</Text>
                 </View>
             </Container>
 
@@ -147,7 +149,7 @@ export default function Reserv({ navigation, route }) {
                 </Text>
 
                 <View style={{ marginTop: 12, width: 120 }}>
-                    <Button testID="openModal" title="Замовити" color={myColors.dark} onPress={rentCarModal} disabled={dataLoading} />
+                    <Button testID="openModal" title={t("Rent")} color={myColors.dark} onPress={rentCarModal} disabled={dataLoading} />
                 </View>
             </Container>
 
