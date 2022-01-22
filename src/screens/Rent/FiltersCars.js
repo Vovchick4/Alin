@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
-import { View, Text, StyleSheet, TouchableNativeFeedback, ScrollView, Pressable } from 'react-native'
+import React from 'react'
+import { View, Text, StyleSheet, ScrollView, Pressable } from 'react-native'
+import { useTranslation } from 'react-i18next'
 import { Colors } from 'react-native/Libraries/NewAppScreen'
 
-import { Container, Select, Skeletons } from '../../components'
+import { Select, Skeletons } from '../../components'
 
 export default function FiltersCars(
     {
@@ -18,6 +19,7 @@ export default function FiltersCars(
         setActiveSubCategory
     }
 ) {
+    const { t } = useTranslation()
     function pressCategory(name) {
         setActiveCategory(name)
     }
@@ -25,6 +27,14 @@ export default function FiltersCars(
     return (
         <React.Fragment>
             <ScrollView horizontal={true} style={styles.content}>
+                {!loading ?
+                    <Pressable
+                        onPress={() => pressCategory("All Categories")}
+                        style={"All Categories" === activeCategory ? styles.textContentActive : styles.textContent}>
+                        <Text style={styles.text}>{t("All Categories")}</Text>
+                    </Pressable>
+                    : <Skeletons height={30} />}
+
                 {!loading ?
                     categories.map(category => (
                         <Pressable

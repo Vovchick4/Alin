@@ -1,14 +1,14 @@
-import React, { useRef } from "react";
+import React, { useRef } from "react"
 import 'react-native-gesture-handler'
-import { Animated, Easing, Dimensions } from "react-native";
+import { Animated, Easing, Dimensions } from "react-native"
 // import { useNavigation, useRoute } from "@react-navigation/native";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 
-import { MainStackNavigator, LoyaltyStackNavigator, RentStackNavigator } from "./StackNavigator";
-import { TabButton } from '../components';
-import { useTheme } from "@react-navigation/native";
+import { MainStackNavigator, LoyaltyStackNavigator, RentStackNavigator } from "./StackNavigator"
+import { TabButton } from '../components'
+import { useTheme } from "@react-navigation/native"
 
-const Tab = createBottomTabNavigator();
+const Tab = createBottomTabNavigator()
 
 const openConfig = {
     animation: 'spring',
@@ -49,7 +49,7 @@ const BottomTabNavigator = () => {
                     // tabBarLabelPosition: 'beside-icon',
                     tabBarStyle: {
                         position: 'absolute',
-                        bottom: 15,
+                        bottom: 10,
                         marginHorizontal: 20,
                         height: 60,
                         borderTopWidth: 0,
@@ -128,7 +128,7 @@ const BottomTabNavigator = () => {
                 height: 2,
                 backgroundColor: colors.text,
                 position: 'absolute',
-                bottom: 75,
+                bottom: 70,
                 // Horizontal Padding = 20...
                 left: 50,
                 borderRadius: 20,

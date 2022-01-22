@@ -45,7 +45,8 @@ export default function Loyalty({ navigation }) {
                             background={TouchableNativeFeedback.Ripple(myColors.danger)}
                             onPress={() => navigation.navigate("MoreInfo", { data: item.attributes })}>
                             <View style={styles.content}>
-                                <Image style={styles.image} source={{ uri: IMAGES_PREFIX + item.attributes.logo.data.attributes.url }} resizeMode="contain" />
+                                {item.attributes.logo.data &&
+                                    <Image style={styles.image} source={{ uri: IMAGES_PREFIX + item.attributes.logo?.data?.attributes?.url }} resizeMode="contain" />}
                                 <View style={{ width: '40%' }}>
                                     <Text style={[styles.title, { color: colors.text }]}>{item.attributes.title}</Text>
                                     <Text style={[styles.text, { color: colors.text }]} numberOfLines={2}>{item.attributes.description}</Text>

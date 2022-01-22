@@ -67,7 +67,7 @@ export default function Reserv({ navigation, route }) {
     }
 
     return (
-        <ScrollView style={{ marginBottom: 100 }} onScroll={onScrollHeaderTitle}>
+        <ScrollView style={{ marginBottom: 80 }} onScroll={onScrollHeaderTitle}>
             <BottomModal visible={activeModal === reservModal.rentCar} onClose={closeModals}>
                 {loading && <Loaders isOverlay isCentered />}
                 <ReservACar
@@ -78,7 +78,7 @@ export default function Reserv({ navigation, route }) {
                     carName={route.params.data.name}
                     startPrice={route.params.data.price}
                     prices={route.params.data.prices}
-                    carPhoto={route.params.data.images.data[0]}
+                    carPhoto={route.params.data.images.data && route.params.data.images.data[0]}
                     deposit={route.params.data.deposit}
                     fuelDeposit={route.params.data.fuel_deposit}
                 />
@@ -110,7 +110,9 @@ export default function Reserv({ navigation, route }) {
                     justifyContent: 'center',
                     backgroundColor: myColors.gray
                 }}>
-                    <MyPaginCarousel entries={route.params.data.images.data} activeSlide={0} />
+                    {route.params.data.images.data &&
+                        <MyPaginCarousel entries={route.params.data.images.data} activeSlide={0} />
+                    }
                 </View>
             </View>
 

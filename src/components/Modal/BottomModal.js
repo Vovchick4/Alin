@@ -5,8 +5,8 @@ import { Icon } from "react-native-elements";
 import { myColors } from "../../constants/constantColor";
 
 export default function BottomModal({ children, visible, onClose }) {
-    const [showModal, setShowModal] = useState(visible);
-    const scaleValue = React.useRef(new Animated.Value(0)).current;
+    const [showModal, setShowModal] = useState(visible)
+    const scaleValue = React.useRef(new Animated.Value(0)).current
 
     const AnimateState = {
         fromOpacity: new Animated.Value(0),
@@ -15,7 +15,7 @@ export default function BottomModal({ children, visible, onClose }) {
 
     useEffect(() => {
         Animated.timing(AnimateState.fromOpacity, { toValue: 1, duration: 438, delay: 150, useNativeDriver: true }).start()
-        toggleModal();
+        toggleModal()
     }, [visible])
 
     const toggleModal = () => {

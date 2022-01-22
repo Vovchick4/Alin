@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, StyleSheet, Dimensions } from 'react-native'
+import { View, Text, StyleSheet, Dimensions, ScrollView } from 'react-native'
 import { TouchableNativeFeedback } from 'react-native-gesture-handler'
 import { Icon } from 'react-native-elements'
 import axios from 'axios'
@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next'
 import { useTheme } from '@react-navigation/native';
 import { Colors } from 'react-native/Libraries/NewAppScreen'
 
-import { Container, Loaders, Skeletons } from '../../components'
+import { Container, Skeletons } from '../../components'
 import { myColors } from '../../constants/constantColor'
 
 const { width } = Dimensions.get('window')
@@ -118,7 +118,7 @@ export default function Settings({ navigation }) {
     ]
 
     return (
-        <React.Fragment>
+        <ScrollView>
             <Container>
                 <Text style={[styles.text, { color: colors.text }]}>{t('Settings')}</Text>
             </Container>
@@ -157,7 +157,7 @@ export default function Settings({ navigation }) {
                         </TouchableNativeFeedback>
                     ))}
             </View>
-        </React.Fragment>
+        </ScrollView>
     )
 }
 

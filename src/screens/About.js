@@ -62,7 +62,7 @@ export default function About() {
                                     {index === tabIndex &&
                                         <Animated.View style={{ opacity: AnimateState.fromOpacity }}>
                                             <Image
-                                                source={{ uri: IMAGES_PREFIX + item.attributes.Image.data.attributes.url }}
+                                                source={{ uri: IMAGES_PREFIX + item.attributes.Image?.data?.attributes.url }}
                                                 resizeMode="cover"
                                                 style={styles.image} />
                                             <View style={styles.contenTextInfoCity}>

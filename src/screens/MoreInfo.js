@@ -33,7 +33,7 @@ export default function MoreInfo({ route }) {
                 <View style={styles.content}>
                     <Image
                         style={styles.image}
-                        source={{ uri: IMAGES_PREFIX + route.params.data.logo.data.attributes.url }}
+                        source={{ uri: IMAGES_PREFIX + route.params.data.logo?.data?.attributes.url }}
                         resizeMode="contain" />
                     <Text style={[styles.title, { color: colors.text }]}>{route.params.data.title}</Text>
 

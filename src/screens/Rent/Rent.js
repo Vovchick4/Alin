@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useRef } from "react"
 import { useTranslation } from "react-i18next";
 import { View, Text, SafeAreaView, TouchableOpacity } from "react-native"
 import { useSelector } from "react-redux";
@@ -11,6 +11,7 @@ import { Colors } from "react-native/Libraries/NewAppScreen"
 import { Container, Loaders, Modals, Skeletons } from '../../components'
 import CarCard from "./CarCard"
 import FiltersCars from "./FiltersCars";
+import ArrowTop from "./ArrowTop";
 import { dataSelectors } from '../../redux/data'
 import { useTheme } from "@react-navigation/native";
 // import { isCloseToBottom } from '../utils'
@@ -47,19 +48,29 @@ export default function Rent({ navigation }) {
 
     const [activeCity, setActiveCity] = useState("Lviv")
     const [activeBrand, setActiveBrand] = useState('All Brands')
-    const [activeCategory, setActiveCategory] = useState('Econom')
+    const [activeCategory, setActiveCategory] = useState('All Categories')
     const [activeSubCategory, setActiveSubCategory] = useState('Benzin')
     const [activeSort, setActiveSort] = useState('asc')
 
     const [modal, setModal] = useState(null)
+    const [contentVerticalOffset, setContentVerticalOffset] = useState(0)
+    const CONTENT_OFFSET_THRESHOLD = 300
+
+    const listRef = useRef(null)
 
     useEffect(() => {
         setLoading(true)
 
+        const request = activeBrand === 'All Brands' && activeCategory === 'All Categories' ?
+            `cars?filters[cities][name][$eq]=${activeCity}&filters[sub_categories][name][$eq]=${activeSubCategory}&sort=deposit%3A${activeSort}`
+            : activeCategory === 'All Categories' ?
+                `cars?filters[cities][name][$eq]=${activeCity}&filters[brand_car][name][$eq]=${activeBrand}&filters[sub_categories][name][$eq]=${activeSubCategory}&sort=deposit%3A${activeSort}`
+                : activeBrand === 'All Brands' ?
+                    `cars?filters[category][name][$eq]=${activeCategory}&filters[cities][name][$eq]=${activeCity}&filters[sub_categories][name][$eq]=${activeSubCategory}&sort=deposit%3A${activeSort}`
+                    : `cars?filters[category][name][$eq]=${activeCategory}&filters[cities][name][$eq]=${activeCity}&filters[brand_car][name][$eq]=${activeBrand}&filters[sub_categories][name][$eq]=${activeSubCategory}&sort=deposit%3A${activeSort}`
+
         axios({
-            url: activeBrand === 'All Brands' ?
-                `cars?filters[category][name][$eq]=${activeCategory}&filters[cities][name][$eq]=${activeCity}&filters[sub_categories][name][$eq]=${activeSubCategory}&sort=deposit%3A${activeSort}`
-                : `cars?filters[category][name][$eq]=${activeCategory}&filters[cities][name][$eq]=${activeCity}&filters[brand_car][name][$eq]=${activeBrand}&filters[sub_categories][name][$eq]=${activeSubCategory}&sort=deposit%3A${activeSort}`,
+            url: request,
             method: 'GET',
             params: {
                 populate: '*',
@@ -93,11 +104,19 @@ export default function Rent({ navigation }) {
         setModal(null)
     }
 
+    function scrollList(e) {
+        setContentVerticalOffset(e.nativeEvent.contentOffset.y)
+    }
+
     return (
         <React.Fragment>
             {loading && <Loaders isCentered />}
 
+            <ArrowTop offsetY={contentVerticalOffset} offsetContent={CONTENT_OFFSET_THRESHOLD} scrollTopRef={listRef} />
+
             <FlatList style={{ marginBottom: 80 }} data={resCars} keyExtractor={({ id }) => id}
+                ref={listRef}
+                onScroll={(e) => scrollList(e)}
                 ListHeaderComponent={
                     <Container>
                         <FiltersCars
@@ -163,7 +182,7 @@ export default function Rent({ navigation }) {
                             {brand.map(brandItem => (
                                 <TouchableOpacity
                                     disabled={loading}
-                                    key={brandItem.name}
+                                    key={brandItem.id}
                                     onPress={() => { setActiveBrand(brandItem.attributes.name); closeModals() }}>
                                     <View
                                         style={{
@@ -186,7 +205,7 @@ export default function Rent({ navigation }) {
                             {sorts.map(sortItem => (
                                 <TouchableOpacity
                                     disabled={loading}
-                                    key={sortItem.name}
+                                    key={sortItem.id}
                                     onPress={() => { setActiveSort(sortItem.value); closeModals() }}>
                                     <View
                                         style={{
