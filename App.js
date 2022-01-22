@@ -101,12 +101,12 @@ const App = () => {
   }, [i18n])
 
   useEffect(() => {
-    dispatch(dataOperations.citiesFetchAll())
-    dispatch(dataOperations.addtionalServicesFetchAll())
-    dispatch(dataOperations.categoriesFetchAll())
-    dispatch(dataOperations.subCategoriesFetchAll())
-    dispatch(dataOperations.brandFetchAll())
-  }, [])
+    dispatch(dataOperations.citiesFetchAll(i18n))
+    dispatch(dataOperations.addtionalServicesFetchAll(i18n))
+    dispatch(dataOperations.categoriesFetchAll(i18n))
+    dispatch(dataOperations.subCategoriesFetchAll(i18n))
+    dispatch(dataOperations.brandFetchAll(i18n))
+  }, [i18n.language])
 
   return (
     <ThemeContext.Provider value={themeContext}>

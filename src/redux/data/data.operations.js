@@ -1,12 +1,12 @@
 import axios from 'axios'
 import { dataActions as actions } from './'
 
-export const citiesFetchAll = () => (dispatch) => {
+export const citiesFetchAll = (i18n) => (dispatch) => {
     dispatch(actions.citiesAllRequest())
 
     axios({
         method: 'GET',
-        url: 'cities?sort=id%3Aasc&populate=*',
+        url: `cities?locale=${i18n.language}&sort=id%3Aasc&populate=*`,
     })
         .then((res) => {
             dispatch(actions.citiesAllSuccess(res.data.data))
@@ -17,12 +17,12 @@ export const citiesFetchAll = () => (dispatch) => {
         })
 }
 
-export const addtionalServicesFetchAll = () => (dispatch) => {
+export const addtionalServicesFetchAll = (i18n) => (dispatch) => {
     dispatch(actions.additionalServicesAllRequest())
 
     axios({
         method: 'GET',
-        url: 'additional-services',
+        url: `additional-services?${i18n.language}`,
     })
         .then((res) => {
             dispatch(actions.additionalServicesAllSuccess(res.data.data))
@@ -33,12 +33,12 @@ export const addtionalServicesFetchAll = () => (dispatch) => {
         })
 }
 
-export const categoriesFetchAll = () => (dispatch) => {
+export const categoriesFetchAll = (i18n) => (dispatch) => {
     dispatch(actions.categoriesAllRequest())
 
     axios({
         method: 'GET',
-        url: 'categories?sort=id%3Aasc',
+        url: `categories?locale=${i18n.language}&sort=id%3Aasc`,
     })
         .then((res) => {
             dispatch(actions.categoriesAllSuccess(res.data.data))
@@ -49,12 +49,12 @@ export const categoriesFetchAll = () => (dispatch) => {
         })
 }
 
-export const subCategoriesFetchAll = () => (dispatch) => {
+export const subCategoriesFetchAll = (i18n) => (dispatch) => {
     dispatch(actions.subCategoriesAllRequest())
 
     axios({
         method: 'GET',
-        url: 'sub-categories',
+        url: `sub-categories?locale=${i18n.language}`,
     })
         .then((res) => {
             dispatch(actions.subCategoriesAllSuccess(res.data.data))
@@ -65,12 +65,12 @@ export const subCategoriesFetchAll = () => (dispatch) => {
         })
 }
 
-export const brandFetchAll = () => (dispatch) => {
+export const brandFetchAll = (i18n) => (dispatch) => {
     dispatch(actions.brandAllRequest())
 
     axios({
         method: 'GET',
-        url: 'brand-cars',
+        url: `brand-cars?locale=${i18n.language}`,
     })
         .then((res) => {
             dispatch(actions.brandAllSuccess(res.data.data))

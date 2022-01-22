@@ -35,23 +35,23 @@ export default function MoreInfo({ route }) {
                         style={styles.image}
                         source={{ uri: IMAGES_PREFIX + route.params.data.logo?.data?.attributes.url }}
                         resizeMode="contain" />
-                    <Text style={[styles.title, { color: colors.text }]}>{route.params.data.title}</Text>
+                    <Text style={[styles.title, { color: colors.text }]}>{route.params.data?.title}</Text>
 
                     <View style={{
                         flexDirection: "row", alignItems: 'center'
                     }}>
                         <Text style={[styles.discountText, { color: colors.text }]}>{t('Discount')}: </Text>
-                        <Text style={styles.discount}>{route.params.data.discount}</Text>
+                        <Text style={styles.discount}>{route.params.data?.discount}</Text>
                     </View>
                 </View>
 
                 <View style={{ marginTop: 10 }}>
                     <TouchableNativeFeedback
                         background={TouchableNativeFeedback.Ripple(myColors.danger)}
-                        onPress={() => openMap(route.params.data.address, "Lviv")}>
+                        onPress={() => openMap(route.params.data?.address, "Lviv")}>
                         <View>
                             <Text style={[styles.text, { color: colors.text }]}>{t('Address')}:
-                                <Text style={{ color: myColors.danger }}> {route.params.data.address}</Text>
+                                <Text style={{ color: myColors.danger }}> {route.params.data?.address}</Text>
                             </Text>
                         </View>
                     </TouchableNativeFeedback>
@@ -60,18 +60,18 @@ export default function MoreInfo({ route }) {
                         onPress={() => Linking.openURL(`tel:${route.params.data.phone}`)}>
                         <View>
                             <Text style={[styles.text, { color: colors.text }]}>{t('Phone')}:
-                                <Text style={{ color: myColors.danger }}> {route.params.data.phone}</Text>
+                                <Text style={{ color: myColors.danger }}> {route.params.data?.phone}</Text>
                             </Text>
                         </View>
                     </TouchableNativeFeedback>
                 </View>
 
                 <Text style={[styles.title, { color: colors.text }]}>{t('Discription')}</Text>
-                <Text style={[styles.text, { color: colors.text }]}>{route.params.data.description}</Text>
+                <Text style={[styles.text, { color: colors.text }]}>{route.params.data?.description}</Text>
 
                 <TouchableNativeFeedback
                     background={TouchableNativeFeedback.Ripple(myColors.danger)}
-                    onPress={() => openMap(route.params.data.address, "Lviv")}>
+                    onPress={() => openMap(route.params.data?.address, "Lviv")}>
                     <View>
                         <Text style={[styles.title, { color: colors.text }]}>{t('Tap to route')}:</Text>
                         <View style={styles.icon}>

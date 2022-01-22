@@ -35,13 +35,13 @@ export default function FiltersCars(
                     </Pressable>
                     : <Skeletons height={30} />}
 
-                {!loading ?
+                {!loading && categories ?
                     categories.map(category => (
                         <Pressable
                             key={category.id}
-                            onPress={() => pressCategory(category.attributes.name)}
+                            onPress={() => pressCategory(category.attributes?.name)}
                             style={category.attributes.name === activeCategory ? styles.textContentActive : styles.textContent}>
-                            <Text style={styles.text}>{category.attributes.name}</Text>
+                            <Text style={styles.text}>{category.attributes?.name}</Text>
                         </Pressable>
 
                     )) : <Skeletons height={30} />}

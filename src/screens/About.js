@@ -42,13 +42,13 @@ export default function About() {
                     <ScrollView>
                         <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
                             <View style={styles.BoxTab}>
-                                {cities.map((item, index) => (
-                                    <View key={item.attributes.name} style={index !== 0 && { marginLeft: 8 }}>
+                                {cities && cities.map((item, index) => (
+                                    <View key={item.attributes?.name} style={index !== 0 && { marginLeft: 8 }}>
                                         <TouchableNativeFeedback
                                             background={TouchableNativeFeedback.Ripple(myColors.danger)}
                                             onPress={() => setTabIndex(index)}>
                                             <View style={index === tabIndex ? styles.contentActive : styles.content}>
-                                                <Text style={styles.tab}>{item.attributes.name}</Text>
+                                                <Text style={styles.tab}>{item.attributes?.name}</Text>
                                             </View>
                                         </TouchableNativeFeedback>
                                     </View>
@@ -57,7 +57,7 @@ export default function About() {
                         </ScrollView>
 
                         <View style={styles.cityInfoContent}>
-                            {cities.map((item, index) => (
+                            {cities && cities.map((item, index) => (
                                 <View key={item.attributes.name} style={styles.BoxCity}>
                                     {index === tabIndex &&
                                         <Animated.View style={{ opacity: AnimateState.fromOpacity }}>
@@ -66,9 +66,9 @@ export default function About() {
                                                 resizeMode="cover"
                                                 style={styles.image} />
                                             <View style={styles.contenTextInfoCity}>
-                                                <Text style={[styles.cityText, { color: colors.text }]}>{item.attributes.address}</Text>
-                                                <Text style={[styles.cityText, { color: colors.text }]}>{item.attributes.mail}</Text>
-                                                <Text style={[styles.cityText, { color: colors.text }]}>{item.attributes.phone}</Text>
+                                                <Text style={[styles.cityText, { color: colors.text }]}>{item.attributes?.address}</Text>
+                                                <Text style={[styles.cityText, { color: colors.text }]}>{item.attributes?.mail}</Text>
+                                                <Text style={[styles.cityText, { color: colors.text }]}>{item.attributes?.phone}</Text>
                                             </View>
                                             <View style={styles.contentCityMap}>
                                                 <MapView style={styles.cityMap} />

@@ -36,7 +36,7 @@ const stateModals = {
 
 export default function Rent({ navigation }) {
     const { colors } = useTheme()
-    const { t } = useTranslation()
+    const { t, i18n } = useTranslation()
 
     const [resCars, setResCars] = useState([])
     const [loading, setLoading] = useState(false)
@@ -73,6 +73,7 @@ export default function Rent({ navigation }) {
             url: request,
             method: 'GET',
             params: {
+                locale: i18n.language,
                 populate: '*',
             },
         })
@@ -90,7 +91,8 @@ export default function Rent({ navigation }) {
         activeSubCategory,
         setActiveSubCategory,
         activeSort,
-        setActiveSort])
+        setActiveSort,
+        i18n.language])
 
     function openSortModal() {
         setModal(stateModals.sortModal)

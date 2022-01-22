@@ -18,8 +18,8 @@ export default function Select({ loading = false, mode = "dropdown", data, selec
                         onValueChange={onChange}
                         enabled={enabled}
                         {...pickerProps}>
-                        {data.map(item => (
-                            <Picker.Item key={item.id} label={item.attributes.name} value={item.attributes.name} />
+                        {data && data.map(item => (
+                            <Picker.Item key={item.id} label={item.attributes?.name} value={item.attributes?.name} />
                         ))}
                     </Picker>
                     : <Skeletons height={48} />}

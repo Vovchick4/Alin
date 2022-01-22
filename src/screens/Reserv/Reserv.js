@@ -62,7 +62,7 @@ export default function Reserv({ navigation, route }) {
         if (event.nativeEvent.contentOffset.y <= 43) {
             navigation.setOptions({ title: '', })
         } else {
-            navigation.setOptions({ title: route.params.data.name, })
+            navigation.setOptions({ title: route.params.data?.name, })
         }
     }
 
@@ -75,12 +75,12 @@ export default function Reserv({ navigation, route }) {
                     loading={loading}
                     cities={cities}
                     additionalServices={additionalServices}
-                    carName={route.params.data.name}
-                    startPrice={route.params.data.price}
-                    prices={route.params.data.prices}
-                    carPhoto={route.params.data.images.data && route.params.data.images.data[0]}
-                    deposit={route.params.data.deposit}
-                    fuelDeposit={route.params.data.fuel_deposit}
+                    carName={route.params.data?.name}
+                    startPrice={route.params.data?.price}
+                    prices={route.params.data?.prices}
+                    carPhoto={route.params.data.images.data && route.params.data?.images?.data[0]}
+                    deposit={route.params.data?.deposit}
+                    fuelDeposit={route.params.data?.fuel_deposit}
                 />
             </BottomModal>
 
@@ -92,10 +92,10 @@ export default function Reserv({ navigation, route }) {
                     </Text> */}
 
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                        {route.params.data.prices.map((price, i) => (
+                        {route.params.data.prices && route.params.data.prices.map((price, i) => (
                             <View key={i} style={[{}, i === 0 ? { marginRight: 10 } : { marginHorizontal: 10 }]}>
-                                <Text style={styles.title}>{price.days}</Text>
-                                <Text style={[styles.title, { textAlign: 'center' }]}>{price.money}€</Text>
+                                <Text style={styles.title}>{price?.days}</Text>
+                                <Text style={[styles.title, { textAlign: 'center' }]}>{price?.money}€</Text>
                             </View>
                         ))}
                     </View>
@@ -131,7 +131,7 @@ export default function Reserv({ navigation, route }) {
                 </ScrollView> */}
 
             <Container>
-                <Text style={[styles.brand, { color: colors.text }]}>{t("Brand")}: {route.params.data.brand}</Text>
+                <Text style={[styles.brand, { color: colors.text }]}>{t("Brand")}: {route.params.data?.brand}</Text>
             </Container>
 
             <View style={{
@@ -147,10 +147,10 @@ export default function Reserv({ navigation, route }) {
                     <Text style={styles.text}>{t("Type fuel")}</Text>
                 </View>
                 <View style={{ padding: 15 }}>
-                    <Text style={styles.text}>{route.params.data.count}</Text>
-                    <Text style={styles.text}>{route.params.data.conditioner && 'A/C'}</Text>
-                    <Text style={styles.text}>{route.params.data.gearbox}</Text>
-                    <Text style={styles.text}>{route.params.data.fuel}</Text>
+                    <Text style={styles.text}>{route.params.data?.count}</Text>
+                    <Text style={styles.text}>{route.params.data?.conditioner && 'A/C'}</Text>
+                    <Text style={styles.text}>{route.params.data?.gearbox}</Text>
+                    <Text style={styles.text}>{route.params.data?.fuel}</Text>
                 </View>
             </View>
 

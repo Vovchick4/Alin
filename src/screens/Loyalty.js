@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { View, Text, StyleSheet, TouchableNativeFeedback, FlatList, Image } from 'react-native'
+import { useTranslation } from 'react-i18next'
 import axios from 'axios'
 import { useTheme } from '@react-navigation/native'
 import { Colors } from 'react-native/Libraries/NewAppScreen'
@@ -11,6 +12,8 @@ const IMAGES_PREFIX = 'https://alin-back.herokuapp.com'
 export default function Loyalty({ navigation }) {
     const { colors } = useTheme()
 
+    const { t, i18n } = useTranslation()
+
     const [programs, setPrograms] = useState([])
     const [loading, setLoading] = useState(false)
 
@@ -18,7 +21,7 @@ export default function Loyalty({ navigation }) {
         setLoading(true);
 
         axios({
-            url: `loality-programs`,
+            url: `loality-programs?${i18n.language}`,
             method: 'GET',
             params: {
                 populate: 'logo'
@@ -29,7 +32,7 @@ export default function Loyalty({ navigation }) {
             })
             .catch((err) => alert(err))
             .finally(() => setLoading(false));
-    }, [])
+    }, [i18n.language])
 
     return (
         <React.Fragment>
@@ -48,12 +51,12 @@ export default function Loyalty({ navigation }) {
                                 {item.attributes.logo.data &&
                                     <Image style={styles.image} source={{ uri: IMAGES_PREFIX + item.attributes.logo?.data?.attributes?.url }} resizeMode="contain" />}
                                 <View style={{ width: '40%' }}>
-                                    <Text style={[styles.title, { color: colors.text }]}>{item.attributes.title}</Text>
-                                    <Text style={[styles.text, { color: colors.text }]} numberOfLines={2}>{item.attributes.description}</Text>
+                                    <Text style={[styles.title, { color: colors.text }]}>{item.attributes?.title}</Text>
+                                    <Text style={[styles.text, { color: colors.text }]} numberOfLines={2}>{item.attributes?.description}</Text>
                                 </View>
                                 <View style={{ width: '30%' }}>
-                                    <Text style={[styles.text, { color: colors.text }]}>Discount</Text>
-                                    <Text style={styles.discount}>{item.attributes.discount}</Text>
+                                    <Text style={[styles.text, { color: colors.text }]}>{t("Discount")}</Text>
+                                    <Text style={styles.discount}>{item.attributes?.discount}</Text>
                                 </View>
                             </View>
                         </TouchableNativeFeedback>

@@ -7,7 +7,7 @@ import { useNavigation, useTheme } from '@react-navigation/native';
 import axios from 'axios'
 import { Colors } from 'react-native/Libraries/NewAppScreen'
 
-import { Container, Loaders } from '../../components'
+import { Container, Loaders, Skeletons } from '../../components'
 import { myColors } from '../../constants/constantColor'
 
 export default function Language() {
@@ -48,29 +48,26 @@ export default function Language() {
 
     return (
         <React.Fragment>
+            <Container>
+                <Text style={[styles.text, { color: colors.text }]}>{t('Language')}</Text>
+            </Container>
+
             {loading && <Loaders />}
 
-            {!loading &&
-                <React.Fragment>
-                    <Container>
-                        <Text style={[styles.text, { color: colors.text }]}>{t('Language')}</Text>
-                    </Container>
-
-                    {locales.map(locale => (
-                        <TouchableNativeFeedback key={locale.id} onPress={() => setLocaleLng(locale.code)}>
-                            <View style={styles.localeContent}>
-                                <RadioButton
-                                    onPress={() => setLocaleLng(locale.code)}
-                                    testID={locale.code}
-                                    value={i18n.language}
-                                    status={locale.code === i18n.language ? 'checked' : 'unchecked'}
-                                    color="white"
-                                />
-                                <Text style={styles.setLocaleName}>{locale.name}</Text>
-                            </View>
-                        </TouchableNativeFeedback>
-                    ))}
-                </React.Fragment>}
+            {locales && locales.map(locale => (
+                <TouchableNativeFeedback key={locale.id} onPress={() => setLocaleLng(locale.code)}>
+                    <View style={styles.localeContent}>
+                        <RadioButton
+                            onPress={() => setLocaleLng(locale.code)}
+                            testID={locale.code}
+                            value={i18n.language}
+                            status={locale.code === i18n.language ? 'checked' : 'unchecked'}
+                            color="white"
+                        />
+                        <Text style={styles.setLocaleName}>{locale.name}</Text>
+                    </View>
+                </TouchableNativeFeedback>
+            ))}
         </React.Fragment>
     )
 }

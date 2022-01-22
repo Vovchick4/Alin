@@ -3,6 +3,8 @@ import { initReactI18next } from 'react-i18next'
 
 import en from '../locales/en.json'
 import uk from '../locales/uk.json'
+import pl from '../locales/pl.json'
+import ru from '../locales/ru.json'
 import { setLocale } from './axios';
 
 i18next.use(initReactI18next).init({
@@ -10,8 +12,10 @@ i18next.use(initReactI18next).init({
     resources: {
         en,
         uk,
+        pl,
+        ru
     },
-    supportedLngs: ['en', 'uk'],
+    supportedLngs: ['en', 'uk', 'pl', 'ru'],
     lng: 'en',
 });
 

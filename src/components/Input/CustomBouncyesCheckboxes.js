@@ -52,7 +52,7 @@ export default class CustomBouncyesCheckboxes extends Component {
     render() {
         return (
             <React.Fragment>
-                {this.state.services.map((item) => (
+                {this.state.services && this.state.services.map((item) => (
                     <BouncyCheckbox
                         key={item.id}
                         size={25}

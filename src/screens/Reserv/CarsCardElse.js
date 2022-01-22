@@ -16,7 +16,7 @@ export default function CarsCardElse({ car, cars, IMAGES_PREFIX }) {
                         height={120}
                         source={{ uri: IMAGES_PREFIX + car.attributes.images.data[0]?.attributes.url }} resizeMode="contain" />
                 } */}
-                <Text numberOfLines={1} style={styles.name}>{car.attributes.name}</Text>
+                <Text numberOfLines={1} style={styles.name}>{car.attributes?.name}</Text>
             </View>
         </TouchableNativeFeedback>
     )
