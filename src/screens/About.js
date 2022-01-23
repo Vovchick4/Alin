@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react"
 import { StyleSheet, Image, View, Text, TouchableNativeFeedback, Animated, Dimensions } from "react-native"
 import { ScrollView } from "react-native-gesture-handler"
 import { useSelector } from "react-redux"
-import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps'
+// import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps'
 
 import { Container, Loaders } from "../components"
 import { myColors } from "../constants/constantColor"
@@ -91,7 +91,11 @@ export default function About() {
                                             </View>
                                         </Container>
                                         <View style={styles.contentCityMap}>
-                                            <MapView
+                                            <Image
+                                                source={{ uri: IMAGES_PREFIX + item.attributes.Image?.data?.attributes.url }}
+                                                resizeMode="cover"
+                                                style={styles.image} />
+                                            {/* <MapView
                                                 provider={PROVIDER_GOOGLE}
                                                 mapType='hybrid'
                                                 style={styles.cityMap}
@@ -107,7 +111,7 @@ export default function About() {
                                                         longitude: item.attributes?.mapCoordY ? item.attributes?.mapCoordY : 23.96061163948927,
                                                     }}
                                                     title={"Alin " + item.attributes?.name} />
-                                            </MapView>
+                                            </MapView> */}
                                         </View>
                                     </Animated.View>
                                 }
