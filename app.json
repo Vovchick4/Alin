@@ -2,7 +2,7 @@
   "expo": {
     "name": "alin",
     "slug": "alin",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/alin.png",
     "splash": {
@@ -24,7 +24,8 @@
         "foregroundImage": "./assets/alin-logo_1024x1024.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.vova2.alin"
+      "package": "com.vova2.alin",
+      "versionCode": 2
     },
     "web": {
       "favicon": "./assets/alin.png"
