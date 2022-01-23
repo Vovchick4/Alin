@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react"
 import { StyleSheet, Image, View, Text, TouchableNativeFeedback, Animated, Dimensions } from "react-native"
 import { ScrollView } from "react-native-gesture-handler"
 import { useSelector } from "react-redux"
-// import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps'
 
 import { Container, Loaders } from "../components"
 import { myColors } from "../constants/constantColor"
@@ -91,27 +90,11 @@ export default function About() {
                                             </View>
                                         </Container>
                                         <View style={styles.contentCityMap}>
-                                            <Image
-                                                source={{ uri: IMAGES_PREFIX + item.attributes.Image?.data?.attributes.url }}
-                                                resizeMode="cover"
-                                                style={styles.image} />
-                                            {/* <MapView
-                                                provider={PROVIDER_GOOGLE}
-                                                mapType='hybrid'
-                                                style={styles.cityMap}
-                                                initialRegion={{
-                                                    latitude: item.attributes?.mapCoordX ? item.attributes?.mapCoordX : 49.814931440829774,
-                                                    longitude: item.attributes?.mapCoordY ? item.attributes?.mapCoordY : 23.96061163948927,
-                                                    latitudeDelta: 0.001,
-                                                    longitudeDelta: 0.01,
-                                                }}>
-                                                <Marker
-                                                    coordinate={{
-                                                        latitude: item.attributes?.mapCoordX ? item.attributes?.mapCoordX : 49.814931440829774,
-                                                        longitude: item.attributes?.mapCoordY ? item.attributes?.mapCoordY : 23.96061163948927,
-                                                    }}
-                                                    title={"Alin " + item.attributes?.name} />
-                                            </MapView> */}
+                                            {item.attributes.Image?.data &&
+                                                <Image
+                                                    source={{ uri: IMAGES_PREFIX + item.attributes.Image?.data?.attributes?.url }}
+                                                    resizeMode="cover"
+                                                    style={styles.image} />}
                                         </View>
                                     </Animated.View>
                                 }

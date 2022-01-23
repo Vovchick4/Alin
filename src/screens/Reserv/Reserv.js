@@ -94,8 +94,8 @@ export default function Reserv({ navigation, route }) {
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
                         {route.params.data.prices && route.params.data.prices.map((price, i) => (
                             <View key={i} style={[{}, i === 0 ? { marginRight: 10 } : { marginHorizontal: 10 }]}>
-                                <Text style={styles.title}>{price?.days}</Text>
-                                <Text style={[styles.title, { textAlign: 'center' }]}>{price?.money}€</Text>
+                                <Text style={[styles.title, { color: colors.text }]}>{price?.days}</Text>
+                                <Text style={[styles.title, { textAlign: 'center', color: colors.text }]}>{price?.money}€</Text>
                             </View>
                         ))}
                     </View>
