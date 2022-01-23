@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from "react"
-import { StyleSheet, Image, View, Text, TouchableNativeFeedback, Animated } from "react-native"
+import { StyleSheet, Image, View, Text, TouchableNativeFeedback, Animated, Dimensions } from "react-native"
 import { ScrollView } from "react-native-gesture-handler"
 import { useSelector } from "react-redux"
 import MapView from 'react-native-maps'
@@ -9,6 +9,8 @@ import { Container, Loaders } from "../components"
 import { myColors } from "../constants/constantColor"
 import { dataSelectors } from "../redux/data"
 import { useTheme } from "@react-navigation/native"
+import { Icon } from "react-native-elements"
+import { Colors } from "react-native/Libraries/NewAppScreen"
 
 const tabStyles = {
     content: {
@@ -17,7 +19,7 @@ const tabStyles = {
     }
 }
 
-const IMAGES_PREFIX = 'https://alin-back.herokuapp.com'
+// const IMAGES_PREFIX = 'https://alin-back.herokuapp.com'
 export default function About() {
     const { colors } = useTheme()
 
@@ -31,7 +33,7 @@ export default function About() {
 
     useEffect(() => {
         Animated.timing(AnimateState.fromOpacity, { toValue: 1, duration: 438, useNativeDriver: true }).start()
-    }, [tabIndex])
+    }, [cities, tabIndex])
 
     return (
         <Container>
@@ -56,28 +58,41 @@ export default function About() {
                             </View>
                         </ScrollView>
 
-                        <View style={styles.cityInfoContent}>
-                            {cities && cities.map((item, index) => (
-                                <View key={item.attributes.name} style={styles.BoxCity}>
-                                    {index === tabIndex &&
-                                        <Animated.View style={{ opacity: AnimateState.fromOpacity }}>
-                                            <Image
+                        {cities && cities.map((item, index) => (
+                            <View key={item.attributes.name} style={styles.BoxCity}>
+                                {index === tabIndex &&
+                                    <Animated.View style={{ opacity: AnimateState.fromOpacity }}>
+                                        {/* <Image
                                                 source={{ uri: IMAGES_PREFIX + item.attributes.Image?.data?.attributes.url }}
                                                 resizeMode="cover"
-                                                style={styles.image} />
-                                            <View style={styles.contenTextInfoCity}>
-                                                <Text style={[styles.cityText, { color: colors.text }]}>{item.attributes?.address}</Text>
-                                                <Text style={[styles.cityText, { color: colors.text }]}>{item.attributes?.mail}</Text>
-                                                <Text style={[styles.cityText, { color: colors.text }]}>{item.attributes?.phone}</Text>
+                                                style={styles.image} /> */}
+                                        <View style={styles.contenTextInfoCity}>
+                                            <View style={styles.contentIcons}>
+                                                <Icon type="font-awesome-5" name="map-marked" size={18} color={Colors.white} />
+                                                <Text style={[styles.cityText, { color: colors.text }]}>
+                                                    {item.attributes?.address}
+                                                </Text>
                                             </View>
-                                            <View style={styles.contentCityMap}>
-                                                <MapView style={styles.cityMap} />
+                                            <View style={styles.contentIcons}>
+                                                <Icon type="font-awesome-5" name="envelope" size={18} color={Colors.white} />
+                                                <Text style={[styles.cityText, { color: colors.text }]}>
+                                                    {item.attributes?.mail}
+                                                </Text>
                                             </View>
-                                        </Animated.View>
-                                    }
-                                </View>
-                            ))}
-                        </View>
+                                            <View style={styles.contentIcons}>
+                                                <Icon type="font-awesome-5" name="phone" size={18} color={Colors.white} />
+                                                <Text style={[styles.cityText, { color: colors.text }]}>
+                                                    {item.attributes?.phone}
+                                                </Text>
+                                            </View>
+                                        </View>
+                                        <View style={styles.contentCityMap}>
+                                            <MapView style={styles.cityMap} />
+                                        </View>
+                                    </Animated.View>
+                                }
+                            </View>
+                        ))}
                     </ScrollView>
                 </React.Fragment>
             )}
@@ -105,19 +120,23 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         color: '#ffff'
     },
-    cityInfoContent: {
-        marginTop: 8,
-    },
     BoxCity: {
         flexDirection: 'column',
     },
+    contentIcons: {
+        flexDirection: "row",
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+    },
     cityText: {
+        marginLeft: 15,
         lineHeight: 30,
+        fontSize: 16,
         color: '#ffff',
-        textAlign: 'center'
+        textAlign: 'left'
     },
     contenTextInfoCity: {
-        marginTop: 40,
+        marginTop: 8,
     },
     image: {
         width: '100%',

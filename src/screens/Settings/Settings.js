@@ -33,6 +33,7 @@ export default function Settings({ navigation }) {
                 setPolicyData(res.data);
             })
             .catch((err) => alert(err))
+            .finally(() => setLoading(false))
 
         axios({
             method: 'GET',
@@ -42,6 +43,7 @@ export default function Settings({ navigation }) {
                 setFaqData(res.data);
             })
             .catch((err) => alert(err))
+            .finally(() => setLoading(false))
 
         axios({
             method: 'GET',
@@ -51,6 +53,7 @@ export default function Settings({ navigation }) {
                 setProgramLoality(res.data);
             })
             .catch((err) => alert(err))
+            .finally(() => setLoading(false))
 
         axios({
             method: 'GET',
@@ -60,6 +63,7 @@ export default function Settings({ navigation }) {
                 setAboutAlin(res.data);
             })
             .catch((err) => alert(err))
+            .finally(() => setLoading(false))
     }, [i18n.language])
 
     const dataSettings = [
@@ -141,15 +145,14 @@ export default function Settings({ navigation }) {
             </Container>
 
             <View style={styles.content}>
-                {!loading && <Skeletons height={340} />}
+                {loading && <Skeletons height={340} />}
 
-                {loading &&
+                {!loading &&
                     dataHelps.map((set, index) => (
                         <TouchableNativeFeedback
                             key={set.id}
                             onPress={() => navigation.navigate(set.naivgate, { data: set.params })}
-                            background={TouchableNativeFeedback.Ripple(myColors.danger)}
-                        >
+                            background={TouchableNativeFeedback.Ripple(myColors.danger)}>
                             <View style={index === 0 ? [styles.textContent, { marginTop: 0 }] : styles.textContent}>
                                 {set.icon}
                                 <Text style={styles.setName}>{set.name}</Text>
