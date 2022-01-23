@@ -45,6 +45,9 @@ export default function Rent({ navigation }) {
     const categories = useSelector(dataSelectors.getCategoires)
     const subCategories = useSelector(dataSelectors.getSubCategoires)
     const brand = useSelector(dataSelectors.getBrand)
+    const dataLoading = useSelector(dataSelectors.getLoading)
+
+    console.log(dataLoading)
 
     const [activeCity, setActiveCity] = useState("Lviv")
     const [activeBrand, setActiveBrand] = useState('All Brands')
@@ -112,7 +115,7 @@ export default function Rent({ navigation }) {
 
     return (
         <React.Fragment>
-            {loading && <Loaders isCentered />}
+            {loading && !dataLoading && <Loaders isCentered />}
 
             <ArrowTop offsetY={contentVerticalOffset} offsetContent={CONTENT_OFFSET_THRESHOLD} scrollTopRef={listRef} />
 
@@ -122,7 +125,7 @@ export default function Rent({ navigation }) {
                 ListHeaderComponent={
                     <Container>
                         <FiltersCars
-                            loading={loading}
+                            loading={loading && !dataLoading}
                             cities={cities}
                             categories={categories}
                             subCategories={subCategories}
@@ -167,7 +170,7 @@ export default function Rent({ navigation }) {
 
                         <Modals visible={modal === stateModals.brandCar} onClose={closeModals}>
                             <Text style={{ color: colors.text, fontSize: 18, marginBottom: 20, maxWidth: '90%' }}>{t('Choose Brand Car')}!</Text>
-                            <TouchableOpacity onPress={() => { setActiveBrand('All Brands'); closeModals() }} disabled={loading}>
+                            <TouchableOpacity onPress={() => { setActiveBrand('All Brands'); closeModals() }} disabled={loading && !dataLoading}>
                                 <View
                                     style={{
                                         flexDirection: "row",
@@ -183,7 +186,7 @@ export default function Rent({ navigation }) {
                             </TouchableOpacity>
                             {brand.map(brandItem => (
                                 <TouchableOpacity
-                                    disabled={loading}
+                                    disabled={loading && !dataLoading}
                                     key={brandItem.id}
                                     onPress={() => { setActiveBrand(brandItem.attributes.name); closeModals() }}>
                                     <View
@@ -206,7 +209,7 @@ export default function Rent({ navigation }) {
                             <Text style={{ color: colors.text, fontSize: 18, marginBottom: 20 }}>{t("Choose sort!")}</Text>
                             {sorts.map(sortItem => (
                                 <TouchableOpacity
-                                    disabled={loading}
+                                    disabled={loading && !dataLoading}
                                     key={sortItem.id}
                                     onPress={() => { setActiveSort(sortItem.value); closeModals() }}>
                                     <View
@@ -228,9 +231,9 @@ export default function Rent({ navigation }) {
                 }
                 renderItem={({ item }) => (
                     <Container>
-                        {!loading &&
+                        {!loading && !dataLoading &&
                             <TouchableOpacity
-                                disabled={loading}
+                                disabled={loading && !dataLoading}
                                 background={TouchableNativeFeedback.Ripple(myColors.danger)}
                                 onPress={() => navigation.navigate("Reserv", { data: item.attributes, cars: resCars })}>
                                 <CarCard {...item.attributes} />

@@ -18,7 +18,7 @@ const tabStyles = {
     }
 }
 
-// const IMAGES_PREFIX = 'https://alin-back.herokuapp.com'
+const IMAGES_PREFIX = 'https://alin-back.herokuapp.com'
 export default function About() {
     const { colors } = useTheme()
 
@@ -70,19 +70,19 @@ export default function About() {
                                         <Container>
                                             <View style={styles.contenTextInfoCity}>
                                                 <View style={styles.contentIcons}>
-                                                    <Icon type="font-awesome-5" name="map-marked" size={18} color={Colors.white} />
+                                                    <Icon type="font-awesome-5" name="map-marked" size={18} color={colors.text} />
                                                     <Text style={[styles.cityText, { color: colors.text }]}>
                                                         {item.attributes?.address}
                                                     </Text>
                                                 </View>
                                                 <View style={styles.contentIcons}>
-                                                    <Icon type="font-awesome-5" name="envelope" size={18} color={Colors.white} />
+                                                    <Icon type="font-awesome-5" name="envelope" size={18} color={colors.text} />
                                                     <Text style={[styles.cityText, { color: colors.text }]}>
                                                         {item.attributes?.mail}
                                                     </Text>
                                                 </View>
                                                 <View style={styles.contentIcons}>
-                                                    <Icon type="font-awesome-5" name="phone" size={18} color={Colors.white} />
+                                                    <Icon type="font-awesome-5" name="phone" size={18} color={colors.text} />
                                                     <Text style={[styles.cityText, { color: colors.text }]}>
                                                         {item.attributes?.phone}
                                                     </Text>
