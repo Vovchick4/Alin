@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react"
 import { StyleSheet, Image, View, Text, TouchableNativeFeedback, Animated, Dimensions } from "react-native"
 import { ScrollView } from "react-native-gesture-handler"
 import { useSelector } from "react-redux"
-import MapView from 'react-native-maps'
+import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps'
 
 import { Container, Loaders } from "../components"
 import { myColors } from "../constants/constantColor"
@@ -36,27 +36,29 @@ export default function About() {
     }, [cities, tabIndex])
 
     return (
-        <Container>
+        <React.Fragment>
             {dataLoading && <Loaders />}
 
             {!dataLoading && (
                 <React.Fragment>
                     <ScrollView>
-                        <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
-                            <View style={styles.BoxTab}>
-                                {cities && cities.map((item, index) => (
-                                    <View key={item.attributes?.name} style={index !== 0 && { marginLeft: 8 }}>
-                                        <TouchableNativeFeedback
-                                            background={TouchableNativeFeedback.Ripple(myColors.danger)}
-                                            onPress={() => setTabIndex(index)}>
-                                            <View style={index === tabIndex ? styles.contentActive : styles.content}>
-                                                <Text style={styles.tab}>{item.attributes?.name}</Text>
-                                            </View>
-                                        </TouchableNativeFeedback>
-                                    </View>
-                                ))}
-                            </View>
-                        </ScrollView>
+                        <Container>
+                            <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
+                                <View style={styles.BoxTab}>
+                                    {cities && cities.map((item, index) => (
+                                        <View key={item.attributes?.name} style={index !== 0 && { marginLeft: 8 }}>
+                                            <TouchableNativeFeedback
+                                                background={TouchableNativeFeedback.Ripple(myColors.danger)}
+                                                onPress={() => setTabIndex(index)}>
+                                                <View style={index === tabIndex ? styles.contentActive : styles.content}>
+                                                    <Text style={styles.tab}>{item.attributes?.name}</Text>
+                                                </View>
+                                            </TouchableNativeFeedback>
+                                        </View>
+                                    ))}
+                                </View>
+                            </ScrollView>
+                        </Container>
 
                         {cities && cities.map((item, index) => (
                             <View key={item.attributes.name} style={styles.BoxCity}>
@@ -66,28 +68,46 @@ export default function About() {
                                                 source={{ uri: IMAGES_PREFIX + item.attributes.Image?.data?.attributes.url }}
                                                 resizeMode="cover"
                                                 style={styles.image} /> */}
-                                        <View style={styles.contenTextInfoCity}>
-                                            <View style={styles.contentIcons}>
-                                                <Icon type="font-awesome-5" name="map-marked" size={18} color={Colors.white} />
-                                                <Text style={[styles.cityText, { color: colors.text }]}>
-                                                    {item.attributes?.address}
-                                                </Text>
+                                        <Container>
+                                            <View style={styles.contenTextInfoCity}>
+                                                <View style={styles.contentIcons}>
+                                                    <Icon type="font-awesome-5" name="map-marked" size={18} color={Colors.white} />
+                                                    <Text style={[styles.cityText, { color: colors.text }]}>
+                                                        {item.attributes?.address}
+                                                    </Text>
+                                                </View>
+                                                <View style={styles.contentIcons}>
+                                                    <Icon type="font-awesome-5" name="envelope" size={18} color={Colors.white} />
+                                                    <Text style={[styles.cityText, { color: colors.text }]}>
+                                                        {item.attributes?.mail}
+                                                    </Text>
+                                                </View>
+                                                <View style={styles.contentIcons}>
+                                                    <Icon type="font-awesome-5" name="phone" size={18} color={Colors.white} />
+                                                    <Text style={[styles.cityText, { color: colors.text }]}>
+                                                        {item.attributes?.phone}
+                                                    </Text>
+                                                </View>
                                             </View>
-                                            <View style={styles.contentIcons}>
-                                                <Icon type="font-awesome-5" name="envelope" size={18} color={Colors.white} />
-                                                <Text style={[styles.cityText, { color: colors.text }]}>
-                                                    {item.attributes?.mail}
-                                                </Text>
-                                            </View>
-                                            <View style={styles.contentIcons}>
-                                                <Icon type="font-awesome-5" name="phone" size={18} color={Colors.white} />
-                                                <Text style={[styles.cityText, { color: colors.text }]}>
-                                                    {item.attributes?.phone}
-                                                </Text>
-                                            </View>
-                                        </View>
+                                        </Container>
                                         <View style={styles.contentCityMap}>
-                                            <MapView style={styles.cityMap} />
+                                            <MapView
+                                                provider={PROVIDER_GOOGLE}
+                                                mapType='hybrid'
+                                                style={styles.cityMap}
+                                                initialRegion={{
+                                                    latitude: item.attributes?.mapCoordX ? item.attributes?.mapCoordX : 49.814931440829774,
+                                                    longitude: item.attributes?.mapCoordY ? item.attributes?.mapCoordY : 23.96061163948927,
+                                                    latitudeDelta: 0.001,
+                                                    longitudeDelta: 0.01,
+                                                }}>
+                                                <Marker
+                                                    coordinate={{
+                                                        latitude: item.attributes?.mapCoordX ? item.attributes?.mapCoordX : 49.814931440829774,
+                                                        longitude: item.attributes?.mapCoordY ? item.attributes?.mapCoordY : 23.96061163948927,
+                                                    }}
+                                                    title={"Alin " + item.attributes?.name} />
+                                            </MapView>
                                         </View>
                                     </Animated.View>
                                 }
@@ -96,7 +116,7 @@ export default function About() {
                     </ScrollView>
                 </React.Fragment>
             )}
-        </Container>
+        </React.Fragment>
     )
 }
 
@@ -147,7 +167,7 @@ const styles = StyleSheet.create({
     },
     cityMap: {
         width: "100%",
-        height: 250,
+        height: 340,
     }
 })
 
