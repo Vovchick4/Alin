@@ -111,7 +111,7 @@ export default function Reserv({ navigation, route }) {
                     backgroundColor: myColors.gray
                 }}>
                     {route.params.data.images.data &&
-                        <MyPaginCarousel entries={route.params.data.images.data} activeSlide={0} />
+                        <MyPaginCarousel entries={route.params.data?.images?.data} activeSlide={0} />
                     }
                 </View>
             </View>

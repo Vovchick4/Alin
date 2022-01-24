@@ -47,8 +47,6 @@ export default function Rent({ navigation }) {
     const brand = useSelector(dataSelectors.getBrand)
     const dataLoading = useSelector(dataSelectors.getLoading)
 
-    console.log(dataLoading)
-
     const [activeCity, setActiveCity] = useState("Lviv")
     const [activeBrand, setActiveBrand] = useState('All Brands')
     const [activeCategory, setActiveCategory] = useState('All Categories')
@@ -62,8 +60,6 @@ export default function Rent({ navigation }) {
     const listRef = useRef(null)
 
     useEffect(() => {
-        setLoading(true)
-
         const request = activeBrand === 'All Brands' && activeCategory === 'All Categories' ?
             `cars?filters[cities][name][$eq]=${activeCity}&filters[sub_categories][name][$eq]=${activeSubCategory}&sort=deposit%3A${activeSort}`
             : activeCategory === 'All Categories' ?
@@ -71,6 +67,8 @@ export default function Rent({ navigation }) {
                 : activeBrand === 'All Brands' ?
                     `cars?filters[category][name][$eq]=${activeCategory}&filters[cities][name][$eq]=${activeCity}&filters[sub_categories][name][$eq]=${activeSubCategory}&sort=deposit%3A${activeSort}`
                     : `cars?filters[category][name][$eq]=${activeCategory}&filters[cities][name][$eq]=${activeCity}&filters[brand_car][name][$eq]=${activeBrand}&filters[sub_categories][name][$eq]=${activeSubCategory}&sort=deposit%3A${activeSort}`
+
+        setLoading(true)
 
         axios({
             url: request,
@@ -115,7 +113,7 @@ export default function Rent({ navigation }) {
 
     return (
         <React.Fragment>
-            {loading && !dataLoading && <Loaders isCentered />}
+            {loading && <Loaders isCentered />}
 
             <ArrowTop offsetY={contentVerticalOffset} offsetContent={CONTENT_OFFSET_THRESHOLD} scrollTopRef={listRef} />
 
@@ -125,7 +123,7 @@ export default function Rent({ navigation }) {
                 ListHeaderComponent={
                     <Container>
                         <FiltersCars
-                            loading={loading && !dataLoading}
+                            loading={loading}
                             cities={cities}
                             categories={categories}
                             subCategories={subCategories}
@@ -170,7 +168,7 @@ export default function Rent({ navigation }) {
 
                         <Modals visible={modal === stateModals.brandCar} onClose={closeModals}>
                             <Text style={{ color: colors.text, fontSize: 18, marginBottom: 20, maxWidth: '90%' }}>{t('Choose Brand Car')}!</Text>
-                            <TouchableOpacity onPress={() => { setActiveBrand('All Brands'); closeModals() }} disabled={loading && !dataLoading}>
+                            <TouchableOpacity onPress={() => { setActiveBrand('All Brands'); closeModals() }} disabled={loading}>
                                 <View
                                     style={{
                                         flexDirection: "row",
@@ -186,7 +184,7 @@ export default function Rent({ navigation }) {
                             </TouchableOpacity>
                             {brand.map(brandItem => (
                                 <TouchableOpacity
-                                    disabled={loading && !dataLoading}
+                                    disabled={loading}
                                     key={brandItem.id}
                                     onPress={() => { setActiveBrand(brandItem.attributes.name); closeModals() }}>
                                     <View
@@ -209,7 +207,7 @@ export default function Rent({ navigation }) {
                             <Text style={{ color: colors.text, fontSize: 18, marginBottom: 20 }}>{t("Choose sort!")}</Text>
                             {sorts.map(sortItem => (
                                 <TouchableOpacity
-                                    disabled={loading && !dataLoading}
+                                    disabled={loading}
                                     key={sortItem.id}
                                     onPress={() => { setActiveSort(sortItem.value); closeModals() }}>
                                     <View
@@ -231,9 +229,9 @@ export default function Rent({ navigation }) {
                 }
                 renderItem={({ item }) => (
                     <Container>
-                        {!loading && !dataLoading &&
+                        {!loading &&
                             <TouchableOpacity
-                                disabled={loading && !dataLoading}
+                                disabled={loading}
                                 background={TouchableNativeFeedback.Ripple(myColors.danger)}
                                 onPress={() => navigation.navigate("Reserv", { data: item.attributes, cars: resCars })}>
                                 <CarCard {...item.attributes} />

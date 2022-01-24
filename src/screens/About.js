@@ -60,7 +60,7 @@ export default function About() {
                         </Container>
 
                         {cities && cities.map((item, index) => (
-                            <View key={item.attributes.name} style={styles.BoxCity}>
+                            <View key={item?.attributes?.name} style={styles.BoxCity}>
                                 {index === tabIndex &&
                                     <Animated.View style={{ opacity: AnimateState.fromOpacity }}>
                                         {/* <Image
@@ -90,7 +90,7 @@ export default function About() {
                                             </View>
                                         </Container>
                                         <View style={styles.contentCityMap}>
-                                            {item.attributes.Image?.data &&
+                                            {item?.attributes?.Image?.data &&
                                                 <Image
                                                     source={{ uri: IMAGES_PREFIX + item.attributes.Image?.data?.attributes?.url }}
                                                     resizeMode="cover"

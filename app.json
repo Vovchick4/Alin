@@ -2,7 +2,7 @@
   "expo": {
     "name": "alin",
     "slug": "alin",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/alin.png",
     "splash": {
@@ -21,11 +21,11 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/alin-logo_1024x1024.png",
+        "foregroundImage": "./assets/alin-circle.png",
         "backgroundColor": "#FFFFFF"
       },
       "package": "com.vova2.alin",
-      "versionCode": 2
+      "versionCode": 3
     },
     "web": {
       "favicon": "./assets/alin.png"

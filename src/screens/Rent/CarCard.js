@@ -20,20 +20,20 @@ export default function CarCard({ name, prices, images }) {
             </Container>
 
             <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-                {images.data && images.data.map((image, index) => (
+                {images?.data && images.data.map((image, index) => (
                     <Image key={image.id}
                         style={index !== 0 ? { width: 334, height: 200, marginLeft: 20 } :
                             { width: 334, height: 200, marginLeft: 0 }}
-                        width={334} height={200} source={{ uri: IMAGES_PREFIX + image.attributes.url }} resizeMode='contain' />
+                        width={334} height={200} source={{ uri: IMAGES_PREFIX + image?.attributes?.url }} resizeMode='contain' />
                 ))}
             </ScrollView>
 
             <Container>
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                    {prices.map((price, i) => (
+                    {prices && prices.map((price, i) => (
                         <View key={i} style={[{}, i === 0 ? { marginRight: 10 } : { marginHorizontal: 10 }]}>
-                            <Text style={[styles.title, { color: colors.text }]}>{price.days}</Text>
-                            <Text style={[styles.title, { textAlign: 'center', color: colors.text }]}>{price.money}€</Text>
+                            <Text style={[styles.title, { color: colors.text }]}>{price?.days}</Text>
+                            <Text style={[styles.title, { textAlign: 'center', color: colors.text }]}>{price?.money}€</Text>
                         </View>
                     ))}
                 </View>
