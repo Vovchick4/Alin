@@ -14,7 +14,7 @@ export default function MoreInfo({ route }) {
     const { t } = useTranslation()
 
     const openMap = async (address, city, zipCode,) => {
-        const destination = encodeURIComponent(`${address} ${zipCode}, ${city}`);
+        const destination = encodeURIComponent(`${address}`);
         const provider = Platform.OS === 'ios' ? 'apple' : 'google'
         const link = `http://maps.${provider}.com/?daddr=${destination}`;
 

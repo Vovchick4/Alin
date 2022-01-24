@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, StyleSheet, Dimensions, ScrollView } from 'react-native'
+import { View, Text, StyleSheet, Dimensions, ScrollView, Linking } from 'react-native'
 import { TouchableNativeFeedback } from 'react-native-gesture-handler'
 import { Icon } from 'react-native-elements'
 import axios from 'axios'
@@ -151,7 +151,13 @@ export default function Settings({ navigation }) {
                     dataHelps.map((set, index) => (
                         <TouchableNativeFeedback
                             key={set.id}
-                            onPress={() => navigation.navigate(set.naivgate, { data: set.params })}
+                            onPress={() => {
+                                if (set.id === 1) {
+                                    Linking.openURL("https://alin.ua/contacts#sendQuestUS")
+                                } else {
+                                    navigation.navigate(set.naivgate, { data: set.params })
+                                }
+                            }}
                             background={TouchableNativeFeedback.Ripple(myColors.danger)}>
                             <View style={index === 0 ? [styles.textContent, { marginTop: 0 }] : styles.textContent}>
                                 {set.icon}
