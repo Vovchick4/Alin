@@ -86,7 +86,7 @@ export default function ReservACar(
 
             const data = {
                 carName,
-                carPhoto: carPhoto.attributes.url,
+                carPhoto: carPhoto?.attributes?.url,
                 fromDate: moment(fDate.date).format('YYYY-MM-DD'),
                 toDate: moment(tDate.date).format('YYYY-MM-DD'),
                 fromTime: moment(fTime.date).format('HH:mm:ss.SSS'),
@@ -98,6 +98,8 @@ export default function ReservACar(
                 services: isCheckedBounces,
                 ...values
             }
+
+            console.log(data)
 
             onSubmit(data)
         },
