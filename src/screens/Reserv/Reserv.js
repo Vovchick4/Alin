@@ -156,13 +156,13 @@ export default function Reserv({ navigation, route }) {
 
             <Container>
                 <View>
-                    <Text style={[styles.title, { color: colors.text }]}>{t("Description")}</Text>
+                    <Text style={[styles.title, { color: colors.text }]}>{route.params.data?.content ? t("Description") : null}</Text>
                 </View>
             </Container>
 
             <Container isBackGround>
                 <Text style={[styles.desc, { color: colors.text }]}>
-                    {route.params.data.content}
+                    {route.params.data?.content ? route.params.data?.content : null}
                 </Text>
 
                 <View style={{ marginTop: 12, width: 120 }}>

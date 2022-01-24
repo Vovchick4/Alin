@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react"
 import { useTranslation } from "react-i18next";
-import { View, Text, SafeAreaView, TouchableOpacity } from "react-native"
+import { View, Text, TouchableOpacity } from "react-native"
 import { useSelector } from "react-redux";
 import { Icon } from "react-native-elements";
 import { FlatList, TouchableNativeFeedback } from "react-native-gesture-handler"
@@ -45,12 +45,12 @@ export default function Rent({ navigation }) {
     const categories = useSelector(dataSelectors.getCategoires)
     const subCategories = useSelector(dataSelectors.getSubCategoires)
     const brand = useSelector(dataSelectors.getBrand)
-    const dataLoading = useSelector(dataSelectors.getLoading)
+    // const dataLoading = useSelector(dataSelectors.getLoading)
 
     const [activeCity, setActiveCity] = useState("Lviv")
     const [activeBrand, setActiveBrand] = useState('All Brands')
     const [activeCategory, setActiveCategory] = useState('All Categories')
-    const [activeSubCategory, setActiveSubCategory] = useState('Benzin')
+    const [activeSubCategory, setActiveSubCategory] = useState('Gasoline')
     const [activeSort, setActiveSort] = useState('asc')
 
     const [modal, setModal] = useState(null)
@@ -186,7 +186,7 @@ export default function Rent({ navigation }) {
                                 <TouchableOpacity
                                     disabled={loading}
                                     key={brandItem.id}
-                                    onPress={() => { setActiveBrand(brandItem.attributes.name); closeModals() }}>
+                                    onPress={() => { setActiveBrand(brandItem?.attributes?.name); closeModals() }}>
                                     <View
                                         style={{
                                             flexDirection: "row",
@@ -194,7 +194,7 @@ export default function Rent({ navigation }) {
                                             justifyContent: "space-between",
                                             paddingVertical: 8
                                         }}>
-                                        <Text style={{ color: colors.text, fontSize: 18 }}>{brandItem.attributes.name}</Text>
+                                        <Text style={{ color: colors.text, fontSize: 18 }}>{brandItem?.attributes?.name}</Text>
                                         {activeBrand === brandItem.attributes.name &&
                                             <Icon type="font-awesome-5" name="check" color={myColors.danger} />
                                         }

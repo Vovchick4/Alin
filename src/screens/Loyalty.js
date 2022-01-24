@@ -21,7 +21,7 @@ export default function Loyalty({ navigation }) {
         setLoading(true);
 
         axios({
-            url: `loality-programs?${i18n.language}`,
+            url: `loality-programs?locale=${i18n.language}`,
             method: 'GET',
             params: {
                 populate: 'logo'

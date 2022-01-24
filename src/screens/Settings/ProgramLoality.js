@@ -5,7 +5,7 @@ import { Text, StyleSheet, ScrollView } from 'react-native';
 import { Container } from '../../components';
 
 export default function ProgramLoality({ route }) {
-    const colors = useTheme()
+    const { colors } = useTheme()
 
     return (
         <ScrollView>
