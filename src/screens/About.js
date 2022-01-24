@@ -1,6 +1,8 @@
 
 import React, { useEffect, useState } from "react"
 import { StyleSheet, Image, View, Text, TouchableNativeFeedback, Animated, Dimensions } from "react-native"
+import axios from "axios"
+import { useTranslation } from 'react-i18next'
 import { ScrollView } from "react-native-gesture-handler"
 import { useSelector } from "react-redux"
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps'
@@ -23,8 +25,13 @@ const IMAGES_PREFIX = 'https://alin-back.herokuapp.com'
 export default function About() {
     const { colors } = useTheme()
 
-    const cities = useSelector(dataSelectors.getCities)
-    const dataLoading = useSelector(dataSelectors.getLoading)
+    const { i18n } = useTranslation()
+
+    const [cities, setCities] = useState([])
+    const [dataLoading, setDataLoading] = useState(false)
+
+    // const cities = useSelector(dataSelectors.getCities)
+    // const dataLoading = useSelector(dataSelectors.getLoading)
 
     const [tabIndex, setTabIndex] = useState(0)
     const AnimateState = {
@@ -32,8 +39,27 @@ export default function About() {
     }
 
     useEffect(() => {
+        setDataLoading(true)
+        fetchCities()
+    }, [i18n.language])
+
+    useEffect(() => {
         Animated.timing(AnimateState.fromOpacity, { toValue: 1, duration: 438, useNativeDriver: true }).start()
-    }, [cities, tabIndex])
+    }, [cities, tabIndex, dataLoading])
+
+    function fetchCities() {
+        axios({
+            method: 'GET',
+            url: `cities?locale=${i18n.language}&sort=id%3Aasc&populate=*`,
+        })
+            .then((res) => {
+                setCities(res.data.data)
+            })
+            .catch((error) => {
+                alert(error)
+            })
+            .finally(() => setDataLoading(false))
+    }
 
     return (
         <React.Fragment>
@@ -71,19 +97,19 @@ export default function About() {
                                         <Container>
                                             <View style={styles.contenTextInfoCity}>
                                                 <View style={styles.contentIcons}>
-                                                    <Icon type="font-awesome-5" name="map-marked" size={18} color={Colors.white} />
+                                                    <Icon type="font-awesome-5" name="map-marked" size={18} color={colors.text} />
                                                     <Text style={[styles.cityText, { color: colors.text }]}>
                                                         {item.attributes?.address}
                                                     </Text>
                                                 </View>
                                                 <View style={styles.contentIcons}>
-                                                    <Icon type="font-awesome-5" name="envelope" size={18} color={Colors.white} />
+                                                    <Icon type="font-awesome-5" name="envelope" size={18} color={colors.text} />
                                                     <Text style={[styles.cityText, { color: colors.text }]}>
                                                         {item.attributes?.mail}
                                                     </Text>
                                                 </View>
                                                 <View style={styles.contentIcons}>
-                                                    <Icon type="font-awesome-5" name="phone" size={18} color={Colors.white} />
+                                                    <Icon type="font-awesome-5" name="phone" size={18} color={colors.text} />
                                                     <Text style={[styles.cityText, { color: colors.text }]}>
                                                         {item.attributes?.phone}
                                                     </Text>

@@ -1,7 +1,7 @@
-import React, { useEffect, useState, useRef } from "react"
+import React, { useEffect, useState, useRef, useContext } from "react"
 import { useTranslation } from "react-i18next";
 import { View, Text, SafeAreaView, TouchableOpacity } from "react-native"
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 import { Icon } from "react-native-elements";
 import { FlatList, TouchableNativeFeedback } from "react-native-gesture-handler"
 import { myColors } from "../../constants/constantColor"
@@ -12,8 +12,9 @@ import { Container, Loaders, Modals, Skeletons } from '../../components'
 import CarCard from "./CarCard"
 import FiltersCars from "./FiltersCars";
 import ArrowTop from "./ArrowTop";
-import { dataSelectors } from '../../redux/data'
+// import { dataSelectors } from '../../redux/data'
 import { useTheme } from "@react-navigation/native";
+import { CitiesServicesContext } from "../../context/CitiesSevicesContext";
 // import { isCloseToBottom } from '../utils'
 
 const sorts = [
@@ -37,15 +38,19 @@ const stateModals = {
 export default function Rent({ navigation }) {
     const { colors } = useTheme()
     const { t, i18n } = useTranslation()
+    const { cities, setCities, setAdditionalServices } = useContext(CitiesServicesContext)
 
     const [resCars, setResCars] = useState([])
+    const [categories, setCategories] = useState([])
+    const [subCategories, setSubCategories] = useState([])
+    const [brand, setBrand] = useState([])
     const [loading, setLoading] = useState(false)
 
-    const cities = useSelector(dataSelectors.getCities)
-    const categories = useSelector(dataSelectors.getCategoires)
-    const subCategories = useSelector(dataSelectors.getSubCategoires)
-    const brand = useSelector(dataSelectors.getBrand)
-    const dataLoading = useSelector(dataSelectors.getLoading)
+    // const cities = useSelector(dataSelectors.getCities)
+    // const categories = useSelector(dataSelectors.getCategoires)
+    // const subCategories = useSelector(dataSelectors.getSubCategoires)
+    // const brand = useSelector(dataSelectors.getBrand)
+    // const dataLoading = useSelector(dataSelectors.getLoading)
 
     const [activeCity, setActiveCity] = useState("Lviv")
     const [activeBrand, setActiveBrand] = useState('All Brands')
@@ -69,6 +74,12 @@ export default function Rent({ navigation }) {
                 : activeBrand === 'All Brands' ?
                     `cars?filters[category][name][$eq]=${activeCategory}&filters[cities][name][$eq]=${activeCity}&filters[sub_categories][name][$eq]=${activeSubCategory}&sort=deposit%3A${activeSort}`
                     : `cars?filters[category][name][$eq]=${activeCategory}&filters[cities][name][$eq]=${activeCity}&filters[brand_car][name][$eq]=${activeBrand}&filters[sub_categories][name][$eq]=${activeSubCategory}&sort=deposit%3A${activeSort}`
+
+        fetchCities()
+        fetchCategories()
+        fetchSubCategories()
+        fetchBrand()
+        fetchAdditionalServices()
 
         axios({
             url: request,
@@ -95,6 +106,80 @@ export default function Rent({ navigation }) {
         setActiveSort,
         i18n.language])
 
+    useEffect(() => {
+        setLoading(true)
+        fetchCities()
+        fetchCategories()
+        fetchSubCategories()
+        fetchBrand()
+        fetchAdditionalServices()
+    }, [i18n.language])
+
+    function fetchCities() {
+        axios({
+            method: 'GET',
+            url: `cities?locale=${i18n.language}&sort=id%3Aasc&populate=*`,
+        })
+            .then((res) => {
+                setCities(res.data.data)
+            })
+            .catch((error) => {
+                alert(error)
+            })
+    }
+
+    function fetchCategories() {
+        axios({
+            method: 'GET',
+            url: `categories?locale=${i18n.language}&sort=id%3Aasc`,
+        })
+            .then((res) => {
+                setCategories(res.data.data)
+            })
+            .catch((error) => {
+                alert(error)
+            })
+    }
+
+    function fetchSubCategories() {
+        axios({
+            method: 'GET',
+            url: `sub-categories?locale=${i18n.language}`,
+        })
+            .then((res) => {
+                setSubCategories(res.data.data)
+            })
+            .catch((error) => {
+                alert(error)
+            })
+    }
+
+    function fetchBrand() {
+        axios({
+            method: 'GET',
+            url: `brand-cars?locale=${i18n.language}`,
+        })
+            .then((res) => {
+                setBrand(res.data.data)
+            })
+            .catch((error) => {
+                alert(error)
+            })
+    }
+
+    function fetchAdditionalServices() {
+        axios({
+            method: 'GET',
+            url: `additional-services?${i18n.language}`,
+        })
+            .then((res) => {
+                setAdditionalServices(res.data.data)
+            })
+            .catch((error) => {
+                alert(error)
+            })
+    }
+
     function openSortModal() {
         setModal(stateModals.sortModal)
     }
@@ -113,7 +198,7 @@ export default function Rent({ navigation }) {
 
     return (
         <React.Fragment>
-            {loading && !dataLoading && <Loaders isCentered />}
+            {loading && <Loaders isCentered />}
 
             <ArrowTop offsetY={contentVerticalOffset} offsetContent={CONTENT_OFFSET_THRESHOLD} scrollTopRef={listRef} />
 
@@ -144,7 +229,7 @@ export default function Rent({ navigation }) {
                                 backgroundColor: myColors.gray,
                                 borderRadius: 8
                             }}>
-                                {!loading && !dataLoading ?
+                                {!loading ?
                                     <React.Fragment>
                                         <Text style={{ color: Colors.white }}>{activeBrand}</Text>
                                         <Icon type="font-awesome-5" name="car-alt" color={Colors.white} />
@@ -159,7 +244,7 @@ export default function Rent({ navigation }) {
                                 {resCars.length} {t("Cars")}
                             </Text>
                             <TouchableOpacity
-                                disabled={loading && !dataLoading}
+                                disabled={loading}
                                 onPress={openSortModal}
                                 background={TouchableNativeFeedback.Ripple(myColors.danger, true)}>
                                 <Icon type="font-awesome-5" name="sort-amount-up-alt" color={colors.text} />
@@ -168,7 +253,7 @@ export default function Rent({ navigation }) {
 
                         <Modals visible={modal === stateModals.brandCar} onClose={closeModals}>
                             <Text style={{ color: colors.text, fontSize: 18, marginBottom: 20, maxWidth: '90%' }}>{t('Choose Brand Car')}!</Text>
-                            <TouchableOpacity onPress={() => { setActiveBrand('All Brands'); closeModals() }} disabled={loading && !dataLoading}>
+                            <TouchableOpacity onPress={() => { setActiveBrand('All Brands'); closeModals() }} disabled={loading}>
                                 <View
                                     style={{
                                         flexDirection: "row",
@@ -184,7 +269,7 @@ export default function Rent({ navigation }) {
                             </TouchableOpacity>
                             {brand.map(brandItem => (
                                 <TouchableOpacity
-                                    disabled={loading && !dataLoading}
+                                    disabled={loading}
                                     key={brandItem.id}
                                     onPress={() => { setActiveBrand(brandItem.attributes.name); closeModals() }}>
                                     <View
@@ -207,7 +292,7 @@ export default function Rent({ navigation }) {
                             <Text style={{ color: colors.text, fontSize: 18, marginBottom: 20 }}>{t("Choose sort!")}</Text>
                             {sorts.map(sortItem => (
                                 <TouchableOpacity
-                                    disabled={loading && !dataLoading}
+                                    disabled={loading}
                                     key={sortItem.id}
                                     onPress={() => { setActiveSort(sortItem.value); closeModals() }}>
                                     <View
@@ -229,9 +314,9 @@ export default function Rent({ navigation }) {
                 }
                 renderItem={({ item }) => (
                     <Container>
-                        {!loading && !dataLoading &&
+                        {!loading &&
                             <TouchableOpacity
-                                disabled={loading && !dataLoading}
+                                disabled={loading}
                                 background={TouchableNativeFeedback.Ripple(myColors.danger)}
                                 onPress={() => navigation.navigate("Reserv", { data: item.attributes, cars: resCars })}>
                                 <CarCard {...item.attributes} />
