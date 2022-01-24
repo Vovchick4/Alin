@@ -55,7 +55,7 @@ export default function Rent({ navigation }) {
     const [activeCity, setActiveCity] = useState("Lviv")
     const [activeBrand, setActiveBrand] = useState('All Brands')
     const [activeCategory, setActiveCategory] = useState('All Categories')
-    const [activeSubCategory, setActiveSubCategory] = useState('Benzin')
+    const [activeSubCategory, setActiveSubCategory] = useState("Gasoline")
     const [activeSort, setActiveSort] = useState('asc')
 
     const [modal, setModal] = useState(null)
@@ -74,6 +74,8 @@ export default function Rent({ navigation }) {
                 : activeBrand === 'All Brands' ?
                     `cars?filters[category][name][$eq]=${activeCategory}&filters[cities][name][$eq]=${activeCity}&filters[sub_categories][name][$eq]=${activeSubCategory}&sort=deposit%3A${activeSort}`
                     : `cars?filters[category][name][$eq]=${activeCategory}&filters[cities][name][$eq]=${activeCity}&filters[brand_car][name][$eq]=${activeBrand}&filters[sub_categories][name][$eq]=${activeSubCategory}&sort=deposit%3A${activeSort}`
+
+        console.log(request)
 
         fetchCities()
         fetchCategories()
@@ -106,14 +108,14 @@ export default function Rent({ navigation }) {
         setActiveSort,
         i18n.language])
 
-    useEffect(() => {
-        setLoading(true)
-        fetchCities()
-        fetchCategories()
-        fetchSubCategories()
-        fetchBrand()
-        fetchAdditionalServices()
-    }, [i18n.language])
+    // useEffect(() => {
+    //     setLoading(true)
+    //     fetchCities()
+    //     fetchCategories()
+    //     fetchSubCategories()
+    //     fetchBrand()
+    //     fetchAdditionalServices()
+    // }, [i18n.language])
 
     function fetchCities() {
         axios({
@@ -279,7 +281,7 @@ export default function Rent({ navigation }) {
                                             justifyContent: "space-between",
                                             paddingVertical: 8
                                         }}>
-                                        <Text style={{ color: colors.text, fontSize: 18 }}>{brandItem.attributes.name}</Text>
+                                        <Text style={{ color: colors.text, fontSize: 18 }}>{brandItem?.attributes?.name}</Text>
                                         {activeBrand === brandItem.attributes.name &&
                                             <Icon type="font-awesome-5" name="check" color={myColors.danger} />
                                         }

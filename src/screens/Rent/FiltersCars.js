@@ -31,7 +31,7 @@ export default function FiltersCars(
                     <Pressable
                         onPress={() => pressCategory("All Categories")}
                         style={"All Categories" === activeCategory ? styles.textContentActive : styles.textContent}>
-                        <Text style={styles.text}>{t("All Categories")}</Text>
+                        <Text numberOfLines={1} style={styles.text}>{t("All Categories")}</Text>
                     </Pressable>
                     : <Skeletons height={30} />}
 
@@ -41,7 +41,7 @@ export default function FiltersCars(
                             key={category.id}
                             onPress={() => pressCategory(category.attributes?.name)}
                             style={category.attributes.name === activeCategory ? styles.textContentActive : styles.textContent}>
-                            <Text style={styles.text}>{category.attributes?.name}</Text>
+                            <Text numberOfLines={1} style={styles.text}>{category.attributes?.title}</Text>
                         </Pressable>
 
                     )) : <Skeletons height={30} />}
