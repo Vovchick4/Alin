@@ -1,9 +1,10 @@
 import React from 'react'
 import { useTheme } from '@react-navigation/native'
-import { Text, StyleSheet, ScrollView } from 'react-native'
+import { View, Text, StyleSheet, ScrollView } from 'react-native'
 import Markdown from 'react-native-easy-markdown';
 
 import { Container } from '../../components'
+import { myColors } from '../../constants/constantColor';
 
 export default function Faq({ route }) {
     const { colors } = useTheme()
@@ -12,9 +13,11 @@ export default function Faq({ route }) {
         <ScrollView>
             <Container>
                 <Text style={[styles.title, { color: colors.text }]}>{route.params.data?.data?.attributes?.Title}</Text>
-                <Markdown>
-                    {route.params.data?.data?.attributes?.Content}
-                </Markdown>
+                <View style={{ backgroundColor: myColors.danger, paddingHorizontal: 15 }}>
+                    <Markdown>
+                        {route.params.data?.data?.attributes?.Content}
+                    </Markdown>
+                </View>
                 {/* <Text style={[styles.text, { color: colors.text }]}>
                     {route.params.data?.data?.attributes?.Content}
                 </Text> */}
