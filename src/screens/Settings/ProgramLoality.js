@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTheme } from '@react-navigation/native';
-import { Text, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import Markdown from 'react-native-easy-markdown';
 
 import { Container } from '../../components';
@@ -12,9 +12,10 @@ export default function ProgramLoality({ route }) {
         <ScrollView>
             <Container>
                 <Text style={[styles.title, { color: colors.text }]}>{route.params.data?.data?.attributes?.Title}</Text>
-                <Markdown>
+                {/* <Markdown useDefaultStyles={true} /> */}
+                <Text>
                     {route.params.data?.data?.attributes?.Content}
-                </Markdown>
+                </Text>
             </Container>
         </ScrollView>
     );
