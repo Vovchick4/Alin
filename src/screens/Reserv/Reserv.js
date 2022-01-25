@@ -13,6 +13,7 @@ import { myColors } from '../../constants/constantColor'
 import { dataSelectors } from '../../redux/data';
 
 import CarsCardElse from './CarsCardElse';
+import { Platform } from 'react-native';
 
 const reservModal = {
     rentCar: 'RENT_CAR'
@@ -165,7 +166,9 @@ export default function Reserv({ navigation, route }) {
                     {route.params.data?.content ? route.params.data?.content : null}
                 </Text>
 
-                <View style={{ marginTop: 12, width: 120 }}>
+                <View style={Platform.OS === 'ios' ?  {
+                    marginTop: 12, width: 120, backgroundColor: myColors.danger
+                } : {marginTop: 12, width: 120}}>
                     <Button testID="openModal" title={t("Rent")} color={myColors.dark} onPress={rentCarModal} disabled={dataLoading} />
                 </View>
             </Container>
