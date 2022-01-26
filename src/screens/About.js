@@ -21,7 +21,6 @@ const tabStyles = {
     }
 }
 
-const IMAGES_PREFIX = 'https://alin-back.herokuapp.com'
 export default function About() {
     const { colors } = useTheme()
 
@@ -91,7 +90,7 @@ export default function About() {
                                 {index === tabIndex &&
                                     <Animated.View style={{ opacity: AnimateState.fromOpacity }}>
                                         {item.attributes.Image?.data && <Image
-                                            source={{ uri: IMAGES_PREFIX + item.attributes.Image?.data?.attributes.url }}
+                                            source={{ uri: item.attributes.Image?.data?.attributes.url }}
                                             resizeMode="cover"
                                             style={styles.image} />}
                                         <Container>

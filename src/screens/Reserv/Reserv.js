@@ -16,7 +16,7 @@ import CarsCardElse from './CarsCardElse';
 const reservModal = {
     rentCar: 'RENT_CAR'
 }
-const IMAGES_PREFIX = 'https://alin-back.herokuapp.com'
+// const IMAGES_PREFIX = 'https://alin-back.herokuapp.com'
 
 export default function Reserv({ navigation, route }) {
     const { colors } = useTheme()
@@ -178,7 +178,7 @@ export default function Reserv({ navigation, route }) {
                     <Container isBackGround>
                         <View style={{ flexDirection: 'row' }} >
                             {route.params.cars.map(car => (
-                                <CarsCardElse key={car.id} car={car} cars={route.params.cars} IMAGES_PREFIX={IMAGES_PREFIX} />
+                                <CarsCardElse key={car.id} car={car} cars={route.params.cars} />
                             ))}
                         </View>
                     </Container>
