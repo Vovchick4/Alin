@@ -18,7 +18,7 @@ const tabStyles = {
     }
 }
 
-const IMAGES_PREFIX = 'https://alin-back.herokuapp.com'
+// const IMAGES_PREFIX = 'https://alin-back.herokuapp.com'
 export default function About() {
     const { colors } = useTheme()
 
@@ -64,7 +64,7 @@ export default function About() {
                                 {index === tabIndex &&
                                     <Animated.View style={{ opacity: AnimateState.fromOpacity }}>
                                         {/* <Image
-                                                source={{ uri: IMAGES_PREFIX + item.attributes.Image?.data?.attributes.url }}
+                                                source={{ uri: item.attributes.Image?.data?.attributes.url }}
                                                 resizeMode="cover"
                                                 style={styles.image} /> */}
                                         <Container>
@@ -92,7 +92,7 @@ export default function About() {
                                         <View style={styles.contentCityMap}>
                                             {item?.attributes?.Image?.data &&
                                                 <Image
-                                                    source={{ uri: IMAGES_PREFIX + item.attributes.Image?.data?.attributes?.url }}
+                                                    source={{ uri: item.attributes.Image?.data?.attributes?.url }}
                                                     resizeMode="cover"
                                                     style={styles.image} />}
                                         </View>

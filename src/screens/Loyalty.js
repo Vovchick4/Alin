@@ -8,7 +8,7 @@ import { Colors } from 'react-native/Libraries/NewAppScreen'
 import { Loaders } from '../components'
 import { myColors } from '../constants/constantColor'
 
-const IMAGES_PREFIX = 'https://alin-back.herokuapp.com'
+// const IMAGES_PREFIX = 'https://alin-back.herokuapp.com'
 export default function Loyalty({ navigation }) {
     const { colors } = useTheme()
 
@@ -49,7 +49,7 @@ export default function Loyalty({ navigation }) {
                             onPress={() => navigation.navigate("MoreInfo", { data: item.attributes })}>
                             <View style={styles.content}>
                                 {item.attributes.logo.data &&
-                                    <Image style={styles.image} source={{ uri: IMAGES_PREFIX + item.attributes.logo?.data?.attributes?.url }} resizeMode="contain" />}
+                                    <Image style={styles.image} source={{ uri: item.attributes.logo?.data?.attributes?.url }} resizeMode="contain" />}
                                 <View style={{ width: '40%' }}>
                                     <Text style={[styles.title, { color: colors.text }]}>{item.attributes?.title}</Text>
                                     <Text style={[styles.text, { color: colors.text }]} numberOfLines={2}>{item.attributes?.description}</Text>
@@ -76,9 +76,10 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'flex-start',
         justifyContent: 'space-between',
-        borderWidth: 2,
+        borderBottomWidth: 2,
+        borderBottomColor: myColors.gray,
         // borderRadius: 8,
-        borderTopColor: myColors.danger,
+        // borderTopColor: myColors.danger,
         paddingVertical: 10,
         paddingRight: 5,
     },

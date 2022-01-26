@@ -7,7 +7,7 @@ import { useTheme } from "@react-navigation/native"
 import { Container } from "../../components"
 import { myColors } from '../../constants/constantColor'
 
-const IMAGES_PREFIX = 'https://alin-back.herokuapp.com'
+// const IMAGES_PREFIX = 'https://alin-back.herokuapp.com'
 export default function CarCard({ name, prices, images }) {
     const { colors } = useTheme()
 
@@ -24,7 +24,7 @@ export default function CarCard({ name, prices, images }) {
                     <Image key={image.id}
                         style={index !== 0 ? { width: 334, height: 200, marginLeft: 20 } :
                             { width: 334, height: 200, marginLeft: 0 }}
-                        width={334} height={200} source={{ uri: IMAGES_PREFIX + image?.attributes?.url }} resizeMode='contain' />
+                        width={334} height={200} source={{ uri: image?.attributes?.url }} resizeMode='contain' />
                 ))}
             </ScrollView>
 

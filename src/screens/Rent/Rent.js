@@ -230,12 +230,12 @@ export default function Rent({ navigation }) {
                 renderItem={({ item }) => (
                     <Container>
                         {!loading &&
-                            <TouchableOpacity
+                            <TouchableNativeFeedback
                                 disabled={loading}
                                 background={TouchableNativeFeedback.Ripple(myColors.danger)}
                                 onPress={() => navigation.navigate("Reserv", { data: item.attributes, cars: resCars })}>
                                 <CarCard {...item.attributes} />
-                            </TouchableOpacity>}
+                            </TouchableNativeFeedback>}
                     </Container>
                 )} />
         </React.Fragment>

@@ -18,7 +18,7 @@ import { Platform } from 'react-native';
 const reservModal = {
     rentCar: 'RENT_CAR'
 }
-const IMAGES_PREFIX = 'https://alin-back.herokuapp.com'
+// const IMAGES_PREFIX = 'https://alin-back.herokuapp.com'
 
 export default function Reserv({ navigation, route }) {
     const { colors } = useTheme()
@@ -166,9 +166,9 @@ export default function Reserv({ navigation, route }) {
                     {route.params.data?.content ? route.params.data?.content : null}
                 </Text>
 
-                <View style={Platform.OS === 'ios' ?  {
+                <View style={Platform.OS === 'ios' ? {
                     marginTop: 12, width: 120, backgroundColor: myColors.danger
-                } : {marginTop: 12, width: 120}}>
+                } : { marginTop: 12, width: 120 }}>
                     <Button testID="openModal" title={t("Rent")} color={myColors.dark} onPress={rentCarModal} disabled={dataLoading} />
                 </View>
             </Container>
@@ -182,7 +182,7 @@ export default function Reserv({ navigation, route }) {
                     <Container isBackGround>
                         <View style={{ flexDirection: 'row' }} >
                             {route.params.cars.map(car => (
-                                <CarsCardElse key={car.id} car={car} cars={route.params.cars} IMAGES_PREFIX={IMAGES_PREFIX} />
+                                <CarsCardElse key={car.id} car={car} cars={route.params.cars} />
                             ))}
                         </View>
                     </Container>
