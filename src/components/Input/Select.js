@@ -1,5 +1,5 @@
 import React from "react";
-import { Picker, StyleSheet, View, Text } from "react-native";
+import { Picker, StyleSheet, View, Text, Platform } from "react-native";
 
 import { Colors } from "react-native/Libraries/NewAppScreen"
 import { Skeletons } from "..";
@@ -19,7 +19,11 @@ export default function Select({ loading = false, mode = "dropdown", data, selec
                         enabled={enabled}
                         {...pickerProps}>
                         {data && data.map(item => (
-                            <Picker.Item key={item.id} label={item.attributes?.title} value={item.attributes?.name} />
+                            <Picker.Item
+                                key={item?.id}
+                                color={Platform.OS !== "android" ? "#fff8dc" : "#00000"}
+                                label={item?.attributes?.title}
+                                value={item?.attributes?.name} />
                         ))}
                     </Picker>
                     : <Skeletons height={48} />}

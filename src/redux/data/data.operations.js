@@ -22,7 +22,7 @@ export const addtionalServicesFetchAll = (i18n) => (dispatch) => {
 
     axios({
         method: 'GET',
-        url: `additional-services?${i18n.language}`,
+        url: `additional-services?locale=${i18n.language}`,
     })
         .then((res) => {
             dispatch(actions.additionalServicesAllSuccess(res.data.data))

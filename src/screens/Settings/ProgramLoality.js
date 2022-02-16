@@ -4,6 +4,7 @@ import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import Markdown from 'react-native-easy-markdown';
 
 import { Container } from '../../components';
+import { myColors } from '../../constants/constantColor';
 
 export default function ProgramLoality({ route }) {
     const { colors } = useTheme()
@@ -12,10 +13,14 @@ export default function ProgramLoality({ route }) {
         <ScrollView>
             <Container>
                 <Text style={[styles.title, { color: colors.text }]}>{route.params.data?.data?.attributes?.Title}</Text>
-                {/* <Markdown useDefaultStyles={true} /> */}
-                <Text>
+                <View style={{ backgroundColor: myColors.danger, paddingHorizontal: 15 }}>
+                    <Markdown>
+                        {route.params.data?.data?.attributes?.Content}
+                    </Markdown>
+                </View>
+                {/* <Text style={[styles.text, { color: colors.text }]}>
                     {route.params.data?.data?.attributes?.Content}
-                </Text>
+                </Text> */}
             </Container>
         </ScrollView>
     );

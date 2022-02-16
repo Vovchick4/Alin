@@ -1,11 +1,8 @@
 
 import React, { useEffect, useState } from "react"
 import { StyleSheet, Image, View, Text, TouchableNativeFeedback, Animated, Dimensions } from "react-native"
-import axios from "axios"
-import { useTranslation } from 'react-i18next'
 import { ScrollView } from "react-native-gesture-handler"
 import { useSelector } from "react-redux"
-import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps'
 
 import { Container, Loaders } from "../components"
 import { myColors } from "../constants/constantColor"
@@ -21,16 +18,12 @@ const tabStyles = {
     }
 }
 
+// const IMAGES_PREFIX = 'https://alin-back.herokuapp.com'
 export default function About() {
     const { colors } = useTheme()
 
-    const { i18n } = useTranslation()
-
-    const [cities, setCities] = useState([])
-    const [dataLoading, setDataLoading] = useState(false)
-
-    // const cities = useSelector(dataSelectors.getCities)
-    // const dataLoading = useSelector(dataSelectors.getLoading)
+    const cities = useSelector(dataSelectors.getCities)
+    const dataLoading = useSelector(dataSelectors.getLoading)
 
     const [tabIndex, setTabIndex] = useState(0)
     const AnimateState = {
@@ -38,27 +31,8 @@ export default function About() {
     }
 
     useEffect(() => {
-        setDataLoading(true)
-        fetchCities()
-    }, [i18n.language])
-
-    useEffect(() => {
         Animated.timing(AnimateState.fromOpacity, { toValue: 1, duration: 438, useNativeDriver: true }).start()
-    }, [cities, tabIndex, dataLoading])
-
-    function fetchCities() {
-        axios({
-            method: 'GET',
-            url: `cities?locale=${i18n.language}&sort=id%3Aasc&populate=*`,
-        })
-            .then((res) => {
-                setCities(res.data.data)
-            })
-            .catch((error) => {
-                alert(error)
-            })
-            .finally(() => setDataLoading(false))
-    }
+    }, [cities, tabIndex])
 
     return (
         <React.Fragment>
@@ -86,13 +60,13 @@ export default function About() {
                         </Container>
 
                         {cities && cities.map((item, index) => (
-                            <View key={item.attributes.name} style={styles.BoxCity}>
+                            <View key={item?.attributes?.name} style={styles.BoxCity}>
                                 {index === tabIndex &&
                                     <Animated.View style={{ opacity: AnimateState.fromOpacity }}>
-                                        {item.attributes.Image?.data && <Image
-                                            source={{ uri: item.attributes.Image?.data?.attributes.url }}
-                                            resizeMode="cover"
-                                            style={styles.image} />}
+                                        {/* <Image
+                                                source={{ uri: item.attributes.Image?.data?.attributes.url }}
+                                                resizeMode="cover"
+                                                style={styles.image} /> */}
                                         <Container>
                                             <View style={styles.contenTextInfoCity}>
                                                 <View style={styles.contentIcons}>
@@ -116,23 +90,11 @@ export default function About() {
                                             </View>
                                         </Container>
                                         <View style={styles.contentCityMap}>
-                                            <MapView
-                                                provider={PROVIDER_GOOGLE}
-                                                mapType='hybrid'
-                                                style={styles.cityMap}
-                                                initialRegion={{
-                                                    latitude: item.attributes?.mapCoordX ? item.attributes?.mapCoordX : 49.814931440829774,
-                                                    longitude: item.attributes?.mapCoordY ? item.attributes?.mapCoordY : 23.96061163948927,
-                                                    latitudeDelta: 0.001,
-                                                    longitudeDelta: 0.01,
-                                                }}>
-                                                <Marker
-                                                    coordinate={{
-                                                        latitude: item.attributes?.mapCoordX ? item.attributes?.mapCoordX : 49.814931440829774,
-                                                        longitude: item.attributes?.mapCoordY ? item.attributes?.mapCoordY : 23.96061163948927,
-                                                    }}
-                                                    title={"Alin " + item.attributes?.name} />
-                                            </MapView>
+                                            {item?.attributes?.Image?.data &&
+                                                <Image
+                                                    source={{ uri: item.attributes.Image?.data?.attributes?.url }}
+                                                    resizeMode="cover"
+                                                    style={styles.image} />}
                                         </View>
                                     </Animated.View>
                                 }

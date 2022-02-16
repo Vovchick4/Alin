@@ -11,6 +11,7 @@ import { useInputDatePicker } from '../../hooks'
 import { Input, Select, MyDatePicker, CustomBouncyesCheckboxes, FormRow, Loaders } from "../../components"
 import { Colors } from "react-native/Libraries/NewAppScreen"
 import { myColors } from "../../constants/constantColor"
+import { Platform } from "react-native";
 
 const validationSchema = Yup.object().shape({
     name: Yup.string()
@@ -86,7 +87,7 @@ export default function ReservACar(
 
             const data = {
                 carName,
-                carPhoto: carPhoto.attributes.url,
+                carPhoto: carPhoto?.attributes?.url,
                 fromDate: moment(fDate.date).format('YYYY-MM-DD'),
                 toDate: moment(tDate.date).format('YYYY-MM-DD'),
                 fromTime: moment(fTime.date).format('HH:mm:ss.SSS'),
@@ -98,6 +99,8 @@ export default function ReservACar(
                 services: isCheckedBounces,
                 ...values
             }
+
+            console.log(data)
 
             onSubmit(data)
         },
@@ -352,7 +355,7 @@ export default function ReservACar(
 
                 <View style={styles.buttonSubmit}>
                     <Text style={[styles.title, { lineHeight: 40 }]}>{t('Total Price')} - {totalPrice}€</Text>
-                    <View style={{ width: 120 }}>
+                    <View style={Platform.OS === 'ios' ? {width: 120, backgroundColor: myColors.danger} : {width: 120}}>
                         <Button testID="submit" onPress={formik.handleSubmit} title={t("Submit")} color={myColors.gray} disabled={loading} />
                     </View>
                 </View>

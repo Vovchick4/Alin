@@ -1,7 +1,8 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { View, Text, StyleSheet, Button } from 'react-native'
 import { useTranslation } from 'react-i18next';
 import { ScrollView } from 'react-native-gesture-handler'
+import { useSelector } from 'react-redux';
 import { useTheme } from '@react-navigation/native';
 import axios from "axios";
 import { Colors } from 'react-native/Libraries/NewAppScreen'
@@ -9,9 +10,10 @@ import { Colors } from 'react-native/Libraries/NewAppScreen'
 import { Container, BottomModal, MyPaginCarousel, Loaders } from '../../components'
 import ReservACar from './ReservACar'
 import { myColors } from '../../constants/constantColor'
-import { CitiesServicesContext } from "../../context/CitiesSevicesContext";
+import { dataSelectors } from '../../redux/data';
 
 import CarsCardElse from './CarsCardElse';
+import { Platform } from 'react-native';
 
 const reservModal = {
     rentCar: 'RENT_CAR'
@@ -22,7 +24,9 @@ export default function Reserv({ navigation, route }) {
     const { colors } = useTheme()
     const { t } = useTranslation()
 
-    const { cities, additionalServices } = useContext(CitiesServicesContext)
+    const cities = useSelector(dataSelectors.getCities)
+    const additionalServices = useSelector(dataSelectors.getAdditionalServices)
+    const dataLoading = useSelector(dataSelectors.getLoading)
     const [loading, setLoading] = useState(false)
 
     // const [tabIndex, setTabIndex] = useState(0)
@@ -91,7 +95,7 @@ export default function Reserv({ navigation, route }) {
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
                         {route.params.data.prices && route.params.data.prices.map((price, i) => (
                             <View key={i} style={[{}, i === 0 ? { marginRight: 10 } : { marginHorizontal: 10 }]}>
-                                <Text style={[styles.title], { color: colors.text }}>{price?.days}</Text>
+                                <Text style={[styles.title, { color: colors.text }]}>{price?.days}</Text>
                                 <Text style={[styles.title, { textAlign: 'center', color: colors.text }]}>{price?.money}€</Text>
                             </View>
                         ))}
@@ -108,7 +112,7 @@ export default function Reserv({ navigation, route }) {
                     backgroundColor: myColors.gray
                 }}>
                     {route.params.data.images.data &&
-                        <MyPaginCarousel entries={route.params.data.images.data} activeSlide={0} />
+                        <MyPaginCarousel entries={route.params.data?.images?.data} activeSlide={0} />
                     }
                 </View>
             </View>
@@ -153,9 +157,7 @@ export default function Reserv({ navigation, route }) {
 
             <Container>
                 <View>
-                    <Text style={[styles.title, { color: colors.text }]}>
-                        {route.params.data?.content ? t("Description") : null}
-                    </Text>
+                    <Text style={[styles.title, { color: colors.text }]}>{route.params.data?.content ? t("Description") : null}</Text>
                 </View>
             </Container>
 
@@ -164,8 +166,10 @@ export default function Reserv({ navigation, route }) {
                     {route.params.data?.content ? route.params.data?.content : null}
                 </Text>
 
-                <View style={{ marginTop: 12, width: 120 }}>
-                    <Button testID="openModal" title={t("Rent")} color={myColors.dark} onPress={rentCarModal} disabled={loading} />
+                <View style={Platform.OS === 'ios' ? {
+                    marginTop: 12, width: 120, backgroundColor: myColors.danger
+                } : { marginTop: 12, width: 120 }}>
+                    <Button testID="openModal" title={t("Rent")} color={myColors.dark} onPress={rentCarModal} disabled={dataLoading} />
                 </View>
             </Container>
 

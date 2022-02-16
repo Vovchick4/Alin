@@ -39,9 +39,9 @@ export default function FiltersCars(
                     categories.map(category => (
                         <Pressable
                             key={category.id}
-                            onPress={() => pressCategory(category.attributes?.name)}
-                            style={category.attributes.name === activeCategory ? styles.textContentActive : styles.textContent}>
-                            <Text numberOfLines={1} style={styles.text}>{category.attributes?.title}</Text>
+                            onPress={() => pressCategory(category?.attributes?.name)}
+                            style={category?.attributes?.name === activeCategory ? styles.textContentActive : styles.textContent}>
+                            <Text numberOfLines={1} style={styles.text}>{category?.attributes?.title}</Text>
                         </Pressable>
 
                     )) : <Skeletons height={30} />}

@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "alin",
+    "name": "Alin",
     "slug": "alin",
-    "version": "1.0.0",
+    "version": "1.0.6",
     "orientation": "portrait",
-    "icon": "./assets/alin.webp",
+    "icon": "./assets/alin.png",
     "splash": {
       "image": "./assets/alin-logo.png",
       "resizeMode": "contain",
@@ -17,16 +17,19 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.vova2.alin"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/alin-logo.png",
+        "foregroundImage": "./assets/alin-circle.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.vova2.alin",
+      "versionCode": 7
     },
     "web": {
-      "favicon": "./assets/alin.webp"
+      "favicon": "./assets/alin.png"
     }
   }
 }
