@@ -66,29 +66,9 @@ export default function ReservACar(
                 return;
             }
 
-            // const formData = new FormData()
-            // formData.append('carName', carName)
-            // formData.append('carPhoto', carPhoto)
-            // formData.append('fromDate', moment(fDate.date).format('YYYY-MM-DD'))
-            // formData.append('toDate', moment(tDate.date).format('YYYY-MM-DD'))
-            // formData.append('fromTime', moment(fTime.date).format('YYYY-MM-DD'))
-            // formData.append('toDate', moment(tTime.date).format('YYYY-MM-DD'))
-            // formData.append('totalPrice', totalPrice)
-            // formData.append('countDays', countDays)
-            // formData.append('deposit_price', deposit)
-            // formData.append('fuel_deposite', fuelDeposit)
-            // formData.append('services', isCheckedBounces)
-            // formData.append('city', values.city)
-            // formData.append('name', values.name)
-            // formData.append('email', values.email)
-            // formData.append('phone', values.email)
-            // formData.append('comment', values.comment)
-            // console.log(formData)
-
             const data = {
                 selectedCar: carName,
                 image: carPhoto,
-                // city: "Lviv",
                 receiveDate: moment(fDate.date).format('YYYY-MM-DD'),
                 returnDate: moment(tDate.date).format('YYYY-MM-DD'),
                 receiveTime: moment(fTime.date).format('HH:mm:ss.SSS'),

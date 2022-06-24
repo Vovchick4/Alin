@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, StyleSheet, Dimensions, ScrollView, Linking } from 'react-native'
+import { View, Text, StyleSheet, ScrollView, Linking } from 'react-native'
 import { TouchableNativeFeedback } from 'react-native-gesture-handler'
 import { Icon } from 'react-native-elements'
-import axios from 'axios'
 import { useTranslation } from 'react-i18next'
 import { useTheme } from '@react-navigation/native';
 import { Colors } from 'react-native/Libraries/NewAppScreen'
@@ -10,61 +9,9 @@ import { Colors } from 'react-native/Libraries/NewAppScreen'
 import { Container, Skeletons } from '../../components'
 import { myColors } from '../../constants/constantColor'
 
-const { width } = Dimensions.get('window')
-
 export default function Settings({ navigation }) {
     const { colors } = useTheme()
-    const { t, i18n } = useTranslation()
-
-    const [policyData, setPolicyData] = useState({})
-    const [faqData, setFaqData] = useState({})
-    const [programLoality, setProgramLoality] = useState({})
-    const [aboutAlin, setAboutAlin] = useState({})
-    const [loading, setLoading] = useState(false)
-
-    useEffect(() => {
-        setLoading(true)
-
-        axios({
-            method: 'GET',
-            url: `alin-policy-guard?locale=${i18n.language}`,
-        })
-            .then((res) => {
-                setPolicyData(res.data);
-            })
-            .catch((err) => alert(err))
-            .finally(() => setLoading(false))
-
-        axios({
-            method: 'GET',
-            url: `alin-faq?locale=${i18n.language}`,
-        })
-            .then((res) => {
-                setFaqData(res.data);
-            })
-            .catch((err) => alert(err))
-            .finally(() => setLoading(false))
-
-        axios({
-            method: 'GET',
-            url: `alin-program-loality?locale=${i18n.language}`,
-        })
-            .then((res) => {
-                setProgramLoality(res.data);
-            })
-            .catch((err) => alert(err))
-            .finally(() => setLoading(false))
-
-        axios({
-            method: 'GET',
-            url: `alin-back?locale=${i18n.language}`,
-        })
-            .then((res) => {
-                setAboutAlin(res.data);
-            })
-            .catch((err) => alert(err))
-            .finally(() => setLoading(false))
-    }, [i18n.language])
+    const { t } = useTranslation()
 
     const dataSettings = [
         {
@@ -89,35 +36,30 @@ export default function Settings({ navigation }) {
             name: t('Ask a Question'),
             icon: <Icon type="font-awesome-5" name="info-circle" color={Colors.white} />,
             naivgate: 'AskQuestion',
-            params: 'none'
         },
         {
             id: 2,
             name: `Alin FAQ`,
             icon: <Icon type="font-awesome-5" name="list" color={Colors.white} />,
             naivgate: 'Faq',
-            params: faqData
         },
         {
             id: 3,
             name: t('About') + ' Alin',
             icon: <Icon type="font-awesome-5" name="question-circle" color={Colors.white} />,
             naivgate: 'AboutAlin',
-            params: aboutAlin
         },
         {
             id: 4,
             name: t('Loyalty Program'),
             icon: <Icon type="font-awesome-5" name="tags" color={Colors.white} />,
             naivgate: 'ProgramLoality',
-            params: programLoality
         },
         {
             id: 5,
             name: t('Privacy Policy'),
             icon: <Icon type="font-awesome-5" name="check-circle" color={Colors.white} />, // user-shield (icon)
             naivgate: 'PrivacyPolicy',
-            params: policyData
         }
     ]
 
@@ -155,7 +97,7 @@ export default function Settings({ navigation }) {
                                 if (set.id === 1) {
                                     Linking.openURL("https://alin.ua/contacts#sendQuestUS")
                                 } else {
-                                    navigation.navigate(set.naivgate, { data: set.params })
+                                    navigation.navigate(set.naivgate)
                                 }
                             }}
                             background={TouchableNativeFeedback.Ripple(myColors.danger)}>

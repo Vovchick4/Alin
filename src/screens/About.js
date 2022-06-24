@@ -45,12 +45,12 @@ export default function About() {
                             <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
                                 <View style={styles.BoxTab}>
                                     {cities && cities.map((item, index) => (
-                                        <View key={item.attributes?.name} style={index !== 0 && { marginLeft: 8 }}>
+                                        <View key={item.title} style={index !== 0 && { marginLeft: 8 }}>
                                             <TouchableNativeFeedback
                                                 background={TouchableNativeFeedback.Ripple(myColors.danger)}
                                                 onPress={() => setTabIndex(index)}>
                                                 <View style={index === tabIndex ? styles.contentActive : styles.content}>
-                                                    <Text style={styles.tab}>{item.attributes?.name}</Text>
+                                                    <Text style={styles.tab}>{item.title}</Text>
                                                 </View>
                                             </TouchableNativeFeedback>
                                         </View>
@@ -72,27 +72,27 @@ export default function About() {
                                                 <View style={styles.contentIcons}>
                                                     <Icon type="font-awesome-5" name="map-marked" size={18} color={colors.text} />
                                                     <Text style={[styles.cityText, { color: colors.text }]}>
-                                                        {item.attributes?.address}
+                                                        {item.address}
                                                     </Text>
                                                 </View>
                                                 <View style={styles.contentIcons}>
                                                     <Icon type="font-awesome-5" name="envelope" size={18} color={colors.text} />
                                                     <Text style={[styles.cityText, { color: colors.text }]}>
-                                                        {item.attributes?.mail}
+                                                        {item.mail}
                                                     </Text>
                                                 </View>
                                                 <View style={styles.contentIcons}>
                                                     <Icon type="font-awesome-5" name="phone" size={18} color={colors.text} />
                                                     <Text style={[styles.cityText, { color: colors.text }]}>
-                                                        {item.attributes?.phone}
+                                                        {item.phone}
                                                     </Text>
                                                 </View>
                                             </View>
                                         </Container>
                                         <View style={styles.contentCityMap}>
-                                            {item?.attributes?.Image?.data &&
+                                            {item.photo.path &&
                                                 <Image
-                                                    source={{ uri: item.attributes.Image?.data?.attributes?.url }}
+                                                    source={{ uri: item.photo.path }}
                                                     resizeMode="cover"
                                                     style={styles.image} />}
                                         </View>

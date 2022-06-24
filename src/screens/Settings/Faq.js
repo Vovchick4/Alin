@@ -1,26 +1,43 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTheme } from '@react-navigation/native'
 import { View, Text, StyleSheet, ScrollView } from 'react-native'
 import Markdown from 'react-native-easy-markdown';
 
-import { Container } from '../../components'
+import { Container, Loaders } from '../../components'
 import { myColors } from '../../constants/constantColor';
+import { useTranslation } from 'react-i18next';
+import axios from 'axios';
 
 export default function Faq({ route }) {
     const { colors } = useTheme()
+    const { t, i18n } = useTranslation()
+    const [faqs, setFaqs] = useState([])
+    const [loading, setLoading] = useState(false)
+
+    useEffect(() => {
+        setLoading(true)
+        axios({ method: "GET", url: `/faq/${i18n.language}` })
+            .then((res) => setFaqs(res.data))
+            .catch((err) => alert(err.message))
+            .finally(() => setLoading(false))
+    }, [i18n])
+
+    if (loading) return <Loaders isCentered />
 
     return (
         <ScrollView>
             <Container>
-                <Text style={[styles.title, { color: colors.text }]}>{route.params.data?.data?.attributes?.Title}</Text>
+                <Text style={[styles.title, { color: colors.text }]}>{t("")}</Text>
                 <View style={{ backgroundColor: myColors.danger, paddingHorizontal: 15 }}>
-                    <Markdown>
-                        {route.params.data?.data?.attributes?.Content}
-                    </Markdown>
+                    {faqs.map(({ id, name, description }) => (
+                        <View key={id}>
+                            <Text>{name}</Text>
+                            <Markdown>
+                                {description}
+                            </Markdown>
+                        </View>
+                    ))}
                 </View>
-                {/* <Text style={[styles.text, { color: colors.text }]}>
-                    {route.params.data?.data?.attributes?.Content}
-                </Text> */}
             </Container>
         </ScrollView>
     )
