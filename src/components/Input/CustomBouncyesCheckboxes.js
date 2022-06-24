@@ -59,7 +59,7 @@ export default class CustomBouncyesCheckboxes extends Component {
                         style={{ marginTop: 8 }}
                         fillColor="#000"
                         unfillColor="#FFFFFF"
-                        text={item.attributes.name}
+                        text={item.name}
                         iconStyle={{ borderColor: Colors.white }}
                         textStyle={{ color: Colors.white }}
                         onPress={() => this.toggleChange(item.id)}

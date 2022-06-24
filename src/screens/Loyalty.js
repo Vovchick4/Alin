@@ -21,14 +21,11 @@ export default function Loyalty({ navigation }) {
         setLoading(true);
 
         axios({
-            url: `loality-programs?locale=${i18n.language}`,
+            url: `/loyalsystem/${i18n.language}`,
             method: 'GET',
-            params: {
-                populate: 'logo'
-            }
         })
             .then((res) => {
-                setPrograms(res.data.data);
+                setPrograms(res.data);
             })
             .catch((err) => alert(err))
             .finally(() => setLoading(false));
@@ -46,17 +43,17 @@ export default function Loyalty({ navigation }) {
                     renderItem={({ item }) => (
                         <TouchableNativeFeedback
                             background={TouchableNativeFeedback.Ripple(myColors.danger)}
-                            onPress={() => navigation.navigate("MoreInfo", { data: item.attributes })}>
+                            onPress={() => navigation.navigate("MoreInfo", { data: item })}>
                             <View style={styles.content}>
-                                {item.attributes.logo.data &&
-                                    <Image style={styles.image} source={{ uri: item.attributes.logo?.data?.attributes?.url }} resizeMode="contain" />}
+                                {item.images &&
+                                    <Image style={styles.image} source={{ uri: item.images[0].path }} resizeMode="contain" />}
                                 <View style={{ width: '40%' }}>
-                                    <Text style={[styles.title, { color: colors.text }]}>{item.attributes?.title}</Text>
-                                    <Text style={[styles.text, { color: colors.text }]} numberOfLines={2}>{item.attributes?.description}</Text>
+                                    <Text style={[styles.title, { color: colors.text }]}>{item?.name}</Text>
+                                    <Text style={[styles.text, { color: colors.text }]} numberOfLines={2}>{item?.description}</Text>
                                 </View>
                                 <View style={{ width: '30%' }}>
                                     <Text style={[styles.text, { color: colors.text }]}>{t("Discount")}</Text>
-                                    <Text style={styles.discount}>{item.attributes?.discount}</Text>
+                                    <Text style={styles.discount}>{item?.discount}</Text>
                                 </View>
                             </View>
                         </TouchableNativeFeedback>

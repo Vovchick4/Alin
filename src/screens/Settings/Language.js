@@ -10,28 +10,29 @@ import { Colors } from 'react-native/Libraries/NewAppScreen'
 import { Container, Loaders, Skeletons } from '../../components'
 import { myColors } from '../../constants/constantColor'
 
+const locales = [
+    {
+        code: "ua",
+        name: "UA",
+    },
+    {
+        code: "en",
+        name: "EN",
+    },
+    {
+        code: "pl",
+        name: "PL",
+    },
+    {
+        code: "ru",
+        name: "RU",
+    }
+]
 export default function Language() {
-    const [locales, setLocales] = useState([])
-    const [loading, setLoading] = useState(false)
-
     const { t, i18n } = useTranslation()
     const navigation = useNavigation()
 
     const { colors } = useTheme()
-
-    useEffect(() => {
-        setLoading(true)
-
-        axios({
-            method: 'GET',
-            url: 'i18n/locales',
-        })
-            .then((res) => {
-                setLocales(res.data);
-            })
-            .catch((err) => alert(err))
-            .finally(() => setLoading(false))
-    }, [])
 
     const setLocaleLng = async (locale) => {
         i18n.changeLanguage(locale)
@@ -52,10 +53,8 @@ export default function Language() {
                 <Text style={[styles.text, { color: colors.text }]}>{t('Language')}</Text>
             </Container>
 
-            {loading && <Loaders />}
-
             {locales && locales.map(locale => (
-                <TouchableNativeFeedback key={locale.id} onPress={() => setLocaleLng(locale.code)}>
+                <TouchableNativeFeedback key={locale.code} onPress={() => setLocaleLng(locale.code)}>
                     <View style={styles.localeContent}>
                         <RadioButton
                             onPress={() => setLocaleLng(locale.code)}

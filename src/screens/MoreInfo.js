@@ -33,9 +33,9 @@ export default function MoreInfo({ route }) {
                 <View style={styles.content}>
                     <Image
                         style={styles.image}
-                        source={{ uri: route.params.data.logo?.data?.attributes.url }}
+                        source={{ uri: route.params.data.images[0]?.path }}
                         resizeMode="contain" />
-                    <Text style={[styles.title, { color: colors.text }]}>{route.params.data?.title}</Text>
+                    <Text style={[styles.title, { color: colors.text }]}>{route.params.data.name}</Text>
 
                     <View style={{
                         flexDirection: "row", alignItems: 'center'

@@ -1,3 +1,4 @@
+import { useDispatch } from "react-redux"
 import React, { useEffect, useState } from "react"
 import {
   DefaultTheme as NavigationDefaultTheme,
@@ -6,13 +7,12 @@ import {
 } from "@react-navigation/native"
 import { useTranslation } from 'react-i18next'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-// import { useDispatch } from 'react-redux';
 import {
   DefaultTheme as PaperDefaultTheme,
   DarkTheme as PaperDarkTheme
 } from 'react-native-paper';
 
-// import { dataOperations } from "./src/redux/data"
+import { dataOperations } from "./src/redux/data"
 import DrawerNavigator from "./src/navigation/DrawerNavigator"
 import { CitiesServicesProvider } from './src/context/CitiesSevicesContext';
 import { ThemeContext } from "./src/context/contentextTheme"
@@ -46,7 +46,7 @@ const App = () => {
 
   const [isDarkTheme, setIsDarkTheme] = useState(false)
 
-  // const dispatch = useDispatch()
+  const dispatch = useDispatch()
 
   const theme = isDarkTheme ? CustomDefaultTheme : CustomDarkTheme
 
@@ -101,13 +101,13 @@ const App = () => {
     }
   }, [i18n])
 
-  // useEffect(() => {
-  //   dispatch(dataOperations.citiesFetchAll(i18n))
-  //   dispatch(dataOperations.addtionalServicesFetchAll(i18n))
-  //   dispatch(dataOperations.categoriesFetchAll(i18n))
-  //   dispatch(dataOperations.subCategoriesFetchAll(i18n))
-  //   dispatch(dataOperations.brandFetchAll(i18n))
-  // }, [i18n.language])
+  useEffect(() => {
+    dispatch(dataOperations.citiesFetchAll(i18n))
+    dispatch(dataOperations.addtionalServicesFetchAll(i18n))
+    dispatch(dataOperations.categoriesFetchAll(i18n))
+    dispatch(dataOperations.subCategoriesFetchAll(i18n))
+    dispatch(dataOperations.brandFetchAll(i18n))
+  }, [i18n.language])
 
   return (
     <ThemeContext.Provider value={themeContext}>

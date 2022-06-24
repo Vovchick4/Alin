@@ -45,14 +45,17 @@ export default function Reserv({ navigation, route }) {
 
         axios({
             method: 'POST',
-            url: '/mail',
-            data
+            url: '/sendOrderCar',
+            data: { data }
         })
             .then((res) => {
-                closeModals()
+                console.log(res.data);
+                alert(res.data)
+                // closeModals()
             })
             .catch((error) => {
-                alert(error)
+                console.log(error.message);
+                alert(error.message)
             })
             .finally(() => {
                 setLoading(false)
@@ -77,9 +80,8 @@ export default function Reserv({ navigation, route }) {
                     cities={cities}
                     additionalServices={additionalServices}
                     carName={route.params.data?.name}
-                    startPrice={route.params.data?.price}
-                    prices={route.params.data?.prices}
-                    carPhoto={route.params.data.images.data && route.params.data?.images?.data[0]}
+                    prices={route.params.data?.price}
+                    carPhoto={route.params.data.photo.path && route.params.data?.photo?.path}
                     deposit={route.params.data?.deposit}
                     fuelDeposit={route.params.data?.fuel_deposit}
                 />
@@ -93,7 +95,7 @@ export default function Reserv({ navigation, route }) {
                     </Text> */}
 
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                        {route.params.data.prices && route.params.data.prices.map((price, i) => (
+                        {route.params.data.price && route.params.data.price.map((price, i) => (
                             <View key={i} style={[{}, i === 0 ? { marginRight: 10 } : { marginHorizontal: 10 }]}>
                                 <Text style={[styles.title, { color: colors.text }]}>{price?.days}</Text>
                                 <Text style={[styles.title, { textAlign: 'center', color: colors.text }]}>{price?.money}€</Text>
@@ -111,8 +113,8 @@ export default function Reserv({ navigation, route }) {
                     justifyContent: 'center',
                     backgroundColor: myColors.gray
                 }}>
-                    {route.params.data.images.data &&
-                        <MyPaginCarousel entries={route.params.data?.images?.data} activeSlide={0} />
+                    {route.params.data.photo.path &&
+                        <MyPaginCarousel entries={[route.params.data?.photo]} activeSlide={0} />
                     }
                 </View>
             </View>

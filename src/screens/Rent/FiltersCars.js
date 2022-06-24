@@ -29,8 +29,8 @@ export default function FiltersCars(
             <ScrollView horizontal={true} style={styles.content}>
                 {!loading ?
                     <Pressable
-                        onPress={() => pressCategory("All Categories")}
-                        style={"All Categories" === activeCategory ? styles.textContentActive : styles.textContent}>
+                        onPress={() => pressCategory({ label: "All Categories", value: 0 })}
+                        style={"All Categories" === activeCategory.label ? styles.textContentActive : styles.textContent}>
                         <Text numberOfLines={1} style={styles.text}>{t("All Categories")}</Text>
                     </Pressable>
                     : <Skeletons height={30} />}
@@ -39,22 +39,22 @@ export default function FiltersCars(
                     categories.map(category => (
                         <Pressable
                             key={category.id}
-                            onPress={() => pressCategory(category?.attributes?.name)}
-                            style={category?.attributes?.name === activeCategory ? styles.textContentActive : styles.textContent}>
-                            <Text numberOfLines={1} style={styles.text}>{category?.attributes?.title}</Text>
+                            onPress={() => pressCategory({ label: category.name, value: category.id })}
+                            style={category.name === activeCategory.label ? styles.textContentActive : styles.textContent}>
+                            <Text numberOfLines={1} style={styles.text}>{category.name}</Text>
                         </Pressable>
 
                     )) : <Skeletons height={30} />}
             </ScrollView>
 
             <View style={styles.selectContent}>
-                <Select loading={loading} mode="modal" data={cities} selectedValue={activeCity} onChange={(value) => { setActiveCity(value) }} />
+                <Select loading={loading} mode="modal" data={cities} selectedValue={activeCity} onChange={(itemValue) => setActiveCity(itemValue)} />
                 <Select
                     loading={loading}
                     mode="modal"
                     data={subCategories}
                     selectedValue={activeSubCategory}
-                    onChange={(value) => { setActiveSubCategory(value) }} />
+                    onChange={(itemValue) => setActiveSubCategory(itemValue)} />
             </View>
         </React.Fragment>
     )

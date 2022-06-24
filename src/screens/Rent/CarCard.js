@@ -8,7 +8,7 @@ import { Container } from "../../components"
 import { myColors } from '../../constants/constantColor'
 
 // const IMAGES_PREFIX = 'https://alin-back.herokuapp.com'
-export default function CarCard({ name, prices, images }) {
+export default function CarCard({ name, price, photo }) {
     const { colors } = useTheme()
 
     return (
@@ -20,20 +20,19 @@ export default function CarCard({ name, prices, images }) {
             </Container>
 
             <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-                {images?.data && images.data.map((image, index) => (
-                    <Image key={image.id}
-                        style={index !== 0 ? { width: 334, height: 200, marginLeft: 20 } :
-                            { width: 334, height: 200, marginLeft: 0 }}
-                        width={334} height={200} source={{ uri: image?.attributes?.url }} resizeMode='contain' />
-                ))}
+                {photo?.path &&
+                    <Image
+                        style={{ width: 334, height: 200, marginLeft: 0 }}
+                        width={334} height={200} source={{ uri: photo?.path }} resizeMode='contain' />
+                }
             </ScrollView>
 
             <Container>
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                    {prices && prices.map((price, i) => (
+                    {price && price.map((p, i) => (
                         <View key={i} style={[{}, i === 0 ? { marginRight: 10 } : { marginHorizontal: 10 }]}>
-                            <Text style={[styles.title, { color: colors.text }]}>{price?.days}</Text>
-                            <Text style={[styles.title, { textAlign: 'center', color: colors.text }]}>{price?.money}€</Text>
+                            <Text style={[styles.title, { color: colors.text }]}>{p?.days}</Text>
+                            <Text style={[styles.title, { textAlign: 'center', color: colors.text }]}>{p?.money}€</Text>
                         </View>
                     ))}
                 </View>

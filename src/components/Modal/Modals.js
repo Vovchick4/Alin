@@ -2,6 +2,7 @@ import { useTheme } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react'
 import { View, Modal, StyleSheet, Animated, TouchableNativeFeedback } from 'react-native'
 import { Icon } from 'react-native-elements';
+import { ScrollView } from 'react-native-gesture-handler';
 
 import { myColors } from '../../constants/constantColor';
 
@@ -40,14 +41,16 @@ export default function Modals({ children, visible, onClose }) {
                 <Animated.View
                     style={[styles.modalContainer, colors.text === '#ffffff' ?
                         { backgroundColor: myColors.gray } : { backgroundColor: 'white' }, { transform: [{ scale: scaleValue }] }]}>
-                    <TouchableNativeFeedback
-                        onPress={onClose}
-                        background={TouchableNativeFeedback.Ripple(myColors.danger, true)}>
-                        <View style={styles.buttonExit}>
-                            <Icon type='font-awesome-5' name='times' size={30} color={colors.text} />
-                        </View>
-                    </TouchableNativeFeedback>
-                    {children}
+                    <ScrollView horizontal={false}>
+                        <TouchableNativeFeedback
+                            onPress={onClose}
+                            background={TouchableNativeFeedback.Ripple(myColors.danger, true)}>
+                            <View style={styles.buttonExit}>
+                                <Icon type='font-awesome-5' name='times' size={30} color={colors.text} />
+                            </View>
+                        </TouchableNativeFeedback>
+                        {children}
+                    </ScrollView>
                 </Animated.View>
             </View>
         </Modal>
@@ -71,9 +74,10 @@ const styles = StyleSheet.create({
     modalContainer: {
         position: 'relative',
         width: '80%',
+        maxHeight: 280,
         // backgroundColor: myColors.dark,
         paddingHorizontal: 20,
-        paddingVertical: 30,
+        paddingVertical: 20,
         borderRadius: 20,
         elevation: 20,
     },

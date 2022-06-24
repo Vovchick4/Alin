@@ -6,10 +6,10 @@ export const citiesFetchAll = (i18n) => (dispatch) => {
 
     axios({
         method: 'GET',
-        url: `cities?locale=${i18n.language}&sort=id%3Aasc&populate=*`,
+        url: `/cities/${i18n.language}`,
     })
         .then((res) => {
-            dispatch(actions.citiesAllSuccess(res.data.data))
+            dispatch(actions.citiesAllSuccess(res.data))
         })
         .catch((error) => {
             alert(error)
@@ -22,10 +22,10 @@ export const addtionalServicesFetchAll = (i18n) => (dispatch) => {
 
     axios({
         method: 'GET',
-        url: `additional-services?locale=${i18n.language}`,
+        url: `/additional-services/${i18n.language}`,
     })
         .then((res) => {
-            dispatch(actions.additionalServicesAllSuccess(res.data.data))
+            dispatch(actions.additionalServicesAllSuccess(res.data))
         })
         .catch((error) => {
             alert(error)
@@ -38,10 +38,10 @@ export const categoriesFetchAll = (i18n) => (dispatch) => {
 
     axios({
         method: 'GET',
-        url: `categories?locale=${i18n.language}&sort=id%3Aasc`,
+        url: `/categories/${i18n.language}`,
     })
         .then((res) => {
-            dispatch(actions.categoriesAllSuccess(res.data.data))
+            dispatch(actions.categoriesAllSuccess(res.data))
         })
         .catch((error) => {
             alert(error)
@@ -54,10 +54,10 @@ export const subCategoriesFetchAll = (i18n) => (dispatch) => {
 
     axios({
         method: 'GET',
-        url: `sub-categories?locale=${i18n.language}`,
+        url: `/sub-categories/${i18n.language}`,
     })
         .then((res) => {
-            dispatch(actions.subCategoriesAllSuccess(res.data.data))
+            dispatch(actions.subCategoriesAllSuccess(res.data))
         })
         .catch((error) => {
             alert(error)
@@ -70,10 +70,10 @@ export const brandFetchAll = (i18n) => (dispatch) => {
 
     axios({
         method: 'GET',
-        url: `brand-cars?locale=${i18n.language}`,
+        url: `/cars-brands/${i18n.language}`,
     })
         .then((res) => {
-            dispatch(actions.brandAllSuccess(res.data.data))
+            dispatch(actions.brandAllSuccess(res.data))
         })
         .catch((error) => {
             alert(error)

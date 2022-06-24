@@ -31,7 +31,6 @@ export default function ReservACar(
         cities,
         additionalServices,
         carName,
-        startPrice,
         prices,
         carPhoto,
         deposit,
@@ -49,11 +48,12 @@ export default function ReservACar(
     const [isDeposit, setisDeposit] = useState('With Deposit')
     const [notWorkingTime, setNotWorkingTime] = useState('')
     const [countDays, setCountDays] = useState(1)
-    const [totalPrice, setTotalPrice] = useState(startPrice)
+    const [totalPrice, setTotalPrice] = useState(prices[0].money)
 
     const formik = useFormik({
         initialValues: {
-            city: 'Lviv',
+            locationFrom: 'Lviv',
+            locationTo: "Lviv",
             name: '',
             email: '',
             phone: '',
@@ -86,21 +86,20 @@ export default function ReservACar(
             // console.log(formData)
 
             const data = {
-                carName,
-                carPhoto: carPhoto?.attributes?.url,
-                fromDate: moment(fDate.date).format('YYYY-MM-DD'),
-                toDate: moment(tDate.date).format('YYYY-MM-DD'),
-                fromTime: moment(fTime.date).format('HH:mm:ss.SSS'),
-                toTime: moment(tTime.date).format('HH:mm:ss.SSS'),
-                totalPrice,
+                selectedCar: carName,
+                image: carPhoto,
+                // city: "Lviv",
+                receiveDate: moment(fDate.date).format('YYYY-MM-DD'),
+                returnDate: moment(tDate.date).format('YYYY-MM-DD'),
+                receiveTime: moment(fTime.date).format('HH:mm:ss.SSS'),
+                returnTime: moment(tTime.date).format('HH:mm:ss.SSS'),
+                price: totalPrice,
                 countDays,
                 deposit_price: deposit,
                 fuel_deposite: fuelDeposit,
-                services: isCheckedBounces,
+                services: isCheckedBounces.map(item => item.name + " " + item.price),
                 ...values
             }
-
-            console.log(data)
 
             onSubmit(data)
         },
@@ -146,9 +145,9 @@ export default function ReservACar(
     // Total Price Services 
     const totalPriceServices = isCheckedBounces.reduce(
         (prev, serviceItem) => {
-            let max_price = Number(serviceItem.attributes.price) * countDays
-            if (max_price >= Number(serviceItem.attributes.max_price)) {
-                max_price = Number(serviceItem.attributes.max_price)
+            let max_price = Number(serviceItem.price) * countDays
+            if (max_price >= Number(serviceItem.max_price)) {
+                max_price = Number(serviceItem.max_price)
             }
             return prev + max_price
         }, 0)
@@ -264,15 +263,15 @@ export default function ReservACar(
                 <View style={styles.flexRow}>
                     <Select
                         data={cities}
-                        selectedValue={formik.values.city}
-                        onChange={formik.handleChange('city')}
+                        selectedValue={formik.values.locationFrom}
+                        onChange={(itemValue) => formik.setFieldValue("city", itemValue.title)}
                         label={t("Place of filing")} />
                     <Select
                         data={cities}
-                        selectedValue={formik.values.city}
-                        onChange={formik.handleChange('city')}
+                        selectedValue={formik.values.locationTo}
+                        onChange={(itemValue) => formik.setFieldValue("city", itemValue.title)}
                         label={t("Place of return")}
-                        enabled={false} />
+                        enabled={true} />
                 </View>
 
                 <View style={styles.flexRowAraund}>
@@ -355,7 +354,7 @@ export default function ReservACar(
 
                 <View style={styles.buttonSubmit}>
                     <Text style={[styles.title, { lineHeight: 40 }]}>{t('Total Price')} - {totalPrice}€</Text>
-                    <View style={Platform.OS === 'ios' ? {width: 120, backgroundColor: myColors.danger} : {width: 120}}>
+                    <View style={Platform.OS === 'ios' ? { width: 120, backgroundColor: myColors.danger } : { width: 120 }}>
                         <Button testID="submit" onPress={formik.handleSubmit} title={t("Submit")} color={myColors.gray} disabled={loading} />
                     </View>
                 </View>
@@ -394,7 +393,7 @@ const styles = StyleSheet.create({
     BouncyCheckboxContent: {
         flexWrap: 'wrap',
         flexDirection: "row",
-        justifyContent: 'flex-start',
+        justifyContent: "space-between",
         marginTop: 10,
         paddingLeft: 3,
         marginBottom: 15

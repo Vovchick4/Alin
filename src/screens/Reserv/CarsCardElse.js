@@ -7,16 +7,16 @@ export default function CarsCardElse({ car, cars }) {
     const navigation = useNavigation();
 
     return (
-        <TouchableNativeFeedback onPress={() => navigation.push("Reserv", { data: car.attributes, cars: cars })}>
+        <TouchableNativeFeedback onPress={() => navigation.push("Reserv", { data: car, cars: cars })}>
             <View style={styles.contentBg}>
-                {car.attributes?.images?.data &&
+                {car.photo?.path &&
                     <Image
                         style={{ width: '100%', height: 120 }}
                         width={120}
                         height={120}
-                        source={{ uri: car.attributes?.images?.data[0]?.attributes?.url }} resizeMode="cover" />
+                        source={{ uri: car.photo?.path }} resizeMode="cover" />
                 }
-                <Text numberOfLines={1} style={styles.name}>{car?.attributes?.name}</Text>
+                <Text numberOfLines={1} style={styles.name}>{car?.name}</Text>
             </View>
         </TouchableNativeFeedback>
     )

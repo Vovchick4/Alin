@@ -12,10 +12,10 @@ export default function ProgramLoality({ route }) {
     return (
         <ScrollView>
             <Container>
-                <Text style={[styles.title, { color: colors.text }]}>{route.params.data?.data?.attributes?.Title}</Text>
+                <Text style={[styles.title, { color: colors.text }]}>{route.params.data?.name}</Text>
                 <View style={{ backgroundColor: myColors.danger, paddingHorizontal: 15 }}>
                     <Markdown>
-                        {route.params.data?.data?.attributes?.Content}
+                        {route.params.data?.content}
                     </Markdown>
                 </View>
                 {/* <Text style={[styles.text, { color: colors.text }]}>

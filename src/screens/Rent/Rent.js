@@ -47,11 +47,11 @@ export default function Rent({ navigation }) {
     const brand = useSelector(dataSelectors.getBrand)
     // const dataLoading = useSelector(dataSelectors.getLoading)
 
-    const [activeCity, setActiveCity] = useState("Lviv")
-    const [activeBrand, setActiveBrand] = useState('All Brands')
-    const [activeCategory, setActiveCategory] = useState('All Categories')
-    const [activeSubCategory, setActiveSubCategory] = useState('Gasoline')
-    const [activeSort, setActiveSort] = useState('asc')
+    const [activeCity, setActiveCity] = useState({ id: 1, title: "Lviv" })
+    const [activeBrand, setActiveBrand] = useState({ label: 'All Brands', value: 0 })
+    const [activeCategory, setActiveCategory] = useState({ label: 'All Categories', value: 0 })
+    const [activeSubCategory, setActiveSubCategory] = useState({ id: 1, title: "Gasoline" })
+    const [activeSort, setActiveSort] = useState({ label: 'asc', value: 1 })
 
     const [modal, setModal] = useState(null)
     const [contentVerticalOffset, setContentVerticalOffset] = useState(0)
@@ -60,26 +60,17 @@ export default function Rent({ navigation }) {
     const listRef = useRef(null)
 
     useEffect(() => {
-        const request = activeBrand === 'All Brands' && activeCategory === 'All Categories' ?
-            `cars?filters[cities][name][$eq]=${activeCity}&filters[sub_categories][name][$eq]=${activeSubCategory}&sort=deposit%3A${activeSort}`
-            : activeCategory === 'All Categories' ?
-                `cars?filters[cities][name][$eq]=${activeCity}&filters[brand_car][name][$eq]=${activeBrand}&filters[sub_categories][name][$eq]=${activeSubCategory}&sort=deposit%3A${activeSort}`
-                : activeBrand === 'All Brands' ?
-                    `cars?filters[category][name][$eq]=${activeCategory}&filters[cities][name][$eq]=${activeCity}&filters[sub_categories][name][$eq]=${activeSubCategory}&sort=deposit%3A${activeSort}`
-                    : `cars?filters[category][name][$eq]=${activeCategory}&filters[cities][name][$eq]=${activeCity}&filters[brand_car][name][$eq]=${activeBrand}&filters[sub_categories][name][$eq]=${activeSubCategory}&sort=deposit%3A${activeSort}`
-
         setLoading(true)
 
         axios({
-            url: request,
+            url: `/allcars?category=${activeCategory.value}&city=${activeCity.id}&brand=${activeBrand.id}`,
             method: 'GET',
             params: {
                 locale: i18n.language,
-                populate: '*',
             },
         })
             .then((res) => {
-                setResCars(res.data.data);
+                setResCars(res.data);
             })
             .catch((err) => alert(err))
             .finally(() => setLoading(false))
@@ -119,7 +110,7 @@ export default function Rent({ navigation }) {
 
             <FlatList style={{ marginBottom: 80 }} data={resCars} keyExtractor={({ id }) => id}
                 ref={listRef}
-                onScroll={(e) => scrollList(e)}
+                // onScroll={(e) => scrollList(e)}
                 ListHeaderComponent={
                     <Container>
                         <FiltersCars
@@ -146,7 +137,7 @@ export default function Rent({ navigation }) {
                             }}>
                                 {!loading ?
                                     <React.Fragment>
-                                        <Text style={{ color: Colors.white }}>{activeBrand}</Text>
+                                        <Text style={{ color: Colors.white }}>{activeBrand.label}</Text>
                                         <Icon type="font-awesome-5" name="car-alt" color={Colors.white} />
                                     </React.Fragment>
                                     : <Skeletons height={30} />}
@@ -168,7 +159,7 @@ export default function Rent({ navigation }) {
 
                         <Modals visible={modal === stateModals.brandCar} onClose={closeModals}>
                             <Text style={{ color: colors.text, fontSize: 18, marginBottom: 20, maxWidth: '90%' }}>{t('Choose Brand Car')}!</Text>
-                            <TouchableOpacity onPress={() => { setActiveBrand('All Brands'); closeModals() }} disabled={loading}>
+                            <TouchableOpacity onPress={() => { setActiveBrand({ label: 'All Brands', value: 0 }); closeModals() }} disabled={loading}>
                                 <View
                                     style={{
                                         flexDirection: "row",
@@ -177,7 +168,7 @@ export default function Rent({ navigation }) {
                                         paddingVertical: 8
                                     }}>
                                     <Text style={{ color: colors.text, fontSize: 18 }}>{t("All Brands")}!</Text>
-                                    {activeBrand === 'All Brands' &&
+                                    {activeBrand.label === 'All Brands' &&
                                         <Icon type="font-awesome-5" name="check" color={myColors.danger} />
                                     }
                                 </View>
@@ -186,7 +177,7 @@ export default function Rent({ navigation }) {
                                 <TouchableOpacity
                                     disabled={loading}
                                     key={brandItem.id}
-                                    onPress={() => { setActiveBrand(brandItem?.attributes?.name); closeModals() }}>
+                                    onPress={() => { setActiveBrand({ label: brandItem?.name, value: brandItem.id }); closeModals() }}>
                                     <View
                                         style={{
                                             flexDirection: "row",
@@ -194,8 +185,8 @@ export default function Rent({ navigation }) {
                                             justifyContent: "space-between",
                                             paddingVertical: 8
                                         }}>
-                                        <Text style={{ color: colors.text, fontSize: 18 }}>{brandItem?.attributes?.name}</Text>
-                                        {activeBrand === brandItem.attributes.name &&
+                                        <Text style={{ color: colors.text, fontSize: 18 }}>{brandItem?.name}</Text>
+                                        {activeBrand.label === brandItem?.name &&
                                             <Icon type="font-awesome-5" name="check" color={myColors.danger} />
                                         }
                                     </View>
@@ -209,7 +200,7 @@ export default function Rent({ navigation }) {
                                 <TouchableOpacity
                                     disabled={loading}
                                     key={sortItem.id}
-                                    onPress={() => { setActiveSort(sortItem.value); closeModals() }}>
+                                    onPress={() => { setActiveSort({ label: sortItem.value, value: 'ASC' }); closeModals() }}>
                                     <View
                                         style={{
                                             flexDirection: "row",
@@ -218,7 +209,7 @@ export default function Rent({ navigation }) {
                                             paddingVertical: 8
                                         }}>
                                         <Text style={{ color: colors.text, fontSize: 18 }}>{sortItem.name}</Text>
-                                        {activeSort === sortItem.value &&
+                                        {activeSort.label === sortItem.value &&
                                             <Icon type="font-awesome-5" name="check" color={myColors.danger} />
                                         }
                                     </View>
@@ -233,8 +224,8 @@ export default function Rent({ navigation }) {
                             <TouchableNativeFeedback
                                 disabled={loading}
                                 background={TouchableNativeFeedback.Ripple(myColors.danger)}
-                                onPress={() => navigation.navigate("Reserv", { data: item.attributes, cars: resCars })}>
-                                <CarCard {...item.attributes} />
+                                onPress={() => navigation.navigate("Reserv", { data: item, cars: resCars })}>
+                                <CarCard {...item} />
                             </TouchableNativeFeedback>}
                     </Container>
                 )} />
