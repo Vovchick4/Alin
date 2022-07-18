@@ -8,6 +8,8 @@ import { Select, Skeletons } from '../../components'
 export default function FiltersCars(
     {
         loading,
+        setPage,
+        setCars,
         cities,
         categories,
         activeCity,
@@ -21,6 +23,8 @@ export default function FiltersCars(
 ) {
     const { t } = useTranslation()
     function pressCategory(name) {
+        setPage(1)
+        setCars([])
         setActiveCategory(name)
     }
 
@@ -48,13 +52,13 @@ export default function FiltersCars(
             </ScrollView>
 
             <View style={styles.selectContent}>
-                <Select loading={loading} mode="modal" data={cities} selectedValue={activeCity} onChange={(itemValue) => setActiveCity(itemValue)} />
+                <Select loading={loading} mode="modal" data={cities} selectedValue={activeCity} onChange={(itemValue) => { setPage(1), setCars([]), setActiveCity(itemValue) }} />
                 <Select
                     loading={loading}
                     mode="modal"
                     data={subCategories}
                     selectedValue={activeSubCategory}
-                    onChange={(itemValue) => setActiveSubCategory(itemValue)} />
+                    onChange={(itemValue) => { setPage(1), setCars([]), setActiveSubCategory(itemValue) }} />
             </View>
         </React.Fragment>
     )

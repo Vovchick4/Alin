@@ -1,5 +1,5 @@
-import React from "react";
-import { Picker, StyleSheet, View, Text, Platform } from "react-native";
+import { Picker } from '@react-native-picker/picker';
+import { StyleSheet, View, Text, Platform } from "react-native";
 
 import { Colors } from "react-native/Libraries/NewAppScreen"
 import { Skeletons } from "..";

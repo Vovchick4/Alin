@@ -179,7 +179,7 @@ export default function Reserv({ navigation, route }) {
                 <Text style={[styles.title, { color: colors.text }]}>{t("Another cars")}</Text>
             </Container>
 
-            {route.params.cars.length > 0 &&
+            {/* {route.params.cars.length > 0 &&
                 <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                     <Container isBackGround>
                         <View style={{ flexDirection: 'row' }} >
@@ -189,7 +189,7 @@ export default function Reserv({ navigation, route }) {
                         </View>
                     </Container>
                 </ScrollView>
-            }
+            } */}
         </ScrollView>
     )
 }

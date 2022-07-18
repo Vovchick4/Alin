@@ -45,7 +45,7 @@ export default function About() {
                             <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
                                 <View style={styles.BoxTab}>
                                     {cities && cities.map((item, index) => (
-                                        <View key={item.title} style={index !== 0 && { marginLeft: 8 }}>
+                                        <View key={item.id} style={index !== 0 && { marginLeft: 8 }}>
                                             <TouchableNativeFeedback
                                                 background={TouchableNativeFeedback.Ripple(myColors.danger)}
                                                 onPress={() => setTabIndex(index)}>
@@ -60,7 +60,7 @@ export default function About() {
                         </Container>
 
                         {cities && cities.map((item, index) => (
-                            <View key={item?.attributes?.name} style={styles.BoxCity}>
+                            <View key={item.id} style={styles.BoxCity}>
                                 {index === tabIndex &&
                                     <Animated.View style={{ opacity: AnimateState.fromOpacity }}>
                                         {/* <Image
@@ -78,7 +78,7 @@ export default function About() {
                                                 <View style={styles.contentIcons}>
                                                     <Icon type="font-awesome-5" name="envelope" size={18} color={colors.text} />
                                                     <Text style={[styles.cityText, { color: colors.text }]}>
-                                                        {item.mail}
+                                                        {item.email}
                                                     </Text>
                                                 </View>
                                                 <View style={styles.contentIcons}>
@@ -90,9 +90,9 @@ export default function About() {
                                             </View>
                                         </Container>
                                         <View style={styles.contentCityMap}>
-                                            {item.photo.path &&
+                                            {item?.image?.path &&
                                                 <Image
-                                                    source={{ uri: item.photo.path }}
+                                                    source={{ uri: item?.image?.path }}
                                                     resizeMode="cover"
                                                     style={styles.image} />}
                                         </View>

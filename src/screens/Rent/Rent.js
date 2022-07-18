@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react"
 import { useTranslation } from "react-i18next";
-import { View, Text, TouchableOpacity } from "react-native"
+import { View, Text, TouchableOpacity, LogBox } from "react-native"
 import { useSelector } from "react-redux";
 import { Icon } from "react-native-elements";
 import { FlatList, TouchableNativeFeedback } from "react-native-gesture-handler"
@@ -14,7 +14,7 @@ import FiltersCars from "./FiltersCars";
 import ArrowTop from "./ArrowTop";
 import { dataSelectors } from '../../redux/data'
 import { useTheme } from "@react-navigation/native";
-// import { isCloseToBottom } from '../utils'
+import { isCloseToBottom } from '../../utils'
 
 const sorts = [
     {
@@ -45,6 +45,8 @@ export default function Rent({ navigation }) {
     const categories = useSelector(dataSelectors.getCategoires)
     const subCategories = useSelector(dataSelectors.getSubCategoires)
     const brand = useSelector(dataSelectors.getBrand)
+    const [page, setPage] = useState(1)
+    const [meta, setMeta] = useState(0)
     // const dataLoading = useSelector(dataSelectors.getLoading)
 
     const [activeCity, setActiveCity] = useState({ id: 1, title: "Lviv" })
@@ -63,14 +65,15 @@ export default function Rent({ navigation }) {
         setLoading(true)
 
         axios({
-            url: `/allcars?category=${activeCategory.value}&city=${activeCity.id}&brand=${activeBrand.id}`,
+            url: `/allcars?category=${activeCategory.value}&city=${activeCity.id}&brand=${activeBrand.value}&sort=${activeSort.label}&page=${page}`,
             method: 'GET',
             params: {
                 locale: i18n.language,
             },
         })
             .then((res) => {
-                setResCars(res.data);
+                setResCars(prev => [...prev, ...res.data.data]);
+                setMeta(res.data.meta);
             })
             .catch((err) => alert(err))
             .finally(() => setLoading(false))
@@ -84,6 +87,8 @@ export default function Rent({ navigation }) {
         setActiveSubCategory,
         activeSort,
         setActiveSort,
+        page,
+        setPage,
         i18n.language])
 
     function openSortModal() {
@@ -98,23 +103,25 @@ export default function Rent({ navigation }) {
         setModal(null)
     }
 
-    function scrollList(e) {
-        setContentVerticalOffset(e.nativeEvent.contentOffset.y)
+    function scrollList({ nativeEvent }) {
+        setContentVerticalOffset(nativeEvent.contentOffset.y)
     }
 
     return (
         <React.Fragment>
-            {loading && <Loaders isCentered />}
+            {loading && page === 1 && <Loaders isCentered />}
 
             <ArrowTop offsetY={contentVerticalOffset} offsetContent={CONTENT_OFFSET_THRESHOLD} scrollTopRef={listRef} />
 
             <FlatList style={{ marginBottom: 80 }} data={resCars} keyExtractor={({ id }) => id}
                 ref={listRef}
-                // onScroll={(e) => scrollList(e)}
+                onScroll={(e) => scrollList(e)}
                 ListHeaderComponent={
                     <Container>
                         <FiltersCars
                             loading={loading}
+                            setPage={setPage}
+                            setCars={setResCars}
                             cities={cities}
                             categories={categories}
                             subCategories={subCategories}
@@ -147,7 +154,7 @@ export default function Rent({ navigation }) {
                         <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
                             <Text
                                 style={{ padding: 8, borderRadius: 8, color: Colors.white, backgroundColor: myColors.dark }}>
-                                {resCars.length} {t("Cars")}
+                                {meta} {t("Cars")}
                             </Text>
                             <TouchableOpacity
                                 disabled={loading}
@@ -159,7 +166,14 @@ export default function Rent({ navigation }) {
 
                         <Modals visible={modal === stateModals.brandCar} onClose={closeModals}>
                             <Text style={{ color: colors.text, fontSize: 18, marginBottom: 20, maxWidth: '90%' }}>{t('Choose Brand Car')}!</Text>
-                            <TouchableOpacity onPress={() => { setActiveBrand({ label: 'All Brands', value: 0 }); closeModals() }} disabled={loading}>
+                            <TouchableOpacity
+                                onPress={() => {
+                                    setActiveBrand({ label: 'All Brands', value: 0 });
+                                    setPage(1);
+                                    setResCars([]);
+                                    closeModals();
+                                }}
+                                disabled={loading}>
                                 <View
                                     style={{
                                         flexDirection: "row",
@@ -177,7 +191,13 @@ export default function Rent({ navigation }) {
                                 <TouchableOpacity
                                     disabled={loading}
                                     key={brandItem.id}
-                                    onPress={() => { setActiveBrand({ label: brandItem?.name, value: brandItem.id }); closeModals() }}>
+                                    onPress={() => {
+                                        setActiveBrand({ label: brandItem.name, value: brandItem.id });
+                                        setPage(1);
+                                        setResCars([]);
+                                        closeModals();
+                                    }}
+                                >
                                     <View
                                         style={{
                                             flexDirection: "row",
@@ -200,7 +220,13 @@ export default function Rent({ navigation }) {
                                 <TouchableOpacity
                                     disabled={loading}
                                     key={sortItem.id}
-                                    onPress={() => { setActiveSort({ label: sortItem.value, value: 'ASC' }); closeModals() }}>
+                                    onPress={() => {
+                                        setActiveSort({ label: sortItem.value, value: sortItem.name });
+                                        setPage(1);
+                                        setResCars([]);
+                                        closeModals();
+                                    }}
+                                >
                                     <View
                                         style={{
                                             flexDirection: "row",
@@ -220,15 +246,21 @@ export default function Rent({ navigation }) {
                 }
                 renderItem={({ item }) => (
                     <Container>
-                        {!loading &&
-                            <TouchableNativeFeedback
-                                disabled={loading}
-                                background={TouchableNativeFeedback.Ripple(myColors.danger)}
-                                onPress={() => navigation.navigate("Reserv", { data: item, cars: resCars })}>
-                                <CarCard {...item} />
-                            </TouchableNativeFeedback>}
+                        <TouchableNativeFeedback
+                            disabled={loading}
+                            background={TouchableNativeFeedback.Ripple(myColors.danger)}
+                            onPress={() => navigation.navigate("Reserv", { data: item, cars: resCars })}>
+                            <CarCard {...item} />
+                        </TouchableNativeFeedback>
                     </Container>
-                )} />
+                )}
+                // onEndReachedThreshold={0.8}
+                onEndReached={({ distanceFromEnd }) => distanceFromEnd === 0 && setPage(prev => prev + 1)}
+            />
+
+            {loading && page !== 1 && (
+                <Loaders isOverlay isCentered />
+            )}
         </React.Fragment>
     );
 }

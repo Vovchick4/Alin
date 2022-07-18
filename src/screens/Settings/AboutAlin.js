@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useTheme } from '@react-navigation/native';
 import { Text, StyleSheet, ScrollView } from 'react-native';
@@ -27,7 +28,7 @@ export default function AboutAlin() {
             <Container>
                 <Text style={[styles.title, { color: colors.text }]}>{privacy.title}</Text>
                 <Text style={[styles.text, { color: colors.text }]}>
-                    {route.content}
+                    {privacy.content}
                 </Text>
             </Container>
         </ScrollView>

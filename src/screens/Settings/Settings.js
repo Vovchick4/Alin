@@ -87,26 +87,23 @@ export default function Settings({ navigation }) {
             </Container>
 
             <View style={styles.content}>
-                {loading && <Skeletons height={340} />}
-
-                {!loading &&
-                    dataHelps.map((set, index) => (
-                        <TouchableNativeFeedback
-                            key={set.id}
-                            onPress={() => {
-                                if (set.id === 1) {
-                                    Linking.openURL("https://alin.ua/contacts#sendQuestUS")
-                                } else {
-                                    navigation.navigate(set.naivgate)
-                                }
-                            }}
-                            background={TouchableNativeFeedback.Ripple(myColors.danger)}>
-                            <View style={index === 0 ? [styles.textContent, { marginTop: 0 }] : styles.textContent}>
-                                {set.icon}
-                                <Text style={styles.setName}>{set.name}</Text>
-                            </View>
-                        </TouchableNativeFeedback>
-                    ))}
+                {dataHelps.map((set, index) => (
+                    <TouchableNativeFeedback
+                        key={set.id}
+                        onPress={() => {
+                            if (set.id === 1) {
+                                Linking.openURL("https://alin.ua/contacts#sendQuestUS")
+                            } else {
+                                navigation.navigate(set.naivgate)
+                            }
+                        }}
+                        background={TouchableNativeFeedback.Ripple(myColors.danger)}>
+                        <View style={index === 0 ? [styles.textContent, { marginTop: 0 }] : styles.textContent}>
+                            {set.icon}
+                            <Text style={styles.setName}>{set.name}</Text>
+                        </View>
+                    </TouchableNativeFeedback>
+                ))}
             </View>
         </ScrollView>
     )

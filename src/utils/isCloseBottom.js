@@ -1,5 +1,4 @@
-const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) => {
-    const paddingToBottom = 20;
+export const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) => {
     return layoutMeasurement.height + contentOffset.y >=
-        contentSize.height - paddingToBottom;
+        contentSize.height;
 };

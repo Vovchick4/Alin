@@ -89,16 +89,18 @@ const App = () => {
       });
   }, []);
 
-  useEffect(async () => {
-    try {
-      const persistedLanguage = await AsyncStorage.getItem('locale')
-      if (!persistedLanguage) return
+  useEffect(() => {
+    (async function () {
+      try {
+        const persistedLanguage = await AsyncStorage.getItem('locale')
+        if (!persistedLanguage) return
 
-      i18n.changeLanguage(persistedLanguage)
-    }
-    catch (error) {
-      console.log(error)
-    }
+        i18n.changeLanguage(persistedLanguage)
+      }
+      catch (error) {
+        console.log(error)
+      }
+    })()
   }, [i18n])
 
   useEffect(() => {

@@ -12,7 +12,7 @@ import { myColors } from '../../constants/constantColor'
 
 const locales = [
     {
-        code: "ua",
+        code: "uk",
         name: "UA",
     },
     {
