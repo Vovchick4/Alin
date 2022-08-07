@@ -52,8 +52,9 @@ export default function FiltersCars(
             </ScrollView>
 
             <View style={styles.selectContent}>
-                <Select loading={loading} mode="modal" data={cities} selectedValue={activeCity} onChange={(itemValue) => { setPage(1), setCars([]), setActiveCity(itemValue) }} />
+                <Select isRentFilterCity loading={loading} mode="modal" data={cities} selectedValue={activeCity} onChange={(itemValue) => { setPage(1), setCars([]), setActiveCity(itemValue) }} />
                 <Select
+                    isRentFilterCity
                     loading={loading}
                     mode="modal"
                     data={subCategories}

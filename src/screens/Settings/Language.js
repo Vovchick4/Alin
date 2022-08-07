@@ -12,18 +12,22 @@ import { myColors } from '../../constants/constantColor'
 
 const locales = [
     {
+        id: 1,
         code: "uk",
         name: "UA",
     },
     {
+        id: 2,
         code: "en",
         name: "EN",
     },
     {
+        id: 3,
         code: "pl",
         name: "PL",
     },
     {
+        id: 4,
         code: "ru",
         name: "RU",
     }
@@ -54,7 +58,7 @@ export default function Language() {
             </Container>
 
             {locales && locales.map(locale => (
-                <TouchableNativeFeedback key={locale.code} onPress={() => setLocaleLng(locale.code)}>
+                <TouchableNativeFeedback key={locale.id} onPress={() => setLocaleLng(locale.code)}>
                     <View style={styles.localeContent}>
                         <RadioButton
                             onPress={() => setLocaleLng(locale.code)}

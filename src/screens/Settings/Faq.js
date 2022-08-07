@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useTheme } from '@react-navigation/native'
 import { View, Text, StyleSheet, ScrollView } from 'react-native'
-import Markdown from 'react-native-easy-markdown';
 
 import { Container, Loaders } from '../../components'
 import { myColors } from '../../constants/constantColor';
@@ -32,9 +31,9 @@ export default function Faq({ route }) {
                     {faqs.map(({ id, name, description }) => (
                         <View key={id}>
                             <Text>{name}</Text>
-                            <Markdown>
+                            <Text>
                                 {description}
-                            </Markdown>
+                            </Text>
                         </View>
                     ))}
                 </View>

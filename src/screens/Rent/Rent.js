@@ -52,7 +52,7 @@ export default function Rent({ navigation }) {
     const [activeCity, setActiveCity] = useState({ id: 1, title: "Lviv" })
     const [activeBrand, setActiveBrand] = useState({ label: 'All Brands', value: 0 })
     const [activeCategory, setActiveCategory] = useState({ label: 'All Categories', value: 0 })
-    const [activeSubCategory, setActiveSubCategory] = useState({ id: 1, title: "Gasoline" })
+    const [activeSubCategory, setActiveSubCategory] = useState({ id: 1, name: "Бензин", subcategoryslug: "benzin", })
     const [activeSort, setActiveSort] = useState({ label: 'asc', value: 1 })
 
     const [modal, setModal] = useState(null)
@@ -63,9 +63,8 @@ export default function Rent({ navigation }) {
 
     useEffect(() => {
         setLoading(true)
-
         axios({
-            url: `/allcars?category=${activeCategory.value}&city=${activeCity.id}&brand=${activeBrand.value}&sort=${activeSort.label}&page=${page}`,
+            url: `/allcars?category=${activeCategory.value}&subCategory=${activeSubCategory.subcategoryslug}&city=${activeCity.id}&brand=${activeBrand.value}&sort=${activeSort.label}&page=${page}`,
             method: 'GET',
             params: {
                 locale: i18n.language,

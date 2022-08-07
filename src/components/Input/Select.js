@@ -5,7 +5,7 @@ import { Colors } from "react-native/Libraries/NewAppScreen"
 import { Skeletons } from "..";
 import { myColors } from "../../constants/constantColor"
 
-export default function Select({ loading = false, mode = "dropdown", data, selectedValue, onChange, enabled = true, label, ...pickerProps }) {
+export default function Select({ loading = false, isRentFilterCity = false, isOnlyReturn = false, mode = "dropdown", data, selectedValue, onChange, enabled = true, label, ...pickerProps }) {
     return (
         <View style={{ flexDirection: "column" }}>
             {label && <Text style={styles.label}>{label}</Text>}
@@ -18,12 +18,32 @@ export default function Select({ loading = false, mode = "dropdown", data, selec
                         onValueChange={onChange}
                         enabled={enabled}
                         {...pickerProps}>
-                        {data && data.map((item) => (
+                        {isRentFilterCity && data && data.map((item, index) => (
+                            index !== 3 &&
                             <Picker.Item
                                 key={item?.id}
                                 color={Platform.OS !== "android" ? "#fff8dc" : "#00000"}
                                 label={item?.title ? item?.title : item?.name}
-                                value={item} />
+                                value={isRentFilterCity ? item : item?.title ? item?.title : item?.name} />
+                        ))}
+                        {!isRentFilterCity && !isOnlyReturn && data && data.map((item, index) => (
+                            index !== 3 && item?.active && item.only_return != 1 &&
+                            <Picker.Item
+                                key={item?.id}
+                                color={Platform.OS !== "android" ? "#fff8dc" : "#00000"}
+                                label={item?.title ? item?.title : item?.name}
+                                value={isRentFilterCity ? item : item?.title ? item?.title : item?.name} />
+
+                        ))}
+
+                        {!isRentFilterCity && isOnlyReturn && data && data.map((item, index) => (
+                            index !== 3 && item?.active &&
+                            <Picker.Item
+                                key={item?.id}
+                                color={Platform.OS !== "android" ? "#fff8dc" : "#00000"}
+                                label={item?.title ? item?.title : item?.name}
+                                value={isRentFilterCity ? item : item?.title ? item?.title : item?.name} />
+
                         ))}
                     </Picker>
                     : <Skeletons height={48} />}

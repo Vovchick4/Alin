@@ -35,31 +35,35 @@ export default function Settings({ navigation }) {
             id: 1,
             name: t('Ask a Question'),
             icon: <Icon type="font-awesome-5" name="info-circle" color={Colors.white} />,
-            naivgate: 'AskQuestion',
+            link: "https://alin.ua/contacts#sendQuestUS"
+            // naivgate: 'AskQuestion',
         },
         {
             id: 2,
             name: `Alin FAQ`,
             icon: <Icon type="font-awesome-5" name="list" color={Colors.white} />,
-            naivgate: 'Faq',
+            link: "https://alin.ua/faq",
+            // naivgate: 'Faq',
         },
         {
             id: 3,
             name: t('About') + ' Alin',
             icon: <Icon type="font-awesome-5" name="question-circle" color={Colors.white} />,
-            naivgate: 'AboutAlin',
+            link: "https://alin.ua/about-us",
         },
         {
             id: 4,
             name: t('Loyalty Program'),
             icon: <Icon type="font-awesome-5" name="tags" color={Colors.white} />,
-            naivgate: 'ProgramLoality',
+            link: "https://alin.ua/loyalty-program",
+            // naivgate: 'ProgramLoality',
         },
         {
             id: 5,
             name: t('Privacy Policy'),
             icon: <Icon type="font-awesome-5" name="check-circle" color={Colors.white} />, // user-shield (icon)
-            naivgate: 'PrivacyPolicy',
+            link: "https://alin.ua/confidential-policy",
+            // naivgate: 'PrivacyPolicy',
         }
     ]
 

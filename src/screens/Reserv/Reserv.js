@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, StyleSheet, Button } from 'react-native'
+import { Platform, View, Text, StyleSheet, Button } from 'react-native'
 import { useTranslation } from 'react-i18next';
 import { ScrollView } from 'react-native-gesture-handler'
 import { useSelector } from 'react-redux';
@@ -12,8 +12,7 @@ import ReservACar from './ReservACar'
 import { myColors } from '../../constants/constantColor'
 import { dataSelectors } from '../../redux/data';
 
-import CarsCardElse from './CarsCardElse';
-import { Platform } from 'react-native';
+// import CarsCardElse from './CarsCardElse';
 
 const reservModal = {
     rentCar: 'RENT_CAR'
@@ -175,9 +174,9 @@ export default function Reserv({ navigation, route }) {
                 </View>
             </Container>
 
-            <Container>
+            {/* <Container>
                 <Text style={[styles.title, { color: colors.text }]}>{t("Another cars")}</Text>
-            </Container>
+            </Container> */}
 
             {/* {route.params.cars.length > 0 &&
                 <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>

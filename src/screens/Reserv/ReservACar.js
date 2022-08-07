@@ -1,9 +1,9 @@
+import * as Yup from "yup";
 import React, { useEffect, useState } from "react"
 import { View, Text, StyleSheet, Button } from "react-native"
 import { useTranslation } from "react-i18next";
 import { RadioButton } from "react-native-paper";
 import { ScrollView } from "react-native-gesture-handler";
-import * as Yup from "yup";
 import { useFormik } from "formik"
 import moment from "moment-timezone";
 
@@ -120,7 +120,28 @@ export default function ReservACar(
         } else {
             setNotWorkingTime('')
         }
-    }, [fDate, tDate, tTime, fTime, isDeposit, setTotalPrice, setCountDays])
+
+        // If location not equals
+        if (formik.values.locationFrom !== formik.values.locationTo) {
+            setTotalPrice(prev => prev + 100)
+            const findCity = cities.find(city => city.title === formik.values.locationTo)
+            if (findCity) {
+                if (findCity.only_return == 1) {
+                    setTotalPrice(prev => prev + 120)
+                }
+            }
+        }
+    }, [
+        fDate,
+        tDate,
+        tTime,
+        fTime,
+        isDeposit,
+        setTotalPrice,
+        setCountDays,
+        formik.values.locationFrom,
+        formik.values.locationTo
+    ])
 
     // Total Price Services 
     const totalPriceServices = isCheckedBounces.reduce(
@@ -166,23 +187,7 @@ export default function ReservACar(
         return days[d.getDay()];
     }
 
-    // function handleBounceCheckBoxes(event, value) {
-    //     console.log(event);
-    //     if (event) {
-    //         setIsCheckedBounces()
-    //     } else {
-    //         const index = isCheckedBounces.indexOf(value)
-    //         isCheckedBounces.slice(index, 1)
-    //         setIsCheckedBounces(isCheckedBounces)
-    //     }
-    //     let newArray = [...services, event]
 
-    //     if (services.includes(event)) {
-    //         newArray = newArray.filter(service => service !== event)
-    //     }
-
-    //     setIsCheckedBounces(newArray)
-    // }
 
     return (
         <ScrollView style={styles.contentForm}>
@@ -244,14 +249,15 @@ export default function ReservACar(
                     <Select
                         data={cities}
                         selectedValue={formik.values.locationFrom}
-                        onChange={(itemValue) => formik.setFieldValue("city", itemValue.title)}
+                        onChange={(itemValue) => formik.setFieldValue("locationFrom", itemValue)}
                         label={t("Place of filing")} />
                     <Select
+                        isOnlyReturn
                         data={cities}
                         selectedValue={formik.values.locationTo}
-                        onChange={(itemValue) => formik.setFieldValue("city", itemValue.title)}
+                        onChange={(itemValue) => formik.setFieldValue("locationTo", itemValue)}
                         label={t("Place of return")}
-                        enabled={true} />
+                    />
                 </View>
 
                 <View style={styles.flexRowAraund}>
