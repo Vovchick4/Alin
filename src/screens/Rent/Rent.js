@@ -87,8 +87,7 @@ export default function Rent({ navigation }) {
         activeSort,
         setActiveSort,
         page,
-        setPage,
-        i18n.language])
+        setPage])
 
     function openSortModal() {
         setModal(stateModals.sortModal)

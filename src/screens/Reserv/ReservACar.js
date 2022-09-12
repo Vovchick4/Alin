@@ -187,8 +187,6 @@ export default function ReservACar(
         return days[d.getDay()];
     }
 
-
-
     return (
         <ScrollView style={styles.contentForm}>
             <Text style={styles.title}>{t('Rent Settings')}</Text>
