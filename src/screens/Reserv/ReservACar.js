@@ -46,14 +46,15 @@ export default function ReservACar(
 
     const [isCheckedBounces, setIsCheckedBounces] = useState([]) // Selected Services
     const [isDeposit, setisDeposit] = useState('With Deposit')
+    const [anotherRentPlacement, setAnotherRentPlacement] = useState("")
     const [notWorkingTime, setNotWorkingTime] = useState('')
     const [countDays, setCountDays] = useState(1)
     const [totalPrice, setTotalPrice] = useState(prices[0].money)
 
     const formik = useFormik({
         initialValues: {
-            locationFrom: 'Lviv',
-            locationTo: "Lviv",
+            locationFrom: cities.find(({ id }) => id === "1"),
+            locationTo: cities.find(({ id }) => id === "1"),
             name: '',
             email: '',
             phone: '',
@@ -124,12 +125,15 @@ export default function ReservACar(
         // If location not equals
         if (formik.values.locationFrom !== formik.values.locationTo) {
             setTotalPrice(prev => prev + 100)
-            const findCity = cities.find(city => city.title === formik.values.locationTo)
-            if (findCity) {
-                if (findCity.only_return == 1) {
+            setAnotherRentPlacement(t("Return in another place + 100€"))
+            if (formik.values.locationTo) {
+                if (formik.values.locationTo.only_return == 1) {
                     setTotalPrice(prev => prev + 120)
+                    setAnotherRentPlacement(t("Return in another place + 100€ and abroad + 120€"))
                 }
             }
+        } else {
+            setAnotherRentPlacement("")
         }
     }, [
         fDate,
@@ -246,12 +250,16 @@ export default function ReservACar(
                 <View style={styles.flexRow}>
                     <Select
                         data={cities}
+                        filterOptions={({ only_return }) => only_return != 1}
+                        renderOptions={({ title }) => title}
+                        renderValues={(item) => item}
                         selectedValue={formik.values.locationFrom}
                         onChange={(itemValue) => formik.setFieldValue("locationFrom", itemValue)}
                         label={t("Place of filing")} />
                     <Select
-                        isOnlyReturn
                         data={cities}
+                        renderOptions={({ title }) => title}
+                        renderValues={(item) => item}
                         selectedValue={formik.values.locationTo}
                         onChange={(itemValue) => formik.setFieldValue("locationTo", itemValue)}
                         label={t("Place of return")}
@@ -328,7 +336,8 @@ export default function ReservACar(
                     keyboardType="default"
                     placeholder={t("Comment")} />
 
-                <Text style={notWorkingTime && styles.label}>
+                <Text style={styles.label}>
+                    {anotherRentPlacement}
                     {notWorkingTime && `${notWorkingTime} + 10€`}
                 </Text>
 

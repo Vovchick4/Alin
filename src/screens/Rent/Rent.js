@@ -74,7 +74,7 @@ export default function Rent({ navigation }) {
                 setResCars(prev => [...prev, ...res.data.data]);
                 setMeta(res.data.meta);
             })
-            .catch((err) => alert(err))
+            .catch((err) => alert("Not Found Cars!"))
             .finally(() => setLoading(false))
     }, [activeCategory,
         setActiveCategory,

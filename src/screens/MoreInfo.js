@@ -27,6 +27,8 @@ export default function MoreInfo({ route }) {
         }
     }
 
+    console.log(route.params.data);
+
     return (
         <ScrollView style={{ marginBottom: 80 }}>
             <Container>
@@ -48,10 +50,10 @@ export default function MoreInfo({ route }) {
                 <View style={{ marginTop: 10 }}>
                     <TouchableNativeFeedback
                         background={TouchableNativeFeedback.Ripple(myColors.danger)}
-                        onPress={() => openMap(route.params.data?.address, "Lviv")}>
+                        onPress={() => openMap(route.params.data?.adress, "Lviv")}>
                         <View>
                             <Text style={[styles.text, { color: colors.text }]}>{t('Address')}:
-                                <Text style={{ color: myColors.danger }}> {route.params.data?.address}</Text>
+                                <Text style={{ color: myColors.danger }}> {route.params.data?.adress}</Text>
                             </Text>
                         </View>
                     </TouchableNativeFeedback>
@@ -71,7 +73,7 @@ export default function MoreInfo({ route }) {
 
                 <TouchableNativeFeedback
                     background={TouchableNativeFeedback.Ripple(myColors.danger)}
-                    onPress={() => openMap(route.params.data?.address, "Lviv")}>
+                    onPress={() => openMap(route.params.data?.adress, "Lviv")}>
                     <View>
                         <Text style={[styles.title, { color: colors.text }]}>{t('Tap to route')}:</Text>
                         <View style={styles.icon}>
