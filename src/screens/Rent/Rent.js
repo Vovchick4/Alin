@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { View, Text, TouchableOpacity, LogBox } from "react-native"
 import { useSelector } from "react-redux";
 import { Icon } from "react-native-elements";
-import { FlatList, TouchableNativeFeedback } from "react-native-gesture-handler"
+import { FlatList, TouchableNativeFeedback, TouchableHighlight } from "react-native-gesture-handler"
 import { myColors } from "../../constants/constantColor"
 import axios from "axios"
 import { Colors } from "react-native/Libraries/NewAppScreen"
@@ -163,7 +163,6 @@ export default function Rent({ navigation }) {
                         </View>
 
                         <Modals visible={modal === stateModals.brandCar} onClose={closeModals}>
-                            <Text style={{ color: colors.text, fontSize: 18, marginBottom: 20, maxWidth: '90%' }}>{t('Choose Brand Car')}!</Text>
                             <TouchableOpacity
                                 onPress={() => {
                                     setActiveBrand({ label: 'All Brands', value: 0 });
@@ -244,16 +243,25 @@ export default function Rent({ navigation }) {
                 }
                 renderItem={({ item }) => (
                     <Container>
-                        <TouchableNativeFeedback
-                            disabled={loading}
-                            background={TouchableNativeFeedback.Ripple(myColors.danger)}
-                            onPress={() => navigation.navigate("Reserv", { data: item, cars: resCars })}>
-                            <CarCard {...item} />
-                        </TouchableNativeFeedback>
+                        {Platform.OS === 'android' ? (
+                            <TouchableNativeFeedback
+                                disabled={loading}
+                                background={TouchableNativeFeedback.Ripple(myColors.danger)}
+                                onPress={() => navigation.navigate("Reserv", { data: item, cars: resCars })}>
+                                <CarCard {...item} />
+                            </TouchableNativeFeedback>
+                        ) : (
+                            <TouchableHighlight
+                                disabled={loading}
+                                onPress={() => navigation.navigate("Reserv", { data: item, cars: resCars })}>
+                                <CarCard {...item} />
+                            </TouchableHighlight>
+                        )}
+
                     </Container>
                 )}
                 // onEndReachedThreshold={0.8}
-                onEndReached={({ distanceFromEnd }) => distanceFromEnd === 0 && setPage(prev => prev + 1)}
+                onEndReached={({ distanceFromEnd }) => distanceFromEnd === 0 && resCars.length >= 1 && resCars.length !== meta && setPage(prev => prev + 1)}
             />
 
             {loading && page !== 1 && (

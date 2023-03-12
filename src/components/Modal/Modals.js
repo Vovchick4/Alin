@@ -1,6 +1,7 @@
 import { useTheme } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react'
-import { View, Modal, StyleSheet, Animated, TouchableNativeFeedback } from 'react-native'
+import { useTranslation } from 'react-i18next';
+import { Text, View, Modal, StyleSheet, Animated, TouchableNativeFeedback } from 'react-native'
 import { Icon } from 'react-native-elements';
 import { ScrollView } from 'react-native-gesture-handler';
 
@@ -8,6 +9,7 @@ import { myColors } from '../../constants/constantColor';
 
 export default function Modals({ children, visible, onClose }) {
     const { colors } = useTheme()
+    const { t } = useTranslation()
 
     const [showModal, setShowModal] = useState(visible);
     const scaleValue = React.useRef(new Animated.Value(0)).current;
@@ -42,13 +44,16 @@ export default function Modals({ children, visible, onClose }) {
                     style={[styles.modalContainer, colors.text === '#ffffff' ?
                         { backgroundColor: myColors.gray } : { backgroundColor: 'white' }, { transform: [{ scale: scaleValue }] }]}>
                     <ScrollView horizontal={false}>
-                        <TouchableNativeFeedback
-                            onPress={onClose}
-                            background={TouchableNativeFeedback.Ripple(myColors.danger, true)}>
-                            <View style={styles.buttonExit}>
-                                <Icon type='font-awesome-5' name='times' size={30} color={colors.text} />
-                            </View>
-                        </TouchableNativeFeedback>
+                        <View style={styles.selectContent}>
+                            <Text style={{ color: colors.text, fontSize: 18, marginBottom: 20, maxWidth: '90%' }}>{t('Choose Brand Car')}!</Text>
+                            <TouchableNativeFeedback
+                                onPress={onClose}
+                                background={TouchableNativeFeedback.Ripple(myColors.danger, true)}>
+                                <View style={styles.buttonExit}>
+                                    <Icon type='font-awesome-5' name='times' size={30} color={colors.text} />
+                                </View>
+                            </TouchableNativeFeedback>
+                        </View>
                         {children}
                     </ScrollView>
                 </Animated.View>
@@ -81,9 +86,9 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         elevation: 20,
     },
-    buttonExit: {
-        position: 'absolute',
-        top: 15,
-        right: 15,
-    },
+    selectContent: {
+        flexDirection: 'row',
+        alignItems: 'flex-start',
+        justifyContent: 'space-between',
+    }
 });
