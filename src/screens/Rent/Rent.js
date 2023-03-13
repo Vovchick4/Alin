@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react"
 import { useTranslation } from "react-i18next";
-import { View, Text, TouchableOpacity, LogBox } from "react-native"
+import { View, Text, TouchableOpacity, Platform } from "react-native"
 import { useSelector } from "react-redux";
 import { Icon } from "react-native-elements";
 import { FlatList, TouchableNativeFeedback, TouchableHighlight } from "react-native-gesture-handler"
