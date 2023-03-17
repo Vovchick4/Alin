@@ -28,7 +28,7 @@ export const addtionalServicesFetchAll = (i18n) => (dispatch) => {
             dispatch(actions.additionalServicesAllSuccess(res.data))
         })
         .catch((error) => {
-            alert(error)
+            // alert(error)
             dispatch(actions.additionalServicesAllError(error))
         })
 }
@@ -44,7 +44,7 @@ export const categoriesFetchAll = (i18n) => (dispatch) => {
             dispatch(actions.categoriesAllSuccess(res.data))
         })
         .catch((error) => {
-            alert(error)
+            // alert(error)
             dispatch(actions.categoriesAllError(error))
         })
 }
@@ -60,7 +60,7 @@ export const subCategoriesFetchAll = (i18n) => (dispatch) => {
             dispatch(actions.subCategoriesAllSuccess(res.data))
         })
         .catch((error) => {
-            alert(error)
+            // alert(error)
             dispatch(actions.subCategoriesAllError(error))
         })
 }
@@ -76,7 +76,7 @@ export const brandFetchAll = (i18n) => (dispatch) => {
             dispatch(actions.brandAllSuccess(res.data))
         })
         .catch((error) => {
-            alert(error)
+            // alert(error)
             dispatch(actions.brandAllError(error))
         })
 }

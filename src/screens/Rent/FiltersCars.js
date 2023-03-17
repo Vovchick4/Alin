@@ -61,15 +61,15 @@ export default function FiltersCars(
                     selectedValue={activeCity}
                     onChange={(itemValue) => { setPage(1), setCars([]), setActiveCity(itemValue) }}
                 />
-                <Select
+                {subCategories.length !== 0 && <Select
                     loading={loading}
                     mode="modal"
                     data={subCategories}
                     renderOptions={({ name }) => name}
                     renderValues={(item) => item}
                     selectedValue={activeSubCategory}
-                    onChange={(itemValue) => { setPage(1), setCars([]), setActiveSubCategory(itemValue) }} />
-            </View>
+                    onChange={(itemValue) => { setPage(1), setCars([]), setActiveSubCategory(itemValue) }} />}
+                </View>
         </React.Fragment>
     )
 }

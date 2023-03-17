@@ -21,7 +21,7 @@ const openConfig = {
 const closeConfig = {
     animation: 'spring',
     config: {
-        duration: 434,
+        duration: 434, 
         easing: Easing.linear
     },
 };
@@ -60,6 +60,7 @@ const BottomTabNavigator = () => {
                             width: 4,
                             height: 4,
                         },
+                        paddingBottom: 0,
                         paddingHorizontal: 20,
                         backgroundColor: colors.danger,
                     },

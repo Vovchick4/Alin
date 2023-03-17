@@ -35,6 +35,8 @@ export default function Loyalty({ navigation }) {
         <React.Fragment>
             {loading && <Loaders />}
 
+            {programs.length === 0 && <View><Text>{t("Not found loyality programs")}!</Text></View>}
+
             {!loading && programs.length > 0 &&
                 <FlatList
                     style={styles.flatList}
