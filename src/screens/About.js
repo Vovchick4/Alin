@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from "react"
-import { StyleSheet, Image, View, Text, TouchableNativeFeedback, Animated, Dimensions } from "react-native"
+import { StyleSheet, Image, View, Text, TouchableNativeFeedback, Animated, Dimensions, Pressable } from "react-native"
 import { ScrollView } from "react-native-gesture-handler"
 import { useSelector } from "react-redux"
 
@@ -46,13 +46,11 @@ export default function About() {
                                 <View style={styles.BoxTab}>
                                     {cities && cities.map((item, index) => (
                                         <View key={item.id} style={index !== 0 && { marginLeft: 8 }}>
-                                            <TouchableNativeFeedback
-                                                background={TouchableNativeFeedback.Ripple(myColors.danger)}
-                                                onPress={() => setTabIndex(index)}>
+                                            <Pressable onPress={() => setTabIndex(index)}>
                                                 <View style={index === tabIndex ? styles.contentActive : styles.content}>
                                                     <Text style={styles.tab}>{item.title}</Text>
                                                 </View>
-                                            </TouchableNativeFeedback>
+                                            </Pressable>
                                         </View>
                                     ))}
                                 </View>
@@ -114,7 +112,8 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around',
     },
     content: {
-        width: 120,
+        width: 150,
+        minWidth: "100%",
         padding: 10,
         backgroundColor: tabStyles.content.inActive.backgroundColor
     },

@@ -52,7 +52,7 @@ export default function Rent({ navigation }) {
     const [activeCity, setActiveCity] = useState({ id: 1, title: "Lviv" })
     const [activeBrand, setActiveBrand] = useState({ label: 'All Brands', value: 0 })
     const [activeCategory, setActiveCategory] = useState({ label: 'All Categories', value: 0 })
-    const [activeSubCategory, setActiveSubCategory] = useState({ id: 1, name: "Бензин", subcategoryslug: "benzin", })
+    const [activeSubCategory, setActiveSubCategory] = useState({ id: 1, name: "Gasoline", subcategoryslug: "benzin", })
     const [activeSort, setActiveSort] = useState({ label: 'asc', value: 1 })
 
     const [modal, setModal] = useState(null)

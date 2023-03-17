@@ -1,9 +1,10 @@
 import React from 'react'
-import { View, Text, StyleSheet, ScrollView, Pressable } from 'react-native'
+import { View, Text, StyleSheet, ScrollView, Pressable, Platform } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import { Colors } from 'react-native/Libraries/NewAppScreen'
 
 import { Select, Skeletons } from '../../components'
+import SelectIOS from '../../components/Input/SelectIOS'
 
 export default function FiltersCars(
     {
@@ -52,24 +53,33 @@ export default function FiltersCars(
             </ScrollView>
 
             <View style={styles.selectContent}>
-                <Select
-                    loading={loading}
-                    mode="modal"
-                    data={cities}
-                    renderOptions={({ title }) => title}
-                    renderValues={(item) => item}
-                    selectedValue={activeCity}
-                    onChange={(itemValue) => { setPage(1), setCars([]), setActiveCity(itemValue) }}
-                />
-                {subCategories.length !== 0 && <Select
-                    loading={loading}
-                    mode="modal"
-                    data={subCategories}
-                    renderOptions={({ name }) => name}
-                    renderValues={(item) => item}
-                    selectedValue={activeSubCategory}
-                    onChange={(itemValue) => { setPage(1), setCars([]), setActiveSubCategory(itemValue) }} />}
-                </View>
+                {Platform.OS === "android" ? (
+            <>
+            {cities.length !== 0 && <Select
+                loading={loading}
+                mode="modal"
+                data={cities}
+                renderOptions={({ title }) => title}
+                renderValues={(item) => item}
+                selectedValue={activeCity}
+                onChange={(itemValue) => { setPage(1), setCars([]), setActiveCity(itemValue) }}
+            />}
+            {subCategories.length !== 0 && <Select
+                loading={loading}
+                mode="modal"
+                data={subCategories}
+                renderOptions={({ name }) => name}
+                renderValues={(item) => item}
+                selectedValue={activeSubCategory}
+                onChange={(itemValue) => { setPage(1), setCars([]), setActiveSubCategory(itemValue) }} />}
+                </>
+                ) : (
+                    <>
+                        {cities.length !== 0 && <SelectIOS data={cities} dataDropDowns={cities.map(item => item.title)} selectedValue={activeCity} RenderSelectedValue={(item) => item.title} onChange={(itemValue) => { setPage(1), setCars([]), setActiveCity(itemValue) }} />}
+                        {subCategories.length !== 0 && <SelectIOS data={subCategories} dataDropDowns={subCategories.map(item => item.name)} selectedValue={activeSubCategory} RenderSelectedValue={(item) => item.name} onChange={(itemValue) => { setPage(1), setCars([]), setActiveSubCategory(itemValue) }} />}
+                    </>
+                )}
+            </View>
         </React.Fragment>
     )
 }
