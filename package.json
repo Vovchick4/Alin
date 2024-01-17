@@ -1,7 +1,7 @@
 {
   "name": "alin",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "index.tsx",
   "scripts": {
     "start": "expo start",
     "start:dev-client": "expo start --dev-client",
@@ -22,6 +22,7 @@
     "@react-navigation/native": "^6.0.6",
     "@react-navigation/native-stack": "^6.2.5",
     "@reduxjs/toolkit": "^1.7.1",
+    "@types/react": "^18.2.48",
     "axios": "^0.24.0",
     "eas-cli": "^3.7.2",
     "expo": "^48.0.6",
@@ -59,7 +60,11 @@
     "yup": "^1.0.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.9"
+    "@babel/core": "^7.12.9",
+    "@tsconfig/react-native": "^3.0.2",
+    "@types/jest": "^29.5.11",
+    "@types/react-native-snap-carousel": "^3.8.10",
+    "typescript": "^5.3.3"
   },
   "private": true
 }
