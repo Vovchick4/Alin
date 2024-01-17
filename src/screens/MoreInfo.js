@@ -27,8 +27,6 @@ export default function MoreInfo({ route }) {
         }
     }
 
-    console.log(route.params.data);
-
     return (
         <ScrollView style={{ marginBottom: 80 }}>
             <Container>

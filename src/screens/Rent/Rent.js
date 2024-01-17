@@ -1,3 +1,4 @@
+import axios from "axios"
 import React, { useEffect, useState, useRef } from "react"
 import { useTranslation } from "react-i18next";
 import { View, Text, TouchableOpacity, Platform } from "react-native"
@@ -5,7 +6,6 @@ import { useSelector } from "react-redux";
 import { Icon } from "react-native-elements";
 import { FlatList, TouchableNativeFeedback, TouchableHighlight } from "react-native-gesture-handler"
 import { myColors } from "../../constants/constantColor"
-import axios from "axios"
 import { Colors } from "react-native/Libraries/NewAppScreen"
 
 import { Container, Loaders, Modals, Skeletons } from '../../components'
@@ -14,7 +14,6 @@ import FiltersCars from "./FiltersCars";
 import ArrowTop from "./ArrowTop";
 import { dataSelectors } from '../../redux/data'
 import { useTheme } from "@react-navigation/native";
-import { isCloseToBottom } from '../../utils'
 
 const sorts = [
     {
@@ -77,17 +76,11 @@ export default function Rent({ navigation }) {
             .catch((err) => alert("Not Found Cars!"))
             .finally(() => setLoading(false))
     }, [activeCategory,
-        setActiveCategory,
         activeCity,
-        setActiveCity,
         activeBrand,
-        setActiveBrand,
         activeSubCategory,
-        setActiveSubCategory,
         activeSort,
-        setActiveSort,
-        page,
-        setPage])
+        page])
 
     function openSortModal() {
         setModal(stateModals.sortModal)

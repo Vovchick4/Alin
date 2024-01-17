@@ -95,11 +95,7 @@ export default function Settings({ navigation }) {
                     <TouchableNativeFeedback
                         key={set.id}
                         onPress={() => {
-                            if (set.id === 1) {
-                                Linking.openURL("https://alin.ua/contacts#sendQuestUS")
-                            } else {
-                                navigation.navigate(set.naivgate)
-                            }
+                            Linking.openURL(set.link)
                         }}
                         background={TouchableNativeFeedback.Ripple(myColors.danger)}>
                         <View style={index === 0 ? [styles.textContent, { marginTop: 0 }] : styles.textContent}>
