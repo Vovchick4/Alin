@@ -10,7 +10,7 @@ import { store } from "./src/redux/store"
 import './src/config/axios'
 import './src/config/i18next'
 
-class Index extends React.Component {
+class Index extends React.Component {      
     render() {
         return (
             <Provider store={store}>
@@ -20,4 +20,4 @@ class Index extends React.Component {
     }
 }
 
-registerRootComponent(Index as any)
+registerRootComponent(Index)
